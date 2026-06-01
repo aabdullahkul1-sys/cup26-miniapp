@@ -9,102 +9,104 @@
 <style>
 :root{
   --main-blue:#0f2537;--stadium-green:#00b4d8;--arcade-yellow:#ffb703;--soft-green:#2ec4b6;
-  --bg:#0b131f;--bg-card:#16222f;--bg-card2:#1e2d3d;--bor:rgba(0,180,216,0.2);
-  --text:#f8f9fa;--mut:#94a3b8;--wh:#fff;--red:#ff4d6d;
+  --bg:#0b131f;--bg-card:#16222f;--bg-card2:#1e2d3d;--bg3:#1e2d3d;--bor:rgba(0,180,216,0.2);
+  --text:#f8f9fa;--mut:#94a3b8;--wh:#fff;--red:#ff4d6d;--green:#2ec4b6;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;height:100dvh;overflow:hidden;background:var(--bg)}
 body{color:var(--text);font-family:'Barlow',sans-serif}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 50% 20%, rgba(0,180,216,0.1) 0%, transparent 50%);pointer-events:none;z-index:0}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 50% 15%, rgba(0,180,216,0.12) 0%, transparent 55%),radial-gradient(circle at 80% 90%, rgba(255,183,3,0.06) 0%, transparent 50%);pointer-events:none;z-index:0}
 .app{position:relative;z-index:1;display:flex;flex-direction:column;width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;overflow:hidden}
-
-/* HEADER */
-.hdr{background:linear-gradient(180deg, var(--main-blue), #0d1b2a);border-bottom:2px solid var(--stadium-green);padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:5px;position:sticky;top:0;z-index:100;}
-.logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;color:var(--wh)}
+.hdr{background:linear-gradient(180deg, var(--main-blue), #0d1b2a);border-bottom:2px solid var(--stadium-green);padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:5px;position:sticky;top:0;z-index:100}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--wh);display:flex;align-items:center;gap:5px}
 .logo b{color:var(--arcade-yellow)}
-.hdr-r{display:flex;align-items:center;gap:6px}
-
-/* STATUS PILLS */
-.ep{display:flex;align-items:center;gap:4px;background:rgba(0,180,216,0.15);border:1px solid var(--stadium-green);border-radius:20px;padding:4px 10px;}
-.ev{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:var(--stadium-green)}
-.bp{display:flex;align-items:center;gap:4px;background:rgba(255,183,3,0.15);border:1px solid var(--arcade-yellow);border-radius:20px;padding:4px 10px;}
-.bv{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:var(--arcade-yellow)}
-.my-team-flag{font-size:16px;display:inline-block;}
-
-.wb{display:flex;align-items:center;gap:3px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:4px 10px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;color:var(--wh);transition:all .2s}
+.logo-mascot{width:26px;height:26px;image-rendering:pixelated;border-radius:6px}
+.hdr-r{display:flex;align-items:center;gap:5px}
+.ltgl{display:flex;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:2px;gap:1px}
+.lb{border:none;background:transparent;border-radius:10px;padding:3px 6px;font-size:10px;font-weight:700;cursor:pointer;color:var(--mut);font-family:'Barlow Condensed',sans-serif;transition:all .2s}
+.lb.on{background:rgba(0,180,216,0.2);color:var(--stadium-green)}
+.ep{display:flex;align-items:center;gap:3px;background:rgba(0,180,216,0.15);border:1px solid var(--stadium-green);border-radius:20px;padding:4px 8px}
+.ev{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;color:var(--stadium-green)}
+.bp{display:flex;align-items:center;gap:3px;background:rgba(255,183,3,0.15);border:1px solid var(--arcade-yellow);border-radius:20px;padding:4px 8px}
+.bv{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;color:var(--arcade-yellow)}
+.wb{display:flex;align-items:center;gap:3px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:4px 8px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;color:var(--wh);transition:all .2s}
 .wb.on{background:rgba(46,196,182,0.15);border-color:var(--soft-green);color:var(--soft-green)}
-.ltgl{display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:2px;gap:1px}
-.lb{border:none;background:transparent;border-radius:9px;padding:2px 6px;font-size:10px;font-weight:700;cursor:pointer;transition:all .2s;color:rgba(255,255,255,.3);font-family:'Barlow Condensed',sans-serif}
-.lb.on{background:rgba(255,215,0,.2);color:var(--arcade-yellow)}
-
-/* SCREENS */
+.ticker-wrap{width:100%;background:#070c14;border-bottom:1px solid var(--bor);overflow:hidden;height:26px;display:flex;align-items:center;flex-shrink:0;z-index:10;cursor:pointer}
+.ticker{display:inline-block;white-space:nowrap;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;color:var(--stadium-green);padding-left:100%;animation:tickerAnim 30s linear infinite}
+@keyframes tickerAnim{0%{transform:translate3d(0,0,0)}100%{transform:translate3d(-100%,0,0)}}
 .scrs{position:relative;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px;display:flex;flex-direction:column;gap:12px}
 .sc{display:none;min-height:100%;gap:12px;flex-direction:column}
 .sc.on{display:flex}
-
-/* CARDS */
-.hero{background:linear-gradient(135deg, #112a3a, #16222f);border:1px solid var(--bor);border-radius:16px;padding:14px;text-align:center;position:relative;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.2);flex-shrink:0;}
-.hti{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;color:var(--wh);margin-top:2px}
-.hsu{font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--arcade-yellow);letter-spacing:1px;font-weight:700}
-.hde{font-size:12px;color:var(--mut);margin-top:4px;line-height:1.4}
-.dcl{margin-top:12px;background:linear-gradient(90deg, var(--stadium-green), var(--soft-green));border:none;border-radius:12px;padding:10px;color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;cursor:pointer;width:100%;transition:all .2s}
+.hero{background:linear-gradient(135deg, #112a3a, #16222f);border:1px solid var(--bor);border-radius:16px;padding:14px;position:relative;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,0.2);flex-shrink:0;display:flex;align-items:center;gap:12px}
+.hero-mascot{width:64px;height:auto;image-rendering:pixelated;flex-shrink:0;filter:drop-shadow(0 4px 10px rgba(255,183,3,0.3))}
+.hero-txt{flex:1;text-align:left}
+.hti{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;color:var(--wh);line-height:1}
+.hsu{font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--arcade-yellow);letter-spacing:1px;font-weight:700}
+.hde{font-size:11px;color:var(--mut);margin-top:4px;line-height:1.4}
+.dcl{background:linear-gradient(90deg, var(--stadium-green), var(--soft-green));border:none;border-radius:12px;padding:10px;color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;cursor:pointer;width:100%;transition:all .2s;flex-shrink:0}
 .dcl:disabled{opacity:.5;cursor:not-allowed}
-
-/* GAS PUMP BANNER */
-.gas-banner{display:flex;align-items:center;justify-content:space-between;gap:9px;background:linear-gradient(135deg,#1c1200,#2a1e00,#0e1800);border:1px solid rgba(245,166,35,.38);border-radius:13px;padding:12px 14px;text-decoration:none;flex-shrink:0;transition:all .22s;position:relative;overflow:hidden}
-.gb-left{display:flex;align-items:center;gap:9px}
-.gb-ic{font-size:24px}
-.gb-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;color:var(--gas);line-height:1}
-.gb-sub{font-size:10px;color:rgba(245,166,35,.65);margin-top:2px;font-family:'Barlow Condensed',sans-serif;font-weight:600}
-.gb-pill{background:linear-gradient(135deg,#e8820c,#F5A623);color:#000;font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:1px;padding:5px 10px;border-radius:18px;white-space:nowrap;flex-shrink:0;font-weight:900}
-
-/* STATS GRID */
-.sr{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;flex-shrink:0;}
+.sr{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;flex-shrink:0}
 .stc{background:var(--bg-card);border:1px solid rgba(255,255,255,0.05);border-radius:12px;padding:10px 4px;text-align:center}
 .stv{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--arcade-yellow)}
 .stl{font-size:10px;color:var(--mut);text-transform:uppercase;font-weight:600}
-
-.sec{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;color:var(--stadium-green);margin-top:4px;flex-shrink:0;}
-
-/* TEAM SELECTOR SCREEN OVERLAY */
-.team-overlay { position: fixed; inset: 0; background: var(--bg); z-index: 550; display: flex; flex-direction: column; padding: 20px; align-items: center; justify-content: center; text-align: center; }
-.team-overlay.gone { display: none; }
-.team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 320px; margin-top: 20px; }
-.team-opt { background: var(--bg-card); border: 2px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 12px; color: var(--wh); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s; }
-.team-opt:active { border-color: var(--stadium-green); background: rgba(0,180,216,0.1); }
-
-/* PENALTY ARCADE STYLE */
+.sec{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;color:var(--stadium-green);margin-top:4px;flex-shrink:0}
+.gg{display:grid;grid-template-columns:1fr 1fr;gap:10px;flex-shrink:0}
+.gc{background:var(--bg-card);border:1px solid var(--bor);border-radius:16px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .2s}
+.gc:active{transform:scale(0.96)}
+.gc .ic{font-size:28px;margin-bottom:4px}
+.gc .gn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;color:var(--wh)}
+.gc .gr{font-size:11px;color:var(--arcade-yellow);margin-top:2px;font-weight:600}
+.gc .ga{font-size:10px;color:var(--mut);margin-top:2px}
+.team-overlay{position:fixed;inset:0;background:var(--bg);z-index:550;display:flex;flex-direction:column;padding:20px;align-items:center;justify-content:center;text-align:center}
+.team-overlay.gone{display:none}
+.team-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:320px;margin-top:20px}
+.team-opt{background:var(--bg-card);border:2px solid rgba(255,255,255,0.1);border-radius:14px;padding:12px;color:var(--wh);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all 0.2s}
+.team-opt:active{border-color:var(--stadium-green);background:rgba(0,180,216,0.1)}
 .pitch{background:linear-gradient(180deg, #112c1b 0%, #174626 100%);border:2px solid rgba(255,255,255,0.1);border-radius:16px;padding:14px;position:relative;display:flex;flex-direction:column;align-items:center;min-height:240px;justify-content:center;flex-shrink:0}
-.gnet { width: 180px; height: 95px; border: 3px solid #fff; border-bottom: none; border-radius: 4px 4px 0 0; position: relative; background: rgba(255,255,255,0.08); background-image: linear-gradient(rgba(255,255,255,0.1) 2px, transparent 2px), linear-gradient(90deg, rgba(255,255,255,0.1) 2px, transparent 2px); background-size: 15px 15px; }
+.gnet{width:180px;height:95px;border:3px solid #fff;border-bottom:none;border-radius:4px 4px 0 0;position:relative;background:rgba(255,255,255,0.08);background-image:linear-gradient(rgba(255,255,255,0.1) 2px, transparent 2px), linear-gradient(90deg, rgba(255,255,255,0.1) 2px, transparent 2px);background-size:15px 15px}
 .gz{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:4px;width:100%;height:100%;position:absolute;inset:0}
 .zbn{border:none;background:transparent;color:rgba(255,255,255,0.3);font-size:16px;font-weight:bold;cursor:pointer}
 .zbn:active{color:var(--arcade-yellow);transform:scale(1.2)}
-.pm{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;text-align:center;margin-top:8px}
-.pm.g{color:var(--soft-green)}
-.pm.s{color:var(--arcade-yellow)}
-.pm.m{color:var(--red)}
+.pm{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;text-align:center;margin-top:8px;min-height:26px}
+.pm.g{color:var(--soft-green)}.pm.s{color:var(--arcade-yellow)}.pm.m{color:var(--red)}
 .ba{font-size:24px;position:absolute;transition:all .4s cubic-bezier(.25,.46,.45,.94);bottom:20px;left:50%;transform:translateX(-50%);z-index:10}
-.gk{font-size:26px;position:absolute;top:22px;left:50%;transform:translateX(-50%);transition:all .3s ease;z-index:5}
+.gk{position:absolute;top:18px;left:50%;transform:translateX(-50%);transition:all .3s ease;z-index:5}
 .scd{display:flex;gap:10px;justify-content:center;flex-shrink:0}
-.sb{text-align:center;background:var(--bg-card);border:1px solid var(--bor);border-radius:7px;padding:5px 12px}
+.sb{text-align:center;background:var(--bg-card);border:1px solid var(--bor);border-radius:7px;padding:5px 16px}
 .sbn{font-family:'Bebas Neue',sans-serif;font-size:19px;color:var(--arcade-yellow)}
 .sbl{font-size:9px;color:var(--mut)}
-
-/* FIXTURE & PREDICTOR HUB */
-.fixture-card {background:var(--bg-card);border:1px solid var(--bor);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;flex-shrink:0}
-.fx-date {font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--stadium-green);font-weight:700;text-transform:uppercase;letter-spacing:1px}
-.fx-teams {display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:16px;color:var(--wh)}
-.fx-venue {font-size:10px;color:var(--mut);display:flex;align-items:center;gap:4px}
-.fx-btn {background:rgba(0,180,216,0.1);border:1px solid var(--stadium-green);border-radius:8px;padding:6px 12px;color:var(--stadium-green);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;cursor:pointer;align-self:flex-end;transition:all 0.2s}
-.fx-btn:active {background:var(--stadium-green);color:#000}
-
-.mc{background:var(--bg-card);border:1px solid var(--bor);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;flex-shrink:0}
-.pred-btn { background: var(--bg-card2); border: 2px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px; color: var(--wh); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s; text-align: center; }
-.pred-btn.selected { border-color: var(--arcade-yellow); background: rgba(255,183,3,0.1); color: var(--arcade-yellow); }
-.pred-submit { background: linear-gradient(90deg, var(--arcade-yellow), #ffb703); border: none; border-radius: 10px; padding: 10px 16px; color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 1px; cursor: pointer; font-weight: bold; width: 100%;}
-.pred-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-
-/* TASKS & REF */
+.mc{background:var(--bg-card);border:1px solid var(--bor);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;flex-shrink:0;position:relative;overflow:hidden}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--stadium-green),var(--arcade-yellow))}
+.pred-btn{background:var(--bg-card2);border:2px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 4px;color:var(--wh);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all 0.2s;text-align:center}
+.pred-btn.selected{border-color:var(--arcade-yellow);background:rgba(255,183,3,0.12);color:var(--arcade-yellow)}
+.pred-submit{background:linear-gradient(90deg, var(--arcade-yellow), #ff9e00);border:none;border-radius:10px;padding:11px 16px;color:#000;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer;font-weight:bold;transition:all .2s}
+.pred-submit:active{transform:scale(0.97)}
+.sim-score{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--wh);letter-spacing:3px;text-align:center}
+.sim-min{font-size:11px;color:var(--soft-green);text-align:center;font-weight:600}
+.sim-bar{background:rgba(0,0,0,.3);border-radius:5px;height:6px;overflow:hidden;margin-top:6px}
+.sim-fill{height:100%;background:linear-gradient(90deg,var(--stadium-green),var(--arcade-yellow));border-radius:5px;transition:width .3s}
+.qcd{background:var(--bg-card);border:1px solid var(--bor);border-radius:16px;padding:16px;text-align:center;flex-shrink:0}
+.qe{font-size:34px;margin-bottom:8px}
+.qq{color:var(--wh);font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;line-height:1.4}
+.qos{display:flex;flex-direction:column;gap:7px;flex-shrink:0}
+.qo{background:var(--bg-card2);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px;text-align:left;cursor:pointer;font-size:13px;color:var(--text);width:100%;font-weight:500;display:flex;align-items:center;gap:10px;transition:all .2s}
+.qo.cor{border-color:var(--soft-green);background:rgba(46,196,182,0.1);color:var(--soft-green)}
+.qo.wr{border-color:var(--red);background:rgba(255,77,109,0.1);color:var(--red)}
+.qti{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--arcade-yellow);letter-spacing:2px}
+.streak{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#1c1200,#2a1e00);border:1px solid rgba(255,183,3,0.3);border-radius:16px;padding:14px;flex-shrink:0}
+.streak-fire{font-size:28px}
+.streak-info{flex:1}
+.streak-days{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--arcade-yellow);letter-spacing:1px;line-height:1}
+.streak-txt{font-size:11px;color:var(--mut);margin-top:2px}
+.streak-claim{background:linear-gradient(90deg, var(--arcade-yellow), #ff9e00);border:none;border-radius:10px;padding:8px 14px;color:#000;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1px;cursor:pointer}
+.streak-claim:disabled{opacity:.4;cursor:not-allowed}
+.wgoal{background:var(--bg-card);border:1px solid var(--bor);border-radius:16px;padding:14px;flex-shrink:0}
+.wgoal-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.wgoal-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:var(--stadium-green);display:flex;align-items:center;gap:5px}
+.wgoal-amt{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--wh);letter-spacing:.5px}
+.wgoal-bar{background:rgba(0,0,0,.3);border-radius:6px;height:10px;overflow:hidden}
+.wgoal-fill{height:100%;background:linear-gradient(90deg,var(--stadium-green),var(--soft-green));border-radius:6px;transition:width .5s;box-shadow:0 0 10px rgba(46,196,182,.4)}
+.wgoal-sub{font-size:11px;color:var(--mut);margin-top:8px;text-align:center}
 .ref-card{background:linear-gradient(135deg,#112a3a,#0f2537);border:1px solid var(--bor);border-radius:16px;padding:16px;text-align:center;flex-shrink:0}
 .ref-ic{font-size:38px}
 .ref-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--stadium-green);margin-top:6px}
@@ -123,42 +125,56 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .task-ic{font-size:26px;flex-shrink:0;width:44px;height:44px;background:var(--bg-card2);border-radius:12px;display:flex;align-items:center;justify-content:center}
 .task-info{flex:1}
 .task-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;color:var(--wh)}
-.task-desc{font-size:11px;color:var(--mut);margin-top:2px}
 .task-reward{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:var(--arcade-yellow);margin-top:3px}
 .task-btn{background:linear-gradient(135deg,var(--stadium-green),var(--soft-green));border:none;border-radius:9px;padding:8px 14px;color:#000;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;cursor:pointer;flex-shrink:0;transition:all .2s}
 .task-btn:disabled{background:rgba(255,255,255,.1);color:var(--mut);cursor:not-allowed}
 .task-btn.done-btn{background:transparent;border:1px solid rgba(46,196,182,.3);color:var(--soft-green);font-size:11px;letter-spacing:.5px}
-
-/* NAV BAR */
-.nav{background:rgba(11,19,31,0.98);border-top:1px solid var(--bor);display:grid;grid-template-columns:repeat(5,1fr);padding:6px 0 max(8px,env(safe-area-inset-bottom));z-index:100;position:sticky;bottom:0;width:100%}
+.lbr{display:flex;align-items:center;gap:8px;background:var(--bg-card);border:1px solid var(--bor);border-radius:12px;padding:12px 10px;flex-shrink:0}
+.lbr.you{border-color:var(--arcade-yellow);background:rgba(255,183,3,0.06)}
+.lbrk{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--mut);min-width:22px;text-align:center}
+.lbrk.g{color:#FFD700}.lbrk.s{color:#C0C0C0}.lbrk.b{color:#CD7F32}
+.lbav{font-size:18px}
+.lbn{flex:1;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:var(--wh)}
+.lbp{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--arcade-yellow)}
+/* BULLETIN TAB */
+.bulletin-item{background:var(--bg-card);border:1px solid var(--bor);border-radius:14px;padding:14px;flex-shrink:0;position:relative;overflow:hidden}
+.bulletin-item.live{border-color:var(--red)}
+.bull-status{display:inline-flex;align-items:center;gap:4px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-bottom:8px}
+.bull-status.live{background:rgba(255,77,109,.15);color:var(--red)}
+.bull-status.ft{background:rgba(148,163,184,.15);color:var(--mut)}
+.bull-status.up{background:rgba(255,183,3,.15);color:var(--arcade-yellow)}
+.bull-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.bull-teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px}
+.bull-team{text-align:center}
+.bull-flag{font-size:30px}
+.bull-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;color:var(--wh);margin-top:2px}
+.bull-score{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--wh);letter-spacing:2px}
+.bull-min{font-size:10px;color:var(--soft-green);text-align:center;font-weight:600;margin-top:2px}
+.bull-group{font-family:'Barlow Condensed',sans-serif;font-size:10px;color:var(--stadium-green);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-top:8px;text-align:center}
+.nav{background:rgba(11,19,31,0.98);border-top:1px solid var(--bor);display:grid;grid-template-columns:repeat(6,1fr);padding:6px 0 max(8px,env(safe-area-inset-bottom));z-index:100;position:sticky;bottom:0;width:100%}
 .nb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px;cursor:pointer;border:none;background:transparent;color:var(--mut);transition:all .2s}
-.nb .ni{font-size:18px}
-.nb .nl{font-size:9px;font-family:'Barlow Condensed',sans-serif;font-weight:600}
+.nb .ni{font-size:17px}
+.nb .nl{font-size:8px;font-family:'Barlow Condensed',sans-serif;font-weight:600}
 .nb.on{color:var(--stadium-green)}
-
-/* SHAKIRA OVERLAY EFFECT */
-#goalCelebrate { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.4); width: 280px; height: auto; opacity: 0; transition: all 0.3s cubic-bezier(.17,.89,.32,1.49); z-index: 99999; pointer-events: none; filter: drop-shadow(0 0 30px var(--arcade-yellow)); display: none;}
-
+#goalCelebrate{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.4);width:160px;height:auto;image-rendering:pixelated;opacity:0;transition:all 0.3s cubic-bezier(.17,.89,.32,1.49);z-index:99999;pointer-events:none;filter:drop-shadow(0 0 30px var(--arcade-yellow))}
 #tst{position:fixed;top:65px;left:50%;transform:translateX(-50%) translateY(-10px);background:rgba(22,34,47,0.96);border:1px solid var(--bor);border-radius:20px;padding:8px 16px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;color:var(--wh);z-index:9999;opacity:0;transition:all .2s;pointer-events:none}
 #tst.show{opacity:1;transform:translateX(-50%) translateY(0)}
 #tst.earn{border-color:var(--soft-green);color:var(--soft-green)}
 #tst.lose{border-color:var(--red);color:var(--red)}
 #tst.info{border-color:var(--stadium-green);color:var(--stadium-green)}
-
-.mov { z-index: 9999; }
+.mov{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px)}
+.mov.gone{display:none}
 .rb{display:inline-flex;align-items:center;gap:3px;background:rgba(255,183,3,0.1);border:1px solid rgba(255,183,3,0.18);border-radius:20px;padding:3px 8px;font-size:10px;color:var(--arcade-yellow);font-family:'Barlow Condensed',sans-serif;font-weight:600}
-
-/* ONBOARD */
 .ob{position:fixed;inset:0;background:var(--bg);z-index:600;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:14px;text-align:center;overflow-y:auto}
 .ob.gone{display:none}
-.ob-glow{width:86px;height:86px;background:radial-gradient(circle,rgba(0,180,216,.3),transparent 70%);border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.ob-glow{width:120px;height:120px;background:radial-gradient(circle,rgba(0,180,216,.3),transparent 70%);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.ob-mascot{width:108px;height:auto;image-rendering:pixelated}
 .ob-ti{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:3px;color:var(--wh);line-height:1.1}
 .ob-su{font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--stadium-green);letter-spacing:3px;text-transform:uppercase;margin-top:2px}
 .ob-de{font-size:12px;color:var(--mut);line-height:1.6;max-width:280px}
 .ton-btn{width:100%;max-width:290px;background:linear-gradient(135deg,var(--stadium-green),var(--soft-green));border:none;border-radius:12px;padding:13px 16px;color:#000;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .2s}
 .skip{font-size:11px;color:var(--mut);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-
-/* MODAL */
 .msh{background:var(--bg-card);border-radius:20px 20px 0 0;border:1px solid var(--bor);border-bottom:none;padding:18px;width:100%;max-width:430px;display:flex;flex-direction:column;gap:11px;animation:su .3s ease}
 @keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .mh{width:32px;height:3px;background:rgba(255,255,255,.13);border-radius:3px;margin:0 auto -2px}
@@ -166,10 +182,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .ab{background:var(--bg3);border:1px solid var(--bor);border-radius:9px;padding:9px 11px;display:flex;align-items:center;justify-content:space-between;gap:7px}
 .av{font-family:monospace;font-size:11px;color:var(--mut);word-break:break-all;flex:1}
 .cpb{background:rgba(255,183,3,.1);border:1px solid rgba(255,183,3,.25);border-radius:6px;padding:4px 8px;color:var(--arcade-yellow);font-size:10px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;white-space:nowrap}
-.vip-banner{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,rgba(0,180,216,.1),rgba(46,196,182,.1));border:1px solid rgba(46,196,182,.3);border-radius:10px;padding:10px;margin-top:5px;}
-.vip-t{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--wh);letter-spacing:1px;}
-.vip-d{font-size:10px;color:var(--mut);font-family:'Barlow Condensed',sans-serif;}
-.vip-b{background:var(--soft-green);color:#000;padding:4px 8px;border-radius:6px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;}
+.vip-banner{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,rgba(0,180,216,.1),rgba(46,196,182,.1));border:1px solid rgba(46,196,182,.3);border-radius:10px;padding:10px;margin-top:5px}
+.vip-t{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--wh);letter-spacing:1px}
+.vip-d{font-size:10px;color:var(--mut);font-family:'Barlow Condensed',sans-serif}
+.vip-b{background:var(--soft-green);color:#000;padding:4px 8px;border-radius:6px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px}
 .mg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .ms{background:var(--bg3);border:1px solid var(--bor);border-radius:8px;padding:8px;text-align:center}
 .msv{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--arcade-yellow)}
@@ -181,111 +197,114 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 </style>
 </head>
 <body>
-
 <img id="goalCelebrate" alt="GOAL">
 
-<!-- ONBOARDING STEP 1 -->
+<!-- ONBOARDING -->
 <div class="ob" id="ob">
-  <div class="ob-glow"><img id="obMascot" alt="CUP26" style="width:110px;height:auto;image-rendering:pixelated"></div>
+  <div class="ob-glow"><img class="ob-mascot" id="obMascot" alt="CUP26"></div>
   <div>
-    <div class="ob-su" id="oSu">🏆 World Cup 2026 · Arcade</div>
-    <div class="ob-ti" id="oTi">PLAY &amp; TRACK</div>
+    <div class="ob-su">🏆 World Cup 2026 · Arcade</div>
+    <div class="ob-ti">PLAY &amp; TRACK</div>
   </div>
-  <div class="ob-de" id="oDe">Connect wallet to load your stats, unlock multipliers and predict live world cup matches!</div>
-  <button class="ton-btn" onclick="cW()"><span style="font-size:18px">💎</span><span id="oBt">CONNECT TON WALLET</span></button>
-  <span class="skip" id="oSk" onclick="sW()">Play as Guest</span>
+  <div class="ob-de">Connect your wallet to load stats, unlock multipliers and predict live World Cup matches!</div>
+  <button class="ton-btn" onclick="cW()"><span style="font-size:18px">💎</span><span>CONNECT TON WALLET</span></button>
+  <span class="skip" onclick="sW()">Play as Guest</span>
 </div>
 
-<!-- ONBOARDING STEP 2: TEAM SELECTOR -->
+<!-- TEAM SELECTOR -->
 <div class="team-overlay gone" id="teamOverlay">
-  <div class="ob-su" id="oSu2">🏆 STEP 2</div>
-  <div class="hti" id="oTi2" style="margin-bottom:10px;">CHOOSE YOUR COUNTRY</div>
-  <div class="ob-de" id="oDe2">Select the national team you support. Your profile will bear your flag!</div>
+  <div class="ob-su">🏆 STEP 2</div>
+  <div class="hti" style="margin-bottom:10px">CHOOSE YOUR COUNTRY</div>
+  <div class="ob-de">Pick the national team you support — your profile will bear its flag!</div>
   <div class="team-grid">
-    <div class="team-opt" onclick="selectTeam('🇹🇷', 'Türkiye')"><span>🇹🇷</span> Türkiye</div>
-    <div class="team-opt" onclick="selectTeam('🇧🇷', 'Brazil')"><span>🇧🇷</span> Brazil</div>
-    <div class="team-opt" onclick="selectTeam('🇦🇷', 'Argentina')"><span>🇦🇷</span> Argentina</div>
-    <div class="team-opt" onclick="selectTeam('🇩🇪', 'Germany')"><span>🇩🇪</span> Germany</div>
-    <div class="team-opt" onclick="selectTeam('🇫🇷', 'France')"><span>🇫🇷</span> France</div>
-    <div class="team-opt" onclick="selectTeam('🇪🇸', 'Spain')"><span>🇪🇸</span> Spain</div>
+    <div class="team-opt" onclick="selectTeam('🇹🇷','Türkiye')"><span>🇹🇷</span> Türkiye</div>
+    <div class="team-opt" onclick="selectTeam('🇧🇷','Brazil')"><span>🇧🇷</span> Brazil</div>
+    <div class="team-opt" onclick="selectTeam('🇦🇷','Argentina')"><span>🇦🇷</span> Argentina</div>
+    <div class="team-opt" onclick="selectTeam('🇩🇪','Germany')"><span>🇩🇪</span> Germany</div>
+    <div class="team-opt" onclick="selectTeam('🇫🇷','France')"><span>🇫🇷</span> France</div>
+    <div class="team-opt" onclick="selectTeam('🇪🇸','Spain')"><span>🇪🇸</span> Spain</div>
   </div>
 </div>
 
-<!-- WALLET & VIP MODAL -->
+<!-- WALLET MODAL -->
 <div class="mov gone" id="wMod" onclick="cwm(event)">
   <div class="msh">
     <div class="mh"></div>
-    <div class="mti" id="wmTi">💎 TON PROFILE</div>
-    <div class="ab">
-      <div class="av" id="wAd">Not connected</div>
-      <button class="cpb" onclick="cpA()" id="wCp">Copy</button>
-    </div>
+    <div class="mti">💎 TON PROFILE</div>
+    <div class="ab"><div class="av" id="wAd">Not connected</div><button class="cpb" onclick="cpA()">Copy</button></div>
     <div class="vip-banner">
-      <div>
-        <div class="vip-t" id="vTier">TARAFTAR</div>
-        <div class="vip-d" id="vDesc">5 Tickets / 1x Booster</div>
-      </div>
+      <div><div class="vip-t" id="vTier">TARAFTAR</div><div class="vip-d" id="vDesc">5 Tickets / 1x</div></div>
       <div class="vip-b" id="vMult">1x</div>
     </div>
     <div class="mg">
-      <div class="ms"><div class="msv" id="wBl">0</div><div class="msl" id="wBll">CUP Balance</div></div>
+      <div class="ms"><div class="msv" id="wBl">0</div><div class="msl">CUP Balance</div></div>
       <div class="ms"><div class="msv bl" id="wTn">0.00</div><div class="msl">TON</div></div>
     </div>
-    <button class="db" id="wDc" onclick="disW()">🔌 DISCONNECT</button>
-    <button class="mcl" id="wCl" onclick="cwm()">Close</button>
+    <button class="db" onclick="disW()">🔌 DISCONNECT</button>
+    <button class="mcl" onclick="cwm()">Close</button>
   </div>
 </div>
 
 <!-- MAIN APP -->
 <div class="app" id="mainA" style="display:none">
   <header class="hdr">
-    <div class="logo"><span id="myTeamFlag" class="my-team-flag">⚽</span> $<b>CUP</b>26</div>
+    <div class="logo"><img class="logo-mascot" id="logoMascot" alt=""> $<b>CUP</b>26</div>
     <div class="hdr-r">
-      <div class="ltgl">
-        <button class="lb on" id="lEN" onclick="sL('en')">EN</button>
-        <button class="lb" id="lTR" onclick="sL('tr')">TR</button>
-      </div>
+      <div class="ltgl"><button class="lb on" id="lEN" onclick="sL('en')">EN</button><button class="lb" id="lTR" onclick="sL('tr')">TR</button></div>
       <div class="ep"><span style="font-size:11px">⚡</span><span class="ev" id="enDisp">5/5</span></div>
-      <div class="wb" id="hWb" onclick="owm()"><span id="hWi">💎</span><span id="hWt">Wallet</span></div>
+      <div class="wb" id="hWb" onclick="owm()"><span id="hWi">💎</span></div>
       <div class="bp"><span style="font-size:11px">⚽</span><span class="bv" id="bd">0</span></div>
     </div>
   </header>
 
+  <div class="ticker-wrap" onclick="go('bulletin')">
+    <div class="ticker" id="tickerMsg">🏆 WORLD CUP 2026: Loading live data…</div>
+  </div>
+
   <div class="scrs">
-    <!-- HOME HUB -->
+    <!-- HOME -->
     <div class="sc on" id="s-home">
       <div class="hero">
-        <div class="hsu" id="hSu">🏆 WORLD CUP ARCADE STATION</div>
-        <div class="hti" id="hTi">KICK OFF!</div>
-        <div class="hde" id="hDe">Play mini-games to build up your arcade score. Multipliers apply based on your tier status.</div>
-        <button class="dcl" id="dcB" onclick="dc()">🎁 <span id="dcT">Daily Ticket Allowance (+100 CUP)</span></button>
+        <img class="hero-mascot" id="heroMascot" alt="CUP26">
+        <div class="hero-txt">
+          <div class="hsu">🏆 WORLD CUP ARCADE</div>
+          <div class="hti">KICK OFF!</div>
+          <div class="hde" id="heroDe">Play mini-games, build your score. Multipliers apply by tier.</div>
+        </div>
+      </div>
+      <button class="dcl" id="dcB" onclick="dc()">🎁 <span id="dcT">Daily Bonus (+100 CUP)</span></button>
+
+      <div class="streak">
+        <div class="streak-fire">🔥</div>
+        <div class="streak-info"><div class="streak-days"><span id="streakDays">0</span> <span id="streakLbl">DAY STREAK</span></div><div class="streak-txt" id="streakTxt">Play daily to grow your streak!</div></div>
+        <button class="streak-claim" id="streakBtn" onclick="claimStreak()">+50</button>
+      </div>
+
+      <div class="wgoal">
+        <div class="wgoal-top"><div class="wgoal-title">💸 <span id="wgTitle">Withdraw Goal</span></div><div class="wgoal-amt"><span id="wgCur">0</span> / 10,000 CUP</div></div>
+        <div class="wgoal-bar"><div class="wgoal-fill" id="wgFill" style="width:0%"></div></div>
+        <div class="wgoal-sub" id="wgSub">Reach 10,000 CUP to withdraw to your TON wallet</div>
       </div>
 
       <div class="sr">
-        <div class="stc"><div class="stv" id="sT">0</div><div class="stl" id="slT">CUP Core</div></div>
-        <div class="stc"><div class="stv" id="sG">0</div><div class="stl" id="slG">Goals</div></div>
-        <div class="stc"><div class="stv" id="sB">0</div><div class="stl" id="slB">Correct Pred.</div></div>
+        <div class="stc"><div class="stv" id="sT">0</div><div class="stl" id="stlT">CUP Core</div></div>
+        <div class="stc"><div class="stv" id="sG">0</div><div class="stl" id="stlG">Goals</div></div>
+        <div class="stc"><div class="stv" id="sB">0</div><div class="stl" id="stlB">Predictions</div></div>
       </div>
 
-      <div class="sec" id="secG">ARCADE MODES</div>
+      <div class="sec" id="secModes">ARCADE MODES</div>
       <div class="gg">
-        <div class="gc" onclick="go('penalty')"><div class="ic">⚽</div><div class="gn" id="gcP">Penalty Shoot</div><div class="gr">+15–50 CUP</div></div>
-        <div class="gc" onclick="go('bulletin')"><div class="ic">📰</div><div class="gn" id="gcBul">Live Fixtures</div><div class="gr">WC 2026</div></div>
-        <div class="gc" onclick="go('bet')"><div class="ic">📊</div><div class="gn" id="gcB">Match Predictor</div><div class="gr">1.5x–3.5x</div></div>
-        <div class="gc" onclick="go('tasks')"><div class="ic">📋</div><div class="gn" id="gcT">Tasks & Ref</div><div class="gr">+500 CUP</div></div>
+        <div class="gc" onclick="go('penalty')"><div class="ic">⚽</div><div class="gn" id="gcP">Penalty Shoot</div><div class="gr">+15–50 CUP</div><div class="ga">Cost: 1 ⚡</div></div>
+        <div class="gc" onclick="go('quiz')"><div class="ic">🧠</div><div class="gn" id="gcQ">Trivia Quiz</div><div class="gr">+25–75 CUP</div><div class="ga">Cost: 1 ⚡</div></div>
+        <div class="gc" onclick="go('bet')"><div class="ic">📊</div><div class="gn" id="gcB">Match Predictor</div><div class="gr">+100 CUP</div><div class="ga">Cost: 1 ⚡</div></div>
+        <div class="gc" onclick="go('bulletin')"><div class="ic">📰</div><div class="gn" id="gcBl">WC Bulletin</div><div class="gr" id="gcBlS">Live scores</div><div class="ga" id="gcBlA">Group stage</div></div>
       </div>
-
-      <!-- GAS PUMP BANNER -->
-      <a href="https://t.me/gasPump_bot/app?startapp=eyJyZWZfdXNlcl9pZCI6ODU2NzUwMTc0MiwidG9rZW5fYWRkcmVzcyI6IkVRQXNocnpxSFUyNlN2TTA0YzNWYjk3VmRHaXBLWVB6bXR1WUlMWVJDNVBOb24tNCJ9" target="_blank" class="gas-banner" id="gasBanner">
-        <div class="gb-left"><div class="gb-ic">⛽</div><div><div class="gb-title" id="gbTi">Buy $CUP26</div><div class="gb-sub" id="gbSu">Hold more for VIP Tiers →</div></div></div>
-        <div class="gb-pill" id="gbPl">PUMP IT 🚀</div>
-      </a>
     </div>
 
     <!-- PENALTY -->
     <div class="sc" id="s-penalty">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-shrink:0">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh)" id="penTi">⚽ PENALTY STADIUM</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh)">⚽ <span id="penTi">PENALTY STADIUM</span></div>
         <div class="rb">🏅 +15–50</div>
       </div>
       <div class="scd">
@@ -293,403 +312,525 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
         <div class="sb"><div class="sbn" id="pSc">0</div><div class="sbl" id="pSl">Saved</div></div>
       </div>
       <div class="pitch">
-        <img class="gk" id="gk" alt="GK" style="width:48px;height:auto;position:absolute;top:22px;left:50%;transform:translateX(-50%);">
-        <div class="gnet">
-          <div class="gz">
-            <button class="zbn" onclick="sht(0)">↖</button><button class="zbn" onclick="sht(1)">⬆</button><button class="zbn" onclick="sht(2)">↗</button>
-            <button class="zbn" onclick="sht(3)">←</button><button class="zbn" onclick="sht(4)">🎯</button><button class="zbn" onclick="sht(5)">→</button>
-          </div>
-        </div>
+        <img class="gk" id="gk" alt="GK" style="width:46px;height:auto">
+        <div class="gnet"><div class="gz">
+          <button class="zbn" onclick="sht(0)">↖</button><button class="zbn" onclick="sht(1)">⬆</button><button class="zbn" onclick="sht(2)">↗</button>
+          <button class="zbn" onclick="sht(3)">←</button><button class="zbn" onclick="sht(4)">🎯</button><button class="zbn" onclick="sht(5)">→</button>
+        </div></div>
         <div class="ba" id="ba">⚽</div>
         <div class="pm" id="pm"></div>
       </div>
       <div style="font-size:11px;color:var(--mut);text-align:center;flex-shrink:0" id="penTp">💡 Corners are harder to save!</div>
     </div>
 
-    <!-- BULLETIN / FIXTURE TAB -->
-    <div class="sc" id="s-bulletin">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh)" id="bulTi">📰 TOURNAMENT FIXTURES</div>
-      <div id="blList" style="display:flex;flex-direction:column;gap:12px;margin-top:10px"></div>
-    </div>
-
-    <!-- MATCH PREDICTOR -->
+    <!-- PREDICTOR -->
     <div class="sc" id="s-bet">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh)" id="beTi">📊 MATCH PREDICTOR</div>
-      </div>
-      <div id="ml" style="display:flex;flex-direction:column;gap:12px;flex-shrink:0;margin-top:10px"></div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh);flex-shrink:0">📊 <span id="predTi">MATCH PREDICTOR</span></div>
+      <div id="ml" style="display:flex;flex-direction:column;gap:12px;flex-shrink:0"></div>
     </div>
 
-    <!-- TASKS / EARN -->
+    <!-- QUIZ -->
+    <div class="sc" id="s-quiz">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh)">🧠 <span id="quizTi">TRIVIA</span></div>
+        <div class="qti" id="qt">15</div>
+      </div>
+      <div class="qcd"><div class="qe" id="qem">⚽</div><div class="qq" id="qq">Loading…</div></div>
+      <div class="qos" id="qo"></div>
+    </div>
+
+    <!-- BULLETIN TAB -->
+    <div class="sc" id="s-bulletin">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh);flex-shrink:0">📰 <span id="bullTi">WORLD CUP BULLETIN</span></div>
+      <div style="font-size:11px;color:var(--mut);flex-shrink:0" id="bullSub">Live & recent World Cup 2026 results</div>
+      <div id="bulletinList" style="display:flex;flex-direction:column;gap:10px"></div>
+    </div>
+
+    <!-- TASKS -->
     <div class="sc" id="s-tasks">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh);flex-shrink:0" id="tasksTi">🎯 EARN MORE</div>
-      
-      <!-- REFERRAL CARD -->
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh);flex-shrink:0" id="earnTi">🎯 EARN MORE</div>
       <div class="ref-card">
         <div class="ref-ic">🤝</div>
         <div class="ref-title" id="refTitle">INVITE FRIENDS</div>
         <div class="ref-desc" id="refDesc">Share your link. Earn CUP for every friend who joins!</div>
         <div class="ref-reward" id="refReward">+500 CUP per friend</div>
-        <div class="ref-link-box">
-          <div class="ref-link" id="refLink">https://t.me/CUP26_GAMEBOT?start=ref_0</div>
-          <button class="ref-copy" id="refCopyBtn" onclick="copyRef()">Copy</button>
-        </div>
+        <div class="ref-link-box"><div class="ref-link" id="refLink">t.me/CUP26_GAMEBOT?start=ref_0</div><button class="ref-copy" onclick="copyRef()">Copy</button></div>
         <button class="ref-share" onclick="shareRef()">📤 <span id="refShareTxt">SHARE INVITE LINK</span></button>
+        <div class="ref-stats"><div class="ref-stat"><div class="ref-stat-v" id="refCount">0</div><div class="ref-stat-l" id="refCountLbl">Friends</div></div><div class="ref-stat"><div class="ref-stat-v" id="refEarned">0</div><div class="ref-stat-l" id="refEarnedLbl">CUP Earned</div></div></div>
       </div>
-
       <div class="sec" id="tasksSecTitle">DAILY TASKS</div>
       <div id="dailyTasksList" style="display:flex;flex-direction:column;gap:9px"></div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div class="sc" id="s-lb">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh)" id="lbTi">🏆 LEADERBOARD</div>
+      <div id="lbl" style="display:flex;flex-direction:column;gap:6px;flex-shrink:0"></div>
     </div>
   </div>
 
   <nav class="nav">
-    <button class="nb on" id="n-home" onclick="go('home')"><span class="ni">🏠</span><span class="nl" id="nvH">Hub</span></button>
-    <button class="nb" id="n-penalty" onclick="go('penalty')"><span class="ni">⚽</span><span class="nl" id="nvP">Shoot</span></button>
-    <button class="nb" id="n-bulletin" onclick="go('bulletin')"><span class="ni">📰</span><span class="nl" id="nvBul">Fixture</span></button>
-    <button class="nb" id="n-bet" onclick="go('bet')"><span class="ni">📊</span><span class="nl" id="nvB">Predict</span></button>
-    <button class="nb" id="n-tasks" onclick="go('tasks')"><span class="ni">📋</span><span class="nl" id="nvT">Tasks</span></button>
+    <button class="nb on" id="n-home" onclick="go('home')"><span class="ni">🏠</span><span class="nl" id="nvHub">Hub</span></button>
+    <button class="nb" id="n-penalty" onclick="go('penalty')"><span class="ni">⚽</span><span class="nl" id="nvShoot">Shoot</span></button>
+    <button class="nb" id="n-bet" onclick="go('bet')"><span class="ni">📊</span><span class="nl" id="nvPredict">Predict</span></button>
+    <button class="nb" id="n-bulletin" onclick="go('bulletin')"><span class="ni">📰</span><span class="nl" id="nvBull">News</span></button>
+    <button class="nb" id="n-tasks" onclick="go('tasks')"><span class="ni">📋</span><span class="nl" id="nvTasks">Earn</span></button>
+    <button class="nb" id="n-lb" onclick="go('lb')"><span class="ni">🏆</span><span class="nl" id="nvLb">Ranks</span></button>
   </nav>
 </div>
 <div id="tst"></div>
-
 <script>
+var IMG_MASCOT="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAcFBQYFBAcGBgYIBwcICxILCwoKCxYPEA0SGhYbGhkWGRgcICgiHB4mHhgZIzAkJiorLS4tGyIyNTEsNSgsLSz/2wBDAQcICAsJCxULCxUsHRkdLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCz/wAARCABuAEkDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDwfyF9TR9nX1NXPsh4+Y/lTxbMqOA3ytjOVB6c/h+FfZukl0PN9o+5R+zL6mj7OuMHJr2TwD8NbI2sWo61bi8nkAdLST7kSkZBZf4mwc4PA9DXpNj4G8INKi3Xh3S0B6lbVMD9OlfBY3jPA4av7CnBy1te6S/Hp5nrwyyu4c8nby6nystrtZQwK5AI+hrrPDiIsyfWvTPiN8HdOjsbnWPC0ex7Zd81rEco69SVyeGA7DggeteZ6BJFa3kM80Au4UYM0LMVWQehI5FevRzChmeGlUoK7jutL3++2vR3sckqcqVRRm9H1PY7B1Nv4fQdf7Yt/wD0CSulH3B9K4OPXdKj1Gwu7dH0/SIdWgnxKuBAvltu6ZwoYnFdPH4l0fZiTVLPd/sydu1flHEGHqOUGovq9u9j6nLfhdtS/fQarPaxiw1Ozs4xIcrcWjTFmwOQVYYrxr7Fpn/QeX/wUt/8cr0zUNS0LUhGG1+S28sk/wCjXpizn1x1rn/+EY8Cf9BSb/wYNWeX4j2ELVFJbbR7d2/wOyVOV9Dyfyk/ug1a07TzfX9vbwR+ZI77mU4A2KN7ck/3Vbj/ABq/NaQXGSoW2l9QPkb6jt+HFQW81x4e1O2v5LfzPIbeYw3yzJghlDe6kiv26WYwxuFmsO/3nK7J73t/Wx+Y4StCVWLk9Lq57Tp2q2tlbTXNxKkMcO6WRm4ATufwqs3jWS7u/Lg0S8VY2+djcQxuFI4yhOVboQp57Yya84stN1/x7m2tQYLJTlJHJEUQzlT6yEY4PTNdAdQ8VRpJaTWDQok6ie6EvmW8c+RiR8JkHJU7Sw5IzjNfluDyHL1OccZUTmleye3rbf8AQ+2xuMxE3GWGhpfd6fcdXZfEdGssWmj3t1BLw9z8qd8NhGO4gZA+px1ryCLSJ7jxMNK05Ptsjy5C2524jOHYZYjbtVtpz3GK7q40PW9A1EaXY3B1SK42/aJ7oMDbrI2CHdVI2MQSM4IwcVxHhe4vLHxbZTaesV3cy3LwleiTCRiGx1wP4ge2K+hyihh8PhatfLZXbpt2l66P8zzMTKpKtGGIStzKzXpr+h6fBpelS662lyaTLoF1NKWWNWyq2qxglyMsj5Y4OfSq9tHpOnSKlxomlyK8azxyNaRnfG2drEY4JA6VH4n8KaRpMk2pyanqlizxKirh7iPgklG6nByB2+vNP0DT9S1+7+03ame9nXelvgRCOJeFB6hFUHnrySBk8V5OV1Hiv3nM3Ttre+/lf/Pp5nTjIqkkoaSfbsdV4dtPD+pXxgk8OaSNyFlzZRZ4/wCA+hqT+z9D/wChc0j/AMAYv/iajtWg06RfsV9ctKoILaVZLNCueo8yQHd9RjvxT/tU/wDz865/4LIP/ia562LwdOo1Kf579QjRxDWlzw7OMAA1IshVChUPG3VHGVP4Vzr+L0t5hFc6LaxkAE/uIycEZB6ehFa/h66ufFd/9k0XRbR3GPMkmtk2RgnA+7ksSeAo5NfVvLPZrndS39ep8rTymcpWjK79D0HwRdO2jP8AZWEV3pj7FXOd8LDIz6j7y49hXQeI9Y0UNoOrXxuNPjiWdI5kkKwh3xvjlAB3EleB0+WuDgii8KaxNdW2sxPqEWI2gjtUWB+eVLpnbjJ5BYZGOa7zT7q01TTdRs761Ad3VzYynDBiBgrj+EnBDqSPQ18NmNGWExMq9Ntwe7jvruvv110P0KlhqsMPTjiY+90bW9uvmZOveLPDNzZ3GtaZqsl3f6RYyBUhdxEfMxGBIuMN8xBA9s9qzvhb4USz1mHU9YQ294tuJdMgcgq6EYaXI43j7u3quckciq/ja0s9DgTSbCzSG6NxHc38ysZeVUmKMu/ORy2BwB16iubtfFtvods0OopJdWbyeYqxOFmhlxjzImOcPjg5yGHDA16WDpzlgp4TDyklU0TdrpLZejd/kzX+yfbUJY+TSUG7La/d779vmeheKtT/AOEh8UWvh+In7NbMl1cy4yu0HIB+pUnPohroodPkewOnwlgb6L7ZeYADMmNtvBn0AGT6/N/eNeWfDvWvtuoyvdQpdXt1u3SyRpkEqVVQeyjgY6da9n0YxTypeeYDA9hbhcHliu4EY+pFcOaxllOChhKW/XzfX+vI8mjJVq7q9Nl/X4lexvJRprM3mSKlwkUaRs8YWJl4OFGBjBz2yMe1U/8AhIZf+gJqv/f96tanc2FhrC3b3kemPdHEiPKFjlQYySCcbhxgjnJ54Jrmv7c1H/oM6H/4ECvnlKVX34R0fqvyPUp0Iyvc8EitbnUNOgs7eyDLPcLCs23JL4woz1AA5P0r2EaSnhjw2NCgt7XSdQeL91dqzBL07f3iZYny5mHQ5wwBUbckHznS4NR0Q2slsLe6kt5jIuy4CqQRhsq2MEjv7CvbvD/ivRfG2lvpmorbzzcedY3Sg7sc52n+Yr9Cz7GYrB1IzdO9HW9t/J+R5OXVIx/eQ+NNb9l5dU/vPD7fU47y98qEBolHMgbIJ9BXpegaJqv9hwXTXFndMImubSwmldZgik/NG6MGQdcgHB7ik+K+laRaJY6jbRCC/EsVuEhKqhjJx8ygZOAMDnil0OwbTvC32zTtQ086rexsrST3KobWLuiqf4m7ntXz1fHe0oU6+GfLzaWevrfy7/cj72ONnj8I1Xtzc3VaeWvRLvv21Zia9Zb9Mj1Ga+sIHkjFyNPSRy6pJzvLNksx4JyScewry2GQT3cFxcR/aVVuIwSAV9Bj19a9d1zUtNk8BOZJ9Nd/7OhghQRD7UkqD5yzYztwCBz3FeXWOlX4FrcxomxdrgrPGD0yMZNfUcPSlVjVnUWq2/4H5HzfEVecaVKhayTlpt2/rXr1Njw3d28F68saxRHzQwBdt6rk8AdPrn0r2fSfEVpBbtO7N/Zkzb/PTJ+xSMPmDd/Kc5IP8LHHHFeIWsOr2up3Fyix4nYMWaeLeD+eOa6Pw7qOqaJuRbu0/e/KNspOxfThfz9a3zXLHj4WlHsfNYar7K0r73PV5tMna3iFtcRiEhCGiyytjdnG3PUEZPBJWk/sWf8A6DN1/wCAgrkIb3TBGUe4ht344s5bi3QnHXYnGenIq19q0X/oJ3n/AIGXX+NfJvh3F3sn+C/W560cxp21T+48Mg1DXJHSNZ5lDAlCyfeA98c1bvF1m00uz1K4nYeaxMTqy7lI9COQa0dJE+oXa2S3kcCWUTssqqWLjGD27ZwePem6Tpk/ii7h0m1mdbS3iW4nnKtIkAUcuQPuqWIX05BPrX6JOu0nz2SW/XTX/gHjKlouXrt66F6/sNUsoNJkuNVe+vLi0W8kSfLLb+YTsVTnligBPHGQKpz3eoQRbpbm3jU8AhMn8BnmtvxXBqul391qOr2AjiuJ/kkt5RJG2R8qpuO4gAADPYVxFyzX1w08446IhPCD/GtqNDLsRSjUpRU/yQoZlm+Fm6KqSpx/Pz/4J02iW51TUYYbdEu7qXGZbkZWBem5gOgycY7k1vfEHwNN4PsdPutP1sO97ci3aIwJCikjO8AZ4yDk/SqXwj1DQdL1XUZdWnvbOZ0xbXFvE9yVCZLqYwGDAjk7gRgdiKoa9rr+ONSmu5b8QwWfy2UUxSMlOoJRQAWbpxzyB2ry8VPFvFQdGXJRjvFLf57lUqVOUXUnJyqSerbbf+X4mJfXV7p8klvPf3Mk6zhA0MaNEUxyd3XdyOMfjUl/Hfy+IobeyuLw28oX5kyxA4DHA9KLRft1ylpdyCOCFnclWxtY7VJ3enyj8qfFcIl8bKe6niX7SVNypKExYPBxyA3ymu9zmlu3JL5epmnGU7LZv5lPGojV/IlurxrATiJ5cnG0/wBcV0n9m+Gf+f7Vfyb/ABrBuJMajPYQXrmzmdVDAfe+UbfryAMjriug/sjS/wDoKr/4CN/8VWVWV1Fzb26fr5glV2gk+9+/lrsLHo2m2K7U+3W/nKp3SqkuV6jAwvX1zUPgbX5/BOu6nqWnX1rFJFDLEYr2HeLtd3yx7QwOT8p4PbuK9Rk17QhdSRvotpJAIvJEiQgllH8OM/drmNT1vQbfUFmi8C6fIrAMks0QVzjrwM9DXjUs7jiG0qLu/Nfq9zy45nSqJQUtjndWU+Jbxb/Vr2eOcjIgtrOOOGAEk7UXd2zjJ5461S/4R/S+g1DUM+n2eP8A+KrsG8d2JtxAfBmnmIMWCkHGSME/d9hTpPH9tM0jP4QsGMriR8g/Mw6E/L1GTXdDM501ywoO3+KP+ZcsbCTvK7OH/s240q4MmkXLPvRwxuECFSwKnAGQQQTVuz8PaegS2hu76R5MKoFshYtjHHzV2g8f297qC3M/hCykmUqzS4y4AIweQOldHDrHh0XKyLp9nA0uJmcwAbWByM8/ezzXFic9VKNqtB3a7pr8NSFmVKi+aLszyy00O005Vliu77y5G27mtkwSvUfe7bh+lSPpdheXSO39oSzqpw8ZjjJAyemD0Gec9B7V61fX+n2NsgfS7CW1CiFQigkI3LDb6cL9azbjWdBtphaxaNYzWrHfIyQ8bsEDAPU4JHbrXLDiWnNOaovmf3fP/IxeYUINz2l/VjzW90fSZZsXMOopIFHAkjXIPOcBO+c/jSfYNN/v6n/39j/+Ir1uS+0C4W2iks7GQXSKiq0PAVT8oPp83A96j2eGP+gdpX/fiiPE+H5UqlCWnY3jmdLe7ueZJcapdLBGkASQDzPNJ+Vx2/P0pz3eozyiK3tGhkxht+NoI5Jye2AetQ6ne6pBAJftMcUZwnlxJgdDzzmo7PxTLDAsN1AssaoEBUncfrnOeKw5JOPPGEWe8+HsuTScWrO/r5Ewm1i6hEUMeWAO+UEANz2P+FOil1TyIHa2l8mA/P8AN874+tD+IZmgU28awxswC+q8/l+lNt9WubVCsW2Tc2B5uTg1N52tyRNXw9l1rcr6/j/l0Jjfahbv5jWy5m+WJXwdueOQfrn60hvbzYB9jcPER5pAyCM9qemtRlSi2w8/O8ljuXcTk4zyKo3OvXcdwiEiQlg4DcL19uamKcnbkVzOfDeXb2f3+X9MuGW/jm8p7NQ8n+rIOACegz+dRGTVZYltEgZJowN8hP3se9CeLDLGiPajzicZB+UN646/rUX9sXK3DxCRlzl8DBAyfemlUT1gkUuHcuTuk9/6RaF1ds2fswYwcTBWB3E+n86Z/bUf/PpL+YpT4iWzG2W2yzc5jO3P196i/wCEqtP+fBvzX/CkouW9Jff/AMEwnwxl0urX9eh//9k=";
+var IMG_SHAKIRA="data:image/jpeg;base64,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";
 // ==========================================
-// KODLAR & GÖRSELLER
+// $CUP26 World Cup Arcade — Web3 Ready
 // ==========================================
-var IMG_MASCOT="data:image/jpeg;base64,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";
-var IMG_SHAKIRA="data:image/jpeg;base64,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";
+var Q=String.fromCharCode(39);
 
-var SUPABASE_URL = "https://BURAYA_KENDI_SUPABASE_PROJE_ADRESINI_YAZ.supabase.co";
-var SUPABASE_KEY = "BURAYA_KENDI_SUPABASE_ANON_KEY_DEGERINI_YAZ";
-var isSupabaseSetup = SUPABASE_URL.indexOf("BURAYA") === -1; 
+// Supabase (safe fallback to localStorage)
+var SUPABASE_URL="https://BURAYA_KENDI_SUPABASE_PROJE_ADRESINI_YAZ.supabase.co";
+var SUPABASE_KEY="BURAYA_KENDI_SUPABASE_ANON_KEY_DEGERINI_YAZ";
+var isSupabaseSetup=SUPABASE_URL.indexOf("BURAYA")===-1;
 
-var S = {b:0, g:0, bw:0, dc:false, wc:false, wa:null, energy:5, maxEnergy:5, mult:1, tier:'Taraftar', teamFlag:'⚽', teamName:''};
-var TP = { streak: 0, claimed: {}, refs_count: 0, refs_earned: 0, lastLogin: null };
-var L = 'en';
+var S={b:0,g:0,bw:0,dc:false,wc:false,wa:null,energy:5,maxEnergy:5,mult:1,tier:'Taraftar',teamFlag:'⚽',teamName:''};
+var TP={streak:0,claimed:{},refs_count:0,refs_earned:0,lastLogin:null};
+var L='en';
 
-// TRANSLATIONS
-var TX = {
-  en: {
-    oSu:'🏆 World Cup 2026 · Arcade', oTi:'PLAY & TRACK', oDe:'Connect wallet to load your stats, unlock multipliers and predict live world cup matches!', oBt:'CONNECT TON WALLET', oSk:'Play as Guest',
-    oSu2:'🏆 STEP 2', oTi2:'CHOOSE YOUR COUNTRY', oDe2:'Select the national team you support. Your profile will bear your flag!',
-    wmTi:'💎 TON PROFILE', wCp:'Copy', wBll:'CUP Balance', wDc:'🔌 DISCONNECT', wCl:'Close',
-    hSu:'🏆 WORLD CUP ARCADE STATION', hTi:'KICK OFF!', hDe:'Play mini-games to build up your arcade score. Multipliers apply based on your tier status.', dcT:'Daily Ticket Allowance (+100 CUP)', dcD:'✅ Claimed — Come back tomorrow!',
-    streakLbl:'DAY STREAK', streakTxt:'Play daily to grow your streak!', wgTitle:'💸 Withdraw Goal', wgSub:'Reach 10,000 CUP to withdraw to your TON wallet',
-    slT:'CUP Core', slG:'Goals', slB:'Correct Pred.', secG:'ARCADE MODES',
-    gcP:'Penalty Shoot', gcBul:'Live Fixtures', gcB:'Match Predictor', gcT:'Tasks & Ref', gcTe:'Earn More',
-    gbTi:'Buy $CUP26', gbSu:'Hold more for VIP Tiers →', gbPl:'PUMP IT 🚀',
-    penTi:'⚽ PENALTY STADIUM', pGl:'Goals', pSl:'Saved', penTp:'💡 Corners are harder to save!',
-    bulTi:'📰 TOURNAMENT FIXTURES', beTi:'📊 MATCH PREDICTOR', tasksTi:'🎯 EARN MORE',
-    refTitle:'INVITE FRIENDS', refDesc:'Share your link. Earn CUP for every friend who joins!', refReward:'+500 CUP per friend', refShareTxt:'SHARE INVITE LINK', refCountLbl:'Friends Invited', refEarnedLbl:'CUP Earned', tasksSecTitle:'DAILY TASKS',
-    nvH:'Hub', nvP:'Shoot', nvBul:'Fixture', nvB:'Predict', nvT:'Tasks',
-    wOff:'Wallet not connected', wActOff:'Connect →', wActOn:'View →', wOn:'Wallet',
-    pmC:'Choose a zone and shoot!', pmG:'⚽ GOAL!', pmS:'🧤 SAVED!', pmO:'⚡ No Energy!',
-    tWC:'💎 Wallet connected!', tWS:'👾 Playing as guest', tCp:'📋 Copied!', tWD:'🔌 Wallet disconnected', tC:' CUP',
-    tNA:'⚡ Not enough Energy!', tSv:'🧤 Saved by the keeper!', tGl:'⚽ GOAL! +', tCor:'✅ Correct! +', tWr:'❌ Wrong!',
-    bS:['Home','Draw','Away'], stSim:'START SIMULATION'
-  },
-  tr: {
-    oSu:'🏆 Dünya Kupası 2026 · Arcade', oTi:'BAĞLAN & KAZAN', oDe:'İlerlemeni kaydetmek, VIP kademeleri açmak ve Dünya Kupası maçlarını tahmin etmek için cüzdanını bağla!', oBt:'TON CÜZDANI BAĞLA', oSk:'Misafir Olarak Oyna',
-    oSu2:'🏆 2. ADIM', oTi2:'ÜLKENİ SEÇ', oDe2:'Desteklediğin milli takımı seç. Profilin bu bayrağı taşıyacak!',
-    wmTi:'💎 TON PROFİLİ', wCp:'Kopyala', wBll:'CUP Bakiye', wDc:'🔌 BAĞLANTIYI KES', wCl:'Kapat',
-    hSu:'🏆 DÜNYA KUPASI ARCADE MERKEZİ', hTi:'BAŞLAMA VURUŞU!', hDe:'Arcade skorunu yükseltmek için mini oyunlar oyna. Çarpanlar VIP kademene göre artar.', dcT:'Günlük Bilet Hakkı (+100 CUP)', dcD:'✅ Alındı — Yarın gel!',
-    streakLbl:'GÜNLÜK SERİ', streakTxt:'Serini büyütmek için her gün oyna!', wgTitle:'💸 Çekim Hedefi', wgSub:'TON cüzdanına çekim yapmak için 10.000 CUP hedefine ulaş',
-    slT:'CUP Bakiye', slG:'Goller', slB:'Doğru Tahmin', secG:'ARCADE MODLARI',
-    gcP:'Penaltı Atışı', gcBul:'Canlı Fikstür', gcB:'Maç Tahmini', gcT:'Görev & Davet', gcTe:'Daha Fazla Kazan',
-    gbTi:'$CUP26 Satın Al', gbSu:'VIP Kademeleri İçin Token Tut →', gbPl:'PUMP IT 🚀',
-    penTi:'⚽ PENALTI STADYUMU', pGl:'Gol', pSl:'Kurtarış', penTp:'💡 Köşeler daha az kurtarılır!',
-    bulTi:'📰 TURNUVA FİKSTÜRÜ', beTi:'📊 MAÇ TAHMİNİ', tasksTi:'🎯 DAHA FAZLA KAZAN',
-    refTitle:'ARKADAŞLARINI DAVET ET', refDesc:'Linkini paylaş. Katılan her arkadaşın için CUP kazan!', refReward:'Arkadaş başı +500 CUP', refShareTxt:'LİNKİ PAYLAŞ', refCountLbl:'Davet Edilen', refEarnedLbl:'Kazanılan CUP', tasksSecTitle:'GÜNLÜK GÖREVLER',
-    nvH:'Merkez', nvP:'Şut', nvBul:'Fikstür', nvB:'Tahmin', nvT:'Görevler',
-    wOff:'Cüzdan bağlı değil', wActOff:'Bağla →', wActOn:'Görüntüle →', wOn:'Cüzdan',
-    pmC:'Bölge seç ve vur!', pmG:'⚽ GOL!', pmS:'🧤 KURTARILDI!', pmO:'⚡ Enerji Bitti!',
-    tWC:'💎 Cüzdan bağlandı!', tWS:'👾 Misafir olarak oynanıyor', tCp:'📋 Kopyalandı!', tWD:'🔌 Bağlantı kesildi', tC:' CUP',
-    tNA:'⚡ Yeterli Enerjin Yok!', tSv:'🧤 Kaleci kurtardı!', tGl:'⚽ GOL! +', tCor:'✅ Doğru! +', tWr:'❌ Yanlış!',
-    bS:['Ev','Ber.','Dep.'], stSim:'SİMÜLASYONU BAŞLAT'
+var TG=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
+var TG_USER=TG&&TG.initDataUnsafe&&TG.initDataUnsafe.user?TG.initDataUnsafe.user:null;
+
+// ---- DATA PERSISTENCE ----
+async function safeDataFetch(tgId){
+  if(isSupabaseSetup){
+    try{
+      var res=await fetch(SUPABASE_URL+"/rest/v1/users?telegram_id=eq."+tgId,{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
+      var data=await res.json();
+      return(data&&data.length>0)?data[0]:null;
+    }catch(e){return null;}
+  }else{
+    try{var d=localStorage.getItem("cup26_user_"+tgId);return d?JSON.parse(d):null;}catch(e){return null;}
   }
-};
+}
+async function safeDataSave(){
+  var tgId=TG_USER?TG_USER.id:'guest';
+  var d={cup_balance:S.b,goals:S.g,bets_won:S.bw,energy_tickets:S.energy,wallet_address:S.wa,selected_team:S.teamName,selected_team_flag:S.teamFlag,streak:TP.streak,last_login:TP.lastLogin};
+  if(isSupabaseSetup&&tgId!=='guest'){
+    try{await fetch(SUPABASE_URL+"/rest/v1/users?telegram_id=eq."+tgId,{method:"PATCH",headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":"application/json"},body:JSON.stringify(d)});}catch(e){}
+  }else{
+    try{localStorage.setItem("cup26_user_"+tgId,JSON.stringify(d));}catch(e){}
+  }
+}
 
-function t(k){ return TX[L][k] || TX.en[k] || k; }
+// ---- BULLETIN DATA ----
+var fallbackBulletins=[
+  {status:'ft',group:'Group C',h:'Türkiye',hf:'🇹🇷',a:'Italy',af:'🇮🇹',hs:2,as:1,min:'FT'},
+  {status:'live',group:'Group A',h:'Brazil',hf:'🇧🇷',a:'Argentina',af:'🇦🇷',hs:1,as:1,min:"67'"},
+  {status:'up',group:'Group D',h:'Germany',hf:'🇩🇪',a:'France',af:'🇫🇷',hs:null,as:null,min:'21:00'},
+  {status:'ft',group:'Group B',h:'Spain',hf:'🇪🇸',a:'USA',af:'🇺🇸',hs:3,as:0,min:'FT'},
+  {status:'ft',group:'Group C',h:'Türkiye',hf:'🇹🇷',a:'Netherlands',af:'🇳🇱',hs:2,as:2,min:'FT'},
+  {status:'up',group:'Group E',h:'England',hf:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',a:'Portugal',af:'🇵🇹',hs:null,as:null,min:'Tomorrow'}
+];
+var bulletinData=fallbackBulletins;
 
-function sL(l){
-  L = l;
-  document.getElementById('lEN').className = 'lb' + (l==='en'?' on':'');
-  document.getElementById('lTR').className = 'lb' + (l==='tr'?' on':'');
-  for(var key in TX[L]) { var el = document.getElementById(key); if(el && key !== 'bS') el.innerHTML = TX[L][key]; }
-  if(document.getElementById('s-bet').classList.contains('on')) rM();
-  if(document.getElementById('s-bulletin').classList.contains('on')) renderBulletin();
-  if(document.getElementById('s-tasks').classList.contains('on')) renderTasks();
+async function loadBulletinData(){
+  if(isSupabaseSetup){
+    try{
+      var res=await fetch(SUPABASE_URL+"/rest/v1/bulletin?order=created_at.desc&limit=10",{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
+      var data=await res.json();
+      if(data&&data.length>0){bulletinData=data;}
+    }catch(e){}
+  }
+  updateTicker();
+}
+function updateTicker(){
+  var el=document.getElementById('tickerMsg');
+  if(!el)return;
+  var parts=bulletinData.map(function(b){
+    if(b.message)return b.message;
+    var sc=b.hs!==null?(b.hs+'-'+b.as):'vs';
+    var tag=b.status==='live'?'🔴 LIVE':b.status==='up'?'⏳':'✅';
+    return tag+' '+b.hf+' '+b.h+' '+sc+' '+b.a+' '+b.af+' ('+b.min+')';
+  });
+  el.innerHTML=parts.join(" &nbsp;&nbsp;|&nbsp;&nbsp; ");
+}
+function renderBulletins(){
+  var list=document.getElementById('bulletinList');
+  if(!list)return;
+  list.innerHTML=bulletinData.map(function(b){
+    if(b.message){
+      return '<div class="bulletin-item"><div style="font-size:13px;color:var(--wh)">'+b.message+'</div></div>';
+    }
+    var statusCls=b.status==='live'?'live':b.status==='up'?'up':'ft';
+    var statusTx=b.status==='live'?(L==='tr'?'CANLI':'LIVE'):b.status==='up'?(L==='tr'?'YAKINDA':'UPCOMING'):(L==='tr'?'BİTTİ':'FT');
+    var dot=b.status==='live'?'<span class="bull-dot"></span>':'';
+    var score=b.hs!==null?(b.hs+' - '+b.as):'<span style="color:var(--mut)">'+(L==='tr'?'vs':'vs')+'</span>';
+    return '<div class="bulletin-item '+(b.status==='live'?'live':'')+'">'+
+      '<div class="bull-status '+statusCls+'">'+dot+statusTx+'</div>'+
+      '<div class="bull-teams">'+
+        '<div class="bull-team"><div class="bull-flag">'+b.hf+'</div><div class="bull-name">'+b.h+'</div></div>'+
+        '<div><div class="bull-score">'+score+'</div><div class="bull-min">'+b.min+'</div></div>'+
+        '<div class="bull-team"><div class="bull-flag">'+b.af+'</div><div class="bull-name">'+b.a+'</div></div>'+
+      '</div>'+
+      '<div class="bull-group">'+b.group+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+// ---- USER LOAD ----
+async function loadUserData(tgId){
+  var user=await safeDataFetch(tgId);
+  if(user){
+    S.b=user.cup_balance||150;S.g=user.goals||0;S.bw=user.bets_won||0;
+    S.energy=user.energy_tickets||5;S.wa=user.wallet_address;S.wc=!!S.wa;
+    if(user.streak)TP.streak=user.streak;
+    if(user.last_login)TP.lastLogin=user.last_login;
+    if(S.wc){S.tier='Captain';S.maxEnergy=15;S.mult=1.5;}
+    if(user.selected_team){
+      S.teamFlag=user.selected_team_flag;S.teamName=user.selected_team;
+      var f=document.getElementById('myTeamFlag');if(f)f.textContent=S.teamFlag;
+      document.getElementById('teamOverlay').style.display='none';
+      document.getElementById('mainA').style.display='flex';
+    }else{
+      document.getElementById('teamOverlay').style.display='flex';
+    }
+  }else{
+    S.b=150;S.energy=5;
+    if(isSupabaseSetup&&tgId!=='guest'){
+      try{await fetch(SUPABASE_URL+"/rest/v1/users",{method:"POST",headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":"application/json"},body:JSON.stringify({telegram_id:tgId,cup_balance:150,goals:0,bets_won:0,energy_tickets:5})});}catch(e){}
+    }
+    document.getElementById('teamOverlay').style.display='flex';
+  }
   upd();
 }
 
-async function safeDataFetch(tgId) {
-  if(isSupabaseSetup) {
-    try {
-      var res = await fetch(SUPABASE_URL + "/rest/v1/users?telegram_id=eq." + tgId, { headers: { "apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY } });
-      var data = await res.json();
-      return (data && data.length > 0) ? data[0] : null;
-    } catch (e) { return null; }
-  } else {
-    var localData = localStorage.getItem("cup26_user_" + tgId);
-    return localData ? JSON.parse(localData) : null;
-  }
-}
-
-async function safeDataSave() {
-  var tgId = (typeof TG_USER !== 'undefined' && TG_USER) ? TG_USER.id : 'guest';
-  var updateData = { cup_balance: S.b, goals: S.g, bets_won: S.bw, energy_tickets: S.energy, wallet_address: S.wa, selected_team: S.teamName, selected_team_flag: S.teamFlag };
-  if(isSupabaseSetup && tgId !== 'guest') {
-    try { await fetch(SUPABASE_URL + "/rest/v1/users?telegram_id=eq." + tgId, { method: "PATCH", headers: { "apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": "application/json" }, body: JSON.stringify(updateData) }); } catch(e) {}
-  } else {
-    localStorage.setItem("cup26_user_" + tgId, JSON.stringify(updateData));
-  }
-}
-
-async function loadUserData(tgId) {
-  var user = await safeDataFetch(tgId);
-  if (user) {
-    S.b = user.cup_balance || 150; S.g = user.goals || 0; S.bw = user.bets_won || 0; 
-    S.energy = user.energy_tickets || 5; S.wa = user.wallet_address; S.wc = !!S.wa;
-    if (user.selected_team) {
-      S.teamFlag = user.selected_team_flag; S.teamName = user.selected_team;
-      var flagEl = document.getElementById('myTeamFlag'); if(flagEl) flagEl.textContent = S.teamFlag;
-      document.getElementById('teamOverlay').classList.add('gone'); document.getElementById('mainA').style.display = 'flex';
-    } else {
-      document.getElementById('teamOverlay').classList.remove('gone');
-    }
-  } else {
-    S.b = 150; S.energy = 5;
-    if(isSupabaseSetup && tgId !== 'guest') {
-       try{ await fetch(SUPABASE_URL + "/rest/v1/users", { method: "POST", headers: { "apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": "application/json" }, body: JSON.stringify({ telegram_id: tgId, cup_balance: 150, goals: 0, bets_won: 0, energy_tickets: 5 }) }); } catch(e){}
-    }
-    document.getElementById('teamOverlay').classList.remove('gone');
-  }
+function selectTeam(flag,name){
+  S.teamFlag=flag;S.teamName=name;
+  document.getElementById('teamOverlay').style.display='none';
+  document.getElementById('mainA').style.display='flex';
+  safeDataSave();
+  tst(L==='tr'?'⚽ Takım seçildi!':'⚽ Team Selected!','info');
   upd();
 }
 
-function selectTeam(flag, name) {
-  S.teamFlag = flag; S.teamName = name;
-  var flagEl = document.getElementById('myTeamFlag'); if(flagEl) flagEl.textContent = flag;
-  document.getElementById('teamOverlay').classList.add('gone'); document.getElementById('mainA').style.display = 'flex';
-  safeDataSave(); tst(L==='tr'?'⚽ Takım seçildi!':'⚽ Team Selected!', 'info'); upd();
-}
-
+// ---- UI ----
+function fmt(n){return n.toLocaleString('en-US');}
 function upd(){
-  document.getElementById('bd').textContent=fmt(S.b); document.getElementById('sT').textContent=fmt(S.b);
-  document.getElementById('sG').textContent=S.g; document.getElementById('sB').textContent=S.bw;
-  document.getElementById('enDisp').textContent = S.energy + '/' + S.maxEnergy;
-  document.getElementById('pm').textContent = S.energy>0 ? t("pmC") : t("pmO");
-  document.getElementById('vTier').textContent = S.tier.toUpperCase();
-  document.getElementById('vDesc').textContent = S.maxEnergy + (L==='tr'?" Bilet / ":" Tickets / ") + S.mult + "x Booster";
-  document.getElementById('vMult').textContent = S.mult + "x";
+  set('bd',fmt(S.b));set('sT',fmt(S.b));set('sG',S.g);set('sB',S.bw);
+  set('enDisp',S.energy+'/'+S.maxEnergy);
+  var pm=document.getElementById('pm');
+  if(pm&&!pm.classList.contains('g')&&!pm.classList.contains('s'))pm.textContent=S.energy>0?(L==='tr'?"Bölge seç ve vur!":"Choose a zone and shoot!"):(L==='tr'?"⚡ Enerji Bitti!":"⚡ No Energy!");
+  set('vTier',S.tier.toUpperCase());set('vMult',S.mult+"x");
+  set('vDesc',S.maxEnergy+(L==='tr'?" Bilet / ":" Tickets / ")+S.mult+"x");
+  var wPct=Math.min(100,(S.b/10000)*100);
+  set('wgCur',fmt(S.b));
+  var wf=document.getElementById('wgFill');if(wf)wf.style.width=wPct+'%';
   wUI();
 }
-
+function set(id,v){var el=document.getElementById(id);if(el)el.textContent=v;}
 function wUI(){
   var c=S.wc;
-  document.getElementById('hWb').className='wb'+(c?' on':'');
-  document.getElementById('hWi').textContent=c?'✅':'💎';
-  document.getElementById('wAd').textContent=c?(S.wa||''):'-';
-  document.getElementById('wBl').textContent=fmt(S.b);
+  var b=document.getElementById('hWb');if(b)b.className='wb'+(c?' on':'');
+  set('hWi',c?'✅':'💎');set('wAd',c?(S.wa||''):'-');set('wBl',fmt(S.b));
 }
 
+// ---- WALLET ----
 function cW(){
-  var promptAddr = prompt((L==='tr'?"TON Cüzdan Adresinizi Girin:":"Enter TON Wallet Address:"), "UQ...");
-  if(!promptAddr || promptAddr.length < 10) return;
-  S.wa = promptAddr; S.wc = true; document.getElementById('ob').classList.add('gone');
-  if(!S.teamName) { document.getElementById('teamOverlay').classList.remove('gone'); } else { document.getElementById('mainA').style.display='flex'; }
-  S.tier = 'Captain'; S.maxEnergy = 15; S.energy = 15; S.mult = 1.5; upd(); safeDataSave(); tst(t("tWC"),'info');
+  var a=prompt((L==='tr'?"TON Cüzdan Adresiniz:":"Enter TON Wallet Address:"),"UQ...");
+  if(!a||a.length<10)return;
+  S.wa=a;S.wc=true;S.tier='Captain';S.maxEnergy=15;S.energy=15;S.mult=1.5;
+  document.getElementById('ob').style.display='none';
+  document.getElementById(S.teamName?'mainA':'teamOverlay').style.display='flex';
+  upd();safeDataSave();
+  tst(L==='tr'?'💎 Cüzdan bağlandı! Captain tier!':'💎 Wallet connected! Captain tier!','earn');
 }
+function sW(){
+  document.getElementById('ob').style.display='none';
+  document.getElementById(S.teamName?'mainA':'teamOverlay').style.display='flex';
+  upd();
+}
+function owm(){document.getElementById('wMod').style.display='flex';}
+function cwm(e){if(!e||e.target===document.getElementById('wMod'))document.getElementById('wMod').style.display='none';}
+function disW(){S.wc=false;S.wa=null;S.tier='Taraftar';S.mult=1;S.maxEnergy=5;S.energy=Math.min(S.energy,5);document.getElementById('wMod').style.display='none';upd();safeDataSave();}
+function cpA(){if(S.wa&&navigator.clipboard)navigator.clipboard.writeText(S.wa);tst(L==='tr'?'Kopyalandı!':'Copied!','info');}
 
-function sW() { document.getElementById('ob').classList.add('gone'); if(!S.teamName) { document.getElementById('teamOverlay').classList.remove('gone'); } else { document.getElementById('mainA').style.display='flex'; } upd(); tst(t("tWS"),''); }
-function owm(){document.getElementById('wMod').classList.remove('gone');}
-function cwm(e){if(!e||e.target===document.getElementById('wMod'))document.getElementById('wMod').classList.add('gone');}
-function disW(){S.wc=false;S.wa=null; S.tier='Taraftar'; S.mult=1; S.maxEnergy=5; S.energy=5; document.getElementById('wMod').classList.add('gone'); upd(); safeDataSave(); tst(t("tWD"),'lose');}
-function cpA(){if(S.wa&&navigator.clipboard)navigator.clipboard.writeText(S.wa);tst(t("tCp"),'info');}
-
+// ---- NAV ----
 function go(s){
   document.querySelectorAll('.sc').forEach(function(x){x.classList.remove('on');});
   document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('on');});
-  document.getElementById('s-'+s).classList.add('on');
-  var nbtn = document.getElementById('n-'+s); if(nbtn) nbtn.classList.add('on');
-  if(s==='bulletin')renderBulletin(); if(s==='bet')rM(); if(s==='tasks')renderTasks();
+  var sc=document.getElementById('s-'+s);if(sc)sc.classList.add('on');
+  var nb=document.getElementById('n-'+s);if(nb)nb.classList.add('on');
+  if(s==='quiz')iQ();if(s==='bet')rM();if(s==='lb')rLB();if(s==='tasks')renderTasks();if(s==='bulletin')renderBulletins();
   upd();
 }
 
+// ---- DAILY BONUS ----
 function dc(){
-  if(S.dc)return; S.b+=100; S.dc=true; upd(); safeDataSave();
-  var btn=document.getElementById('dcB'); if(btn){ btn.disabled=true; btn.textContent=t("dcD"); }
-  tst("+100 CUP", 'earn');
+  if(S.dc)return;
+  S.b+=100;S.dc=true;upd();safeDataSave();
+  var btn=document.getElementById('dcB');if(btn){btn.disabled=true;btn.innerHTML='✅ '+(L==='tr'?'Alındı':'Claimed');}
+  tst("+100 CUP",'earn');
 }
 
-var pB=false, pGn=0, pSn=0;
+// ---- STREAK ----
+function initStreak(){
+  var today=new Date().toDateString();
+  if(TP.lastLogin!==today){TP.streak=Math.min(TP.streak+1,7);TP.lastLogin=today;safeDataSave();}
+  set('streakDays',TP.streak);
+}
+function claimStreak(){
+  var btn=document.getElementById('streakBtn');if(!btn||btn.disabled)return;
+  var bonus=[50,100,150,200,300,500,1000][Math.min(Math.max(TP.streak-1,0),6)];
+  S.b+=bonus;upd();safeDataSave();
+  btn.disabled=true;btn.textContent="✅";
+  tst("+"+bonus+" CUP",'earn');
+}
+
+// ---- TASKS ----
+function getDailyTasks(){return[{id:'d1',icon:'⚽',titleEN:'Score 3 Goals',titleTR:'3 Gol At',target:3,type:'g'},{id:'d2',icon:'📊',titleEN:'Win 2 Predictions',titleTR:'2 Tahmin Kazan',target:2,type:'bw'},{id:'d3',icon:'🧠',titleEN:'Play Trivia',titleTR:'Trivia Oyna',target:1,type:'g'}];}
+function renderTasks(){
+  var dl=document.getElementById('dailyTasksList');
+  if(dl){
+    dl.innerHTML=getDailyTasks().map(function(task){
+      var progress=task.type==='g'?Math.min(S.g,task.target):Math.min(S.bw,task.target);
+      var done=TP.claimed[task.id]||progress>=task.target;
+      var pct=Math.min(100,Math.round(progress/task.target*100));
+      var title=L==='tr'?task.titleTR:task.titleEN;
+      return '<div class="task-card'+(done?' done':'')+'">'+
+        '<div class="task-ic">'+task.icon+'</div><div class="task-info">'+
+        '<div class="task-title">'+title+'</div>'+
+        '<div style="background:var(--bg-card2);border-radius:4px;height:4px;overflow:hidden;margin-top:6px">'+
+        '<div style="height:100%;background:'+(done?'var(--soft-green)':'var(--arcade-yellow)')+';width:'+pct+'%;transition:width .4s"></div></div>'+
+        '<div class="task-reward">+150 CUP &nbsp;·&nbsp; '+progress+'/'+task.target+'</div></div>'+
+        '<button class="task-btn'+(done?' done-btn':'')+'" '+(done?'disabled':'onclick="claimTask('+Q+task.id+Q+')"')+'>'+
+        (done?(L==='tr'?'✅':'✅'):(L==='tr'?'AL':'CLAIM'))+'</button></div>';
+    }).join('');
+  }
+  var uid=TG_USER?TG_USER.id:'0';
+  set('refLink','t.me/CUP26_GAMEBOT?start=ref_'+uid);
+  set('refCount',TP.refs_count);set('refEarned',fmt(TP.refs_earned));
+}
+function claimTask(taskId){
+  if(TP.claimed[taskId])return;
+  var task=getDailyTasks().find(function(t){return t.id===taskId;});
+  if(!task)return;
+  var progress=task.type==='g'?S.g:S.bw;
+  if(progress<task.target){tst(L==='tr'?'❗ Görevi tamamlamadın!':'❗ Task not completed!','lose');return;}
+  TP.claimed[taskId]=true;S.b+=150;upd();safeDataSave();tst('🎯 +150 CUP','earn');renderTasks();
+}
+function copyRef(){if(navigator.clipboard)navigator.clipboard.writeText(document.getElementById('refLink').textContent);tst(L==='tr'?'Kopyalandı!':'Copied!','info');}
+function shareRef(){var txt=document.getElementById('refLink').textContent;if(TG&&TG.openTelegramLink)TG.openTelegramLink('https://t.me/share/url?url='+encodeURIComponent('https://'+txt)+'&text='+encodeURIComponent(L==='tr'?'$CUP26 oyna ve kazan!':'Play $CUP26 and earn!'));else copyRef();}
+
+// ---- PENALTY ----
+var pB=false,pGn=0,pSn=0;
 function sht(z){
-  if(pB)return; if(S.energy <= 0){tst(t("tNA"),'lose'); return;}
-  S.energy--; upd(); pB=true; document.querySelectorAll('.zbn').forEach(function(b){b.disabled=true;});
-  var gkZ=Math.floor(Math.random()*6); var gk=document.getElementById('gk');
-  var gkP=['10%','30%','50%','30%','50%','70%']; gk.style.left=gkP[gkZ];
-  var ba=document.getElementById('ba'); var bP=['12%','30%','50%','30%','50%','70%'];
-  setTimeout(function(){ba.style.cssText='font-size:24px;position:absolute;left:'+bP[z]+';bottom:auto;top:'+(z<3?'22px':'60px')+';transform:scale(0.7);transition:all 0.4s ease';},100);
+  if(pB)return;
+  if(S.energy<=0){tst(L==='tr'?'⚡ Enerji yok!':'⚡ No Energy!','lose');return;}
+  S.energy--;upd();pB=true;
+  document.querySelectorAll('.zbn').forEach(function(b){b.disabled=true;});
+  var gkZ=Math.floor(Math.random()*6);
+  var gk=document.getElementById('gk');
+  var gkP=['12%','32%','52%','32%','52%','72%'];
+  gk.style.left=gkP[gkZ];gk.style.transition='left .3s ease';
+  var ba=document.getElementById('ba');
+  var bP=['14%','32%','50%','32%','50%','70%'];
+  setTimeout(function(){ba.style.cssText='font-size:24px;position:absolute;left:'+bP[z]+';bottom:auto;top:'+(z<3?'20px':'56px')+';transform:scale(0.7);transition:all .4s ease';},100);
   setTimeout(function(){
-    var sv=(gkZ===z), pm=document.getElementById('pm'), baseRw=Math.floor(Math.random()*36)+15;
-    if(sv){
-        pSn++; pm.textContent=t("pmS"); pm.className='pm s'; tst(t("tSv"),'lose');
-    } else {
-        pGn++; S.g++; var actualEarned = Math.floor(baseRw * S.mult); S.b += actualEarned; safeDataSave();
-        pm.textContent = t("pmG") + ' +' + actualEarned; pm.className = 'pm g'; tst(t("tGl") + actualEarned, 'earn');
-        var cel = document.getElementById('goalCelebrate');
-        if(cel){ cel.src=IMG_SHAKIRA; cel.style.display='block'; cel.style.opacity='1'; cel.style.transform='translate(-50%, -50%) scale(1)'; setTimeout(function(){ cel.style.opacity='0'; cel.style.transform='translate(-50%, -50%) scale(0.4)'; setTimeout(()=>cel.style.display='none',300); }, 1800); }
+    var sv=(gkZ===z),pm=document.getElementById('pm'),baseRw=Math.floor(Math.random()*36)+15;
+    if(sv){pSn++;pm.textContent=L==='tr'?'🧤 KURTARILDI!':'🧤 SAVED!';pm.className='pm s';gk.style.filter='drop-shadow(0 0 12px var(--arcade-yellow))';tst(L==='tr'?'🧤 Kaleci kurtardı!':'🧤 Saved!','lose');}
+    else{
+      pGn++;S.g++;var rw=Math.floor(baseRw*S.mult);S.b+=rw;safeDataSave();
+      pm.textContent=(L==='tr'?'⚽ GOL! +':'⚽ GOAL! +')+rw+' CUP';pm.className='pm g';
+      var cel=document.getElementById('goalCelebrate');
+      if(cel){cel.style.opacity='1';cel.style.transform='translate(-50%,-50%) scale(1)';setTimeout(function(){cel.style.opacity='0';cel.style.transform='translate(-50%,-50%) scale(0.4)';},1600);}
+      tst((L==='tr'?'⚽ GOL! +':'⚽ GOAL! +')+rw,'earn');
     }
-    document.getElementById('pGc').textContent=pGn; document.getElementById('pSc').textContent=pSn;
+    set('pGc',pGn);set('pSc',pSn);
     setTimeout(function(){
-      gk.style.left='50%'; ba.style.cssText='font-size:24px;position:absolute;bottom:20px;left:50%;transform:translateX(-50%);transition:none';
-      pm.textContent=S.energy>0?t("pmC"):t("pmO"); pm.className='pm';
-      if(S.energy>0)document.querySelectorAll('.zbn').forEach(function(b){b.disabled=false;}); pB=false;
-    },2000);
+      gk.style.filter='';gk.style.left='50%';
+      ba.style.cssText='font-size:24px;position:absolute;bottom:20px;left:50%;transform:translateX(-50%);transition:none';
+      pm.textContent=S.energy>0?(L==='tr'?"Bölge seç ve vur!":"Choose a zone and shoot!"):(L==='tr'?"⚡ Enerji Bitti!":"⚡ No Energy!");pm.className='pm';
+      if(S.energy>0)document.querySelectorAll('.zbn').forEach(function(b){b.disabled=false;});
+      pB=false;
+    },1900);
   },650);
 }
 
-// FIXTURE DATA (GERÇEKÇİ 2026 GRUP MAÇLARI)
-var MD={
-  en:[
-    {id:1, dt:"11 Jun 2026", v:"Azteca, MEX", h:{n:'Mexico',f:'🇲🇽'},a:{n:'Poland',f:'🇵🇱'},odds:[2.4,3.0,2.2]},
-    {id:2, dt:"12 Jun 2026", v:"SoFi, USA", h:{n:'USA',f:'🇺🇸'},a:{n:'Colombia',f:'🇨🇴'},odds:[2.1,3.1,2.5]},
-    {id:3, dt:"12 Jun 2026", v:"BMO, CAN", h:{n:'Canada',f:'🇨🇦'},a:{n:'Switzerland',f:'🇨🇭'},odds:[2.8,3.2,1.9]},
-    {id:4, dt:"15 Jun 2026", v:"MetLife, USA", h:{n:'Turkey',f:'🇹🇷'},a:{n:'Argentina',f:'🇦🇷'},odds:[4.5,3.6,1.4]},
-    {id:5, dt:"16 Jun 2026", v:"Dallas, USA", h:{n:'Brazil',f:'🇧🇷'},a:{n:'Japan',f:'🇯🇵'},odds:[1.3,4.0,5.5]}
-  ],
-  tr:[
-    {id:1, dt:"11 Haz 2026", v:"Azteca, MEX", h:{n:'Meksika',f:'🇲🇽'},a:{n:'Polonya',f:'🇵🇱'},odds:[2.4,3.0,2.2]},
-    {id:2, dt:"12 Haz 2026", v:"SoFi, ABD", h:{n:'ABD',f:'🇺🇸'},a:{n:'Kolombiya',f:'🇨🇴'},odds:[2.1,3.1,2.5]},
-    {id:3, dt:"12 Haz 2026", v:"BMO, KAN", h:{n:'Kanada',f:'🇨🇦'},a:{n:'İsviçre',f:'🇨🇭'},odds:[2.8,3.2,1.9]},
-    {id:4, dt:"15 Haz 2026", v:"MetLife, ABD", h:{n:'Türkiye',f:'🇹🇷'},a:{n:'Arjantin',f:'🇦🇷'},odds:[4.5,3.6,1.4]},
-    {id:5, dt:"16 Haz 2026", v:"Dallas, ABD", h:{n:'Brezilya',f:'🇧🇷'},a:{n:'Japonya',f:'🇯🇵'},odds:[1.3,4.0,5.5]}
-  ]
-};
-
-function renderBulletin(){
-  var bl=document.getElementById('blList'); bl.innerHTML='';
-  var matches = MD[L] || MD.en;
-  matches.forEach(function(m){
-    var html='<div class="fixture-card"><div style="display:flex;justify-content:space-between"><div class="fx-date">'+m.dt+'</div><div class="fx-venue">🏟 '+m.v+'</div></div>';
-    html+='<div class="fx-teams"><span>'+m.h.n+' '+m.h.f+'</span><span style="color:var(--mut);font-size:12px">VS</span><span>'+m.a.f+' '+m.a.n+'</span></div>';
-    html+='<button class="fx-btn" onclick="go(\'bet\')">'+(L==='tr'?'TAHMİN ET':'PREDICT')+'</button></div>';
-    bl.innerHTML+=html;
-  });
+// ---- QUIZ ----
+var QS=[
+  {q:"Which year was the first World Cup held?",qt:"İlk Dünya Kupası hangi yıl?",o:["1928","1930","1934","1938"],a:1,e:"🏆"},
+  {q:"Which country has won the most World Cups?",qt:"En çok Dünya Kupası kazanan ülke?",o:["Germany","Argentina","Brazil","France"],a:2,e:"🇧🇷"},
+  {q:"Who has scored the most WC goals?",qt:"En çok Dünya Kupası golü kim attı?",o:["Pelé","Ronaldo","Klose","Müller"],a:2,e:"🥅"},
+  {q:"2026 World Cup hosts?",qt:"2026 Dünya Kupası ev sahibi?",o:["Germany","USA+Canada+Mexico","Brazil","Qatar"],a:1,e:"🌎"},
+  {q:"How many teams in WC 2026?",qt:"2026'da kaç takım var?",o:["32","40","48","64"],a:2,e:"📋"},
+  {q:"Turkey's best WC result?",qt:"Türkiye'nin en iyi derecesi?",o:["Champion","Final","3rd place","Quarter"],a:2,e:"🇹🇷"},
+  {q:"Year of 'Hand of God' goal?",qt:"'Tanrının Eli' golü hangi yıl?",o:["1994","1990","1986","1982"],a:2,e:"✋"},
+  {q:"Most WC titles won by Brazil?",qt:"Brezilya kaç kez şampiyon oldu?",o:["3","4","5","6"],a:2,e:"⭐"},
+  {q:"Who won WC 2022?",qt:"2022 Dünya Kupası'nı kim kazandı?",o:["France","Brazil","Argentina","Germany"],a:2,e:"🏆"},
+  {q:"Golden Ball award is for?",qt:"Altın Top ödülü neyin?",o:["Top scorer","Best player","Best GK","Fair play"],a:1,e:"🥇"}
+];
+var qAns=false,qSco=0,qIdx=0;
+function iQ(){qSco=0;qIdx=0;lQ();}
+function lQ(){
+  qAns=false;
+  var q=QS[Math.floor(Math.random()*QS.length)];
+  set('qem',q.e);set('qq',L==='tr'?q.qt:q.q);
+  document.getElementById('qo').innerHTML=q.o.map(function(op,i){return'<button class="qo" onclick="aq('+i+','+q.a+')">'+op+'</button>';}).join('');
+}
+function aq(ch,cor){
+  if(qAns)return;
+  if(S.energy<=0){tst(L==='tr'?'⚡ Enerji yok!':'⚡ No Energy!','lose');return;}
+  S.energy--;qAns=true;
+  var opts=document.querySelectorAll('.qo');
+  if(!opts||!opts[cor]){upd();setTimeout(lQ,1700);return;}
+  opts[cor].classList.add('cor');
+  if(ch===cor){var rw=Math.floor((Math.floor(Math.random()*51)+25)*S.mult);qSco+=rw;S.b+=rw;safeDataSave();tst((L==='tr'?'✅ Doğru! +':'✅ Correct! +')+rw,'earn');}
+  else{if(ch>=0)opts[ch].classList.add('wr');tst(L==='tr'?'❌ Yanlış!':'❌ Wrong!','lose');}
+  upd();setTimeout(lQ,1700);
 }
 
-var MS={};
+// ---- PREDICTOR ----
+var MD=[
+  {id:1,h:'Türkiye',hf:'🇹🇷',a:'Germany',af:'🇩🇪',o:[2.8,3.0,1.9]},
+  {id:2,h:'Brazil',hf:'🇧🇷',a:'France',af:'🇫🇷',o:[2.1,3.1,2.5]},
+  {id:3,h:'Spain',hf:'🇪🇸',a:'Argentina',af:'🇦🇷',o:[2.6,3.0,2.2]}
+];
+var picks={};
 function rM(){
-  var ml=document.getElementById('ml'); ml.innerHTML='';
-  var matches = MD[L] || MD.en;
-  matches.forEach(function(m){
-    if(!MS[m.id])MS[m.id]={sH:0,sA:0,evs:[],sim:false,min:0,done:false,bet:null,bAmt:0,bCh:null,bRes:0};
-    var ms=MS[m.id]; var stTx=ms.done?(L==='tr'?"⏹ Bitti":"⏹ Finished"):ms.sim?(L==='tr'?"🔴 CANLI":"🔴 LIVE"):(L==='tr'?"⏳ Yakında":"⏳ Upcoming");
-    var stColor=ms.done?'#7986a0':ms.sim?'#ff4d6d':'#ffb703';
-    var html='<div class="mc"><div class="hsu" style="color:var(--stadium-green)">WORLD CUP 2026 - GROUP STAGE</div>';
-    html+='<div style="display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.05);border-radius:20px;padding:3px 9px;font-size:10px;color:'+stColor+';font-weight:700;margin-top:6px;width:fit-content">'+stTx+'</div>';
-    html+='<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;margin-top:10px;">';
-    html+='<div style="text-align:center"><div style="font-size:30px;line-height:1">'+m.h.f+'</div><div style="font-weight:700;font-size:13px;color:#fff;margin-top:3px">'+m.h.n+'</div></div>';
-    html+='<div style="text-align:center"><div id="sc_'+m.id+'" style="font-family:Bebas Neue,sans-serif;font-size:28px;color:#fff;letter-spacing:2px;line-height:1">'+ms.sH+' - '+ms.sA+'</div><div id="mn_'+m.id+'" style="font-size:10px;color:var(--stadium-green);font-weight:600;margin-top:3px">'+(ms.sim?ms.min+"'":ms.done?'FT':"vs")+'</div></div>';
-    html+='<div style="text-align:center"><div style="font-size:30px;line-height:1">'+m.a.f+'</div><div style="font-weight:700;font-size:13px;color:#fff;margin-top:3px">'+m.a.n+'</div></div></div>';
-    html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:12px;">';
-    var lbls = t("bS");
-    for(var i=0;i<3;i++){
-      var sel=ms.bCh===i; var dis=ms.sim||ms.done;
-      html+='<div onclick="'+(dis?'':'pickPred('+m.id+','+i+')')+'" id="p'+i+'_'+m.id+'" class="pred-btn '+(sel?'selected':'')+'" style="'+(dis?'opacity:0.6;cursor:not-allowed':'')+'">';
-      html+=['1','X','2'][i]+' ('+m.odds[i]+')<br><span style="font-size:9px;color:var(--mut);font-weight:400">'+lbls[i]+'</span></div>';
+  var ml=document.getElementById('ml');ml.innerHTML='';
+  MD.forEach(function(m){
+    var done=picks[m.id]&&picks[m.id].done;
+    var sel=picks[m.id]?picks[m.id].ch:null;
+    var html='<div class="mc"><div class="hsu" style="color:var(--stadium-green)">'+(L==='tr'?'GRUP AŞAMASI':'GROUP STAGE')+'</div>';
+    html+='<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px"><div style="text-align:center"><div style="font-size:28px">'+m.hf+'</div><div style="font-weight:700;color:var(--wh);font-size:12px;font-family:Barlow Condensed">'+m.h+'</div></div>';
+    html+='<div id="simsc_'+m.id+'" style="text-align:center"><div class="sim-score">vs</div></div>';
+    html+='<div style="text-align:center"><div style="font-size:28px">'+m.af+'</div><div style="font-weight:700;color:var(--wh);font-size:12px;font-family:Barlow Condensed">'+m.a+'</div></div></div>';
+    if(!done){
+      html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px">';
+      html+='<button class="pred-btn'+(sel===0?' selected':'')+'" id="p1_'+m.id+'" onclick="pickPred('+m.id+',0)">1<br><small>'+m.o[0]+'x</small></button>';
+      html+='<button class="pred-btn'+(sel===1?' selected':'')+'" id="px_'+m.id+'" onclick="pickPred('+m.id+',1)">X<br><small>'+m.o[1]+'x</small></button>';
+      html+='<button class="pred-btn'+(sel===2?' selected':'')+'" id="p2_'+m.id+'" onclick="pickPred('+m.id+',2)">2<br><small>'+m.o[2]+'x</small></button>';
+      html+='</div><div class="sim-bar"><div class="sim-fill" id="simbar_'+m.id+'" style="width:0%"></div></div>';
+      html+='<button class="pred-submit" onclick="submitPred('+m.id+')">'+(L==='tr'?'SİMÜLASYONU BAŞLAT':'RUN SIMULATION')+'</button></div>';
+    }else{
+      var r=picks[m.id].result;var won=picks[m.id].won;
+      html+='<div style="text-align:center;color:'+(won?'var(--soft-green)':'var(--red)')+';font-weight:700;font-family:Barlow Condensed;font-size:14px;margin-top:4px">'+(won?(L==='tr'?'✅ Doğru tahmin! +':'✅ Correct! +')+picks[m.id].reward+' CUP':(L==='tr'?'❌ Yanlış tahmin':'❌ Wrong prediction'))+'</div></div>';
     }
-    html+='</div>';
-    if(!ms.sim&&!ms.done){ html+='<button class="pred-submit" style="margin-top:10px" onclick="submitPred('+m.id+')">'+t("stSim")+'</button>'; }
-    if(ms.bet!==null && !ms.done) html+='<div style="font-size:11px;color:var(--arcade-yellow);margin-top:8px">'+(L==='tr'?'🎯 Seçim: ':'🎯 Bet: ')+m.odds[ms.bet]+'x</div>';
-    if(ms.done && ms.bet!==null){
-      var win=ms.bRes>0;
-      html+='<div style="font-size:13px;color:'+(win?'var(--soft-green)':'var(--red)')+';margin-top:8px;font-weight:700">'+(win?(L==='tr'?'🏆 Kazandın: +':'🏆 Won: +')+ms.bRes+' CUP':(L==='tr'?'❌ Kaybettin':'❌ Lost'))+'</div>';
-    }
-    var sw=ms.sim?Math.min(100,ms.min/90*100):(ms.done?100:0);
-    html+='<div style="background:var(--bg3);border-radius:5px;height:6px;overflow:hidden;margin-top:10px"><div id="sbb_'+m.id+'" style="height:100%;background:linear-gradient(90deg,var(--stadium-green),var(--soft-green));width:'+sw+'%;transition:width .3s"></div></div>';
-    html+='<div id="ev_'+m.id+'" style="margin-top:8px;display:flex;flex-direction:column;gap:3px">';
-    html+=ms.evs.slice(-3).map(function(e){return '<div style="font-size:11px;color:'+(e.t==='ge'?'var(--soft-green)':'var(--red)')+'"><span style="color:var(--arcade-yellow);font-weight:600">'+e.m+"'</span> "+e.tx+'</div>';}).join('');
-    html+='</div></div>';
     ml.innerHTML+=html;
   });
 }
-
 function pickPred(id,ch){
-  var ms=MS[id]; if(ms.sim||ms.done) return;
-  ms.bCh = (ms.bCh===ch) ? null : ch;
-  var matches = MD[L] || MD.en;
-  matches.find(function(m){return m.id===id;}).odds.forEach(function(_,i){
-    var el=document.getElementById('p'+i+'_'+id);
-    if(el) { if(ms.bCh===i) el.classList.add('selected'); else el.classList.remove('selected'); }
-  });
+  if(!picks[id])picks[id]={};
+  picks[id].ch=ch;
+  ['p1_','px_','p2_'].forEach(function(p,i){var b=document.getElementById(p+id);if(b)b.classList.toggle('selected',i===ch);});
 }
-
 function submitPred(id){
-  var ms=MS[id], matches = MD[L] || MD.en, m=matches.find(function(x){return x.id===id;});
-  if(S.energy<=0 || ms.bCh===null){ tst(L==='tr'?"Seçim yapın / Enerji yok!":"Select option / No Energy!",'lose'); return;}
-  
-  S.energy--; ms.bet=ms.bCh; ms.bAmt=50; upd(); safeDataSave(); 
-  ms.sim=true; ms.min=0; ms.sH=0; ms.sA=0; ms.evs=[]; rM();
-  
-  var step=0, totalSteps=30;
+  if(S.energy<=0){tst(L==='tr'?'⚡ Enerji yok!':'⚡ No Energy!','lose');return;}
+  if(!picks[id]||picks[id].ch===null||picks[id].ch===undefined){tst(L==='tr'?'❗ Tahmin seç!':'❗ Pick a result!','lose');return;}
+  S.energy--;upd();
+  var m=MD.find(function(x){return x.id===id;});
+  var ch=picks[id].ch;
+  // Animated simulation
+  var finalH=Math.floor(Math.random()*4),finalA=Math.floor(Math.random()*4);
+  var step=0,total=20;
+  var scEl=document.getElementById('simsc_'+id);
+  var barEl=document.getElementById('simbar_'+id);
+  document.querySelectorAll('#p1_'+id+',#px_'+id+',#p2_'+id).forEach(function(b){if(b)b.disabled=true;});
   function tick(){
-    step++; ms.min=Math.min(Math.round(step/totalSteps*90),90);
-    if(Math.random()<0.12) {
-        var isH = Math.random()<0.5; if(isH) ms.sH++; else ms.sA++;
-        ms.evs.push({m:ms.min,tx:(isH?m.h.f:m.a.f)+' ⚽ '+(L==='tr'?'GOL!':'GOAL!'),t:'ge'});
-    } else if(Math.random()<0.05) {
-        var tm=Math.random()<0.5?m.h:m.a;
-        ms.evs.push({m:ms.min,tx:tm.f+' 🟨 '+(L==='tr'?'Sarı Kart':'Yellow Card'),t:'ce'});
+    step++;
+    var min=Math.round(step/total*90);
+    var ch2=Math.min(finalH,Math.floor(step/total*finalH+0.3));
+    var ca2=Math.min(finalA,Math.floor(step/total*finalA+0.3));
+    if(scEl)scEl.innerHTML='<div class="sim-score">'+ch2+' - '+ca2+'</div><div class="sim-min">'+min+"'</div>";
+    if(barEl)barEl.style.width=(step/total*100)+'%';
+    if(step>=total){
+      var res=finalH>finalA?0:(finalH===finalA?1:2);
+      var won=ch===res;
+      picks[id].done=true;picks[id].result=res;picks[id].won=won;
+      if(won){var rw=Math.floor(100*m.o[res]*S.mult/2);picks[id].reward=rw;S.b+=rw;S.bw++;tst((L==='tr'?'🏆 Kazandın! +':'🏆 Won! +')+rw+' CUP','earn');}
+      else{tst(L==='tr'?'❌ Kaybettin':'❌ Lost','lose');}
+      safeDataSave();upd();rM();
+      return;
     }
-    
-    var scEl=document.getElementById('sc_'+id), mnEl=document.getElementById('mn_'+id), sbEl=document.getElementById('sbb_'+id), evEl=document.getElementById('ev_'+id);
-    if(scEl)scEl.textContent=ms.sH+' - '+ms.sA; if(mnEl)mnEl.textContent=ms.min+"'"; if(sbEl)sbEl.style.width=(ms.min/90*100)+'%';
-    if(evEl)evEl.innerHTML=ms.evs.slice(-3).map(function(e){return '<div style="font-size:11px;color:'+(e.t==='ge'?'var(--soft-green)':'var(--red)')+'"><span style="color:var(--arcade-yellow);font-weight:600">'+e.m+"'</span> "+e.tx+'</div>';}).join('');
-    
-    if(step>=totalSteps){
-      ms.min=90; ms.sim=false; ms.done=true;
-      var res=ms.sH>ms.sA?0:(ms.sH===ms.sA?1:2);
-      if(ms.bet===res){
-        var wAmt=Math.floor(ms.bAmt * m.odds[res] * S.mult); S.b+=wAmt; S.bw++; ms.bRes=wAmt;
-        tst((L==='tr'?"Tahmin Doğru! +":"Prediction Correct! +")+wAmt+" CUP",'earn');
-      } else { ms.bRes=0; tst(L==='tr'?"Yanlış Tahmin!":"Wrong Prediction!",'lose'); }
-      safeDataSave(); upd(); rM(); return;
-    }
-    setTimeout(tick,100);
+    setTimeout(tick,90);
   }
-  setTimeout(tick,100);
+  tick();
 }
 
-function renderTasks() {
-  var uid = typeof TG_USER !== 'undefined' && TG_USER ? TG_USER.id : 'Player';
-  var linkEl = document.getElementById('refLink'); if(linkEl) linkEl.textContent = 'https://t.me/CUP26_GAMEBOT?start=ref_' + uid;
+// ---- LEADERBOARD ----
+function rLB(){
+  var me={n:(S.teamFlag+' '+(S.teamName||'You')),s:S.b,av:'🎮',me:true};
+  var all=[{n:'CryptoKral',s:48250,av:'🦁'},{n:'GoalMachine',s:35800,av:'⚽'},{n:'CUP_Hunter',s:29100,av:'🏆'},{n:'TokenWizard',s:22400,av:'🧙'},{n:'PenaltyKing',s:14200,av:'🥅'},me];
+  all.sort(function(a,b){return b.s-a.s;});
+  var md=['🥇','🥈','🥉'],rk=['g','s','b'];
+  document.getElementById('lbl').innerHTML=all.map(function(p,i){
+    return'<div class="lbr'+(p.me?' you':'')+'"><div class="lbrk '+(rk[i]||'')+'">'+(i<3?md[i]:(i+1))+'</div><div class="lbav">'+p.av+'</div><div class="lbn">'+p.n+'</div><div class="lbp">'+fmt(p.s)+'</div></div>';
+  }).join('');
 }
 
-function fmt(n){return n.toLocaleString('en-US');}
-var tT; function tst(m,tp){var el=document.getElementById('tst');clearTimeout(tT);el.textContent=m;el.className='show '+(tp||'');tT=setTimeout(function(){el.className='';},2700);}
+// ---- TOAST ----
+var tT;
+function tst(m,tp){var el=document.getElementById('tst');clearTimeout(tT);el.textContent=m;el.className='show '+(tp||'');tT=setTimeout(function(){el.className='';},2500);}
 
-var TG = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-var TG_USER = TG && TG.initDataUnsafe && TG.initDataUnsafe.user ? TG.initDataUnsafe.user : null;
+// ---- LANGUAGE ----
+function sL(l){
+  L=l;
+  document.getElementById('lEN').className='lb'+(l==='en'?' on':'');
+  document.getElementById('lTR').className='lb'+(l==='tr'?' on':'');
+  var T={
+    heroDe:[l,"Mini oyunlar oyna, skorunu yükselt. Tier'a göre çarpan kazan.","Play mini-games, build your score. Multipliers by tier."],
+    dcT:["",S.dc?'✅ Alındı':'Günlük Bonus (+100 CUP)',S.dc?'✅ Claimed':'Daily Bonus (+100 CUP)'],
+    secModes:["","OYUN MODLARI","ARCADE MODES"],
+    gcP:["","Penaltı","Penalty Shoot"],gcQ:["","Trivia","Trivia Quiz"],gcB:["","Tahmin","Match Predictor"],gcBl:["","WC Bülteni","WC Bulletin"],
+    gcBlS:["","Canlı skorlar","Live scores"],gcBlA:["","Grup aşaması","Group stage"],
+    stlT:["","CUP","CUP Core"],stlG:["","Goller","Goals"],stlB:["","Tahminler","Predictions"],
+    penTi:["","PENALTI SAHASI","PENALTY STADIUM"],pGl:["","Gol","Goals"],pSl:["","Kurtarış","Saved"],
+    penTp:["","💡 Köşeler daha zor kurtarılır!","💡 Corners are harder to save!"],
+    predTi:["","MAÇ TAHMİNİ","MATCH PREDICTOR"],quizTi:["","TRİVİA","TRIVIA"],
+    bullTi:["","DÜNYA KUPASI BÜLTENİ","WORLD CUP BULLETIN"],
+    bullSub:["","Canlı ve güncel 2026 sonuçları","Live & recent World Cup 2026 results"],
+    earnTi:["","🎯 DAHA FAZLA KAZAN","🎯 EARN MORE"],
+    refTitle:["","ARKADAŞ DAVET ET","INVITE FRIENDS"],
+    refDesc:["","Linkini paylaş, katılan her arkadaş için CUP kazan!","Share your link. Earn CUP for every friend who joins!"],
+    refReward:["","Arkadaş başı +500 CUP","+500 CUP per friend"],
+    refShareTxt:["","LİNKİ PAYLAŞ","SHARE INVITE LINK"],
+    refCountLbl:["","Davet","Friends"],refEarnedLbl:["","Kazanılan","CUP Earned"],
+    tasksSecTitle:["","GÜNLÜK GÖREVLER","DAILY TASKS"],
+    wgTitle:["","Çekim Hedefi","Withdraw Goal"],
+    wgSub:["","10.000 CUP'a ulaş, TON cüzdanına çek!","Reach 10,000 CUP to withdraw to your TON wallet"],
+    streakTxt:["","Günlük serini büyüt!","Play daily to grow your streak!"],
+    streakLbl:["","GÜNLÜK SERİ","DAY STREAK"],
+    lbTi:["","🏆 SIRALAMA","🏆 LEADERBOARD"],
+    nvHub:["","Ana","Hub"],nvShoot:["","Vuruş","Shoot"],nvPredict:["","Tahmin","Predict"],
+    nvBull:["","Haber","News"],nvTasks:["","Kazan","Earn"],nvLb:["","Sıralama","Ranks"]
+  };
+  for(var id in T){set(id,l==='tr'?T[id][1]:T[id][2]);}
+  upd();
+  if(document.getElementById('s-tasks').classList.contains('on'))renderTasks();
+  if(document.getElementById('s-bulletin').classList.contains('on'))renderBulletins();
+  if(document.getElementById('s-bet').classList.contains('on'))rM();
+}
 
-if(TG){ TG.ready(); TG.expand(); }
+// ---- IMAGES ----
+(function(){
+  if(typeof IMG_MASCOT!=='undefined'){
+    ['heroMascot','obMascot','gk','logoMascot'].forEach(function(id){var el=document.getElementById(id);if(el)el.src=IMG_MASCOT;});
+  }
+  if(typeof IMG_SHAKIRA!=='undefined'){var c=document.getElementById('goalCelebrate');if(c)c.src=IMG_SHAKIRA;}
+})();
 
+// ---- INIT ----
+if(TG){TG.ready();TG.expand();}
 if(TG_USER){
-  document.getElementById('ob').classList.add('gone');
+  document.getElementById('ob').style.display='none';
   loadUserData(TG_USER.id);
-} else {
-  document.getElementById('ob').classList.remove('gone');
+}else{
+  document.getElementById('ob').style.display='flex';
+  // guest: try load local
+  loadUserData('guest');
+  document.getElementById('mainA').style.display='none';
 }
-
-// Dummy ticker update for realism
-var bultData = [
-  "🏆 WC 2026: USA, Mexico, and Canada prepare to host 48 teams!",
-  "⚽ GROUP STAGE: Turkey drawn into an exciting group!",
-  "🔥 HOT MATCH: Brazil vs Japan tickets sold out in 10 minutes!",
-  "🔴 LIVE UPDATE: France announces squad for the opening match."
-];
-document.getElementById('tickerMsg').innerHTML = bultData.join(" &nbsp;&nbsp;|&nbsp;&nbsp; ");
-
+loadBulletinData();
+setTimeout(initStreak,1200);
 </script>
 </body>
 </html>
