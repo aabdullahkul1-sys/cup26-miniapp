@@ -34,6 +34,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 
 .wb{display:flex;align-items:center;gap:3px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:4px 10px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;color:var(--wh);transition:all .2s}
 .wb.on{background:rgba(46,196,182,0.15);border-color:var(--soft-green);color:var(--soft-green)}
+.ltgl{display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:2px;gap:1px}
+.lb{border:none;background:transparent;border-radius:9px;padding:2px 6px;font-size:10px;font-weight:700;cursor:pointer;transition:all .2s;color:rgba(255,255,255,.3);font-family:'Barlow Condensed',sans-serif}
+.lb.on{background:rgba(255,215,0,.2);color:var(--arcade-yellow)}
 
 /* WORLD CUP BULLETIN (TICKER) */
 .ticker-wrap { width: 100%; background: #070c14; border-bottom: 1px solid var(--bor); overflow: hidden; height: 26px; display: flex; align-items: center; flex-shrink: 0; z-index: 10; }
@@ -50,6 +53,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .hti{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;color:var(--wh);margin-top:2px}
 .hsu{font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--arcade-yellow);letter-spacing:1px;font-weight:700}
 .hde{font-size:12px;color:var(--mut);margin-top:4px;line-height:1.4}
+
 .dcl{margin-top:12px;background:linear-gradient(90deg, var(--stadium-green), var(--soft-green));border:none;border-radius:12px;padding:10px;color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;cursor:pointer;width:100%;transition:all .2s}
 .dcl:disabled{opacity:.5;cursor:not-allowed}
 
@@ -82,9 +86,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .zbn{border:none;background:transparent;color:rgba(255,255,255,0.3);font-size:16px;font-weight:bold;cursor:pointer}
 .zbn:active{color:var(--arcade-yellow);transform:scale(1.2)}
 .pm{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;text-align:center;margin-top:8px}
+
 .pm.g{color:var(--soft-green)}
 .pm.s{color:var(--arcade-yellow)}
 .pm.m{color:var(--red)}
+
 .ba{font-size:24px;position:absolute;transition:all .4s cubic-bezier(.25,.46,.45,.94);bottom:20px;left:50%;transform:translateX(-50%);z-index:10}
 .gk{font-size:26px;position:absolute;top:22px;left:50%;transform:translateX(-50%);transition:all .3s ease;z-index:5}
 .scd{display:flex;gap:10px;justify-content:center;flex-shrink:0}
@@ -96,7 +102,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 .mc{background:var(--bg-card);border:1px solid var(--bor);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:10px;flex-shrink:0}
 .pred-btn { background: var(--bg-card2); border: 2px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 10px; color: var(--wh); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.2s; text-align: center; }
 .pred-btn.selected { border-color: var(--arcade-yellow); background: rgba(255,183,3,0.1); color: var(--arcade-yellow); }
-.pred-submit { background: linear-gradient(90deg, var(--arcade-yellow), #ffb703); border: none; border-radius: 10px; padding: 10px 16px; color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 1px; cursor: pointer; font-weight: bold; }
+.pred-submit { background: linear-gradient(90deg, var(--arcade-yellow), #ffb703); border: none; border-radius: 10px; padding: 10px 16px; color: #000; font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 1px; cursor: pointer; font-weight: bold; width: 100%;}
+.pred-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* QUIZ */
 .qcd{background:var(--bg-card);border:1px solid var(--bor);border-radius:16px;padding:16px;text-align:center;flex-shrink:0}
@@ -173,8 +180,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 #tst.info{border-color:var(--stadium-green);color:var(--stadium-green)}
 
 .mov { z-index: 9999; }
-.zov { z-index: 9998; }
-.rb{display:inline-flex;align-items:center;gap:3px;background:rgba(255,183,3,0.1);border:1px solid rgba(255,183,3,0.18);border-radius:20px;padding:3px 8px;font-size:10px;color:var(--arcade-yellow);font-family:'Barlow Condensed',sans-serif;font-weight:600}
 
 /* ONBOARD */
 .ob{position:fixed;inset:0;background:var(--bg);z-index:600;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:14px;text-align:center;overflow-y:auto}
@@ -216,19 +221,19 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 <div class="ob" id="ob">
   <div class="ob-glow"><span style="font-size:50px">🏆</span></div>
   <div>
-    <div class="ob-su">🏆 World Cup 2026 · Arcade</div>
-    <div class="ob-ti">PLAY &amp; TRACK</div>
+    <div class="ob-su" id="oSu">🏆 World Cup 2026 · Arcade</div>
+    <div class="ob-ti" id="oTi">PLAY &amp; TRACK</div>
   </div>
-  <div class="ob-de">Connect wallet to load your stats, unlock multipliers and predict live world cup matches!</div>
-  <button class="ton-btn" onclick="cW()"><span style="font-size:18px">💎</span><span>CONNECT TON WALLET</span></button>
-  <span class="skip" onclick="sW()">Play as Guest</span>
+  <div class="ob-de" id="oDe">Connect wallet to load your stats, unlock multipliers and predict live world cup matches!</div>
+  <button class="ton-btn" onclick="cW()"><span style="font-size:18px">💎</span><span id="oBt">CONNECT TON WALLET</span></button>
+  <span class="skip" id="oSk" onclick="sW()">Play as Guest</span>
 </div>
 
 <!-- ONBOARDING STEP 2: TEAM SELECTOR -->
 <div class="team-overlay gone" id="teamOverlay">
-  <div class="ob-su">🏆 STEP 2</div>
-  <div class="hti" style="margin-bottom:10px;">CHOOSE YOUR COUNTRY</div>
-  <div class="ob-de">Select the national team you support. Your profile will bear your flag!</div>
+  <div class="ob-su" id="oSu2">🏆 STEP 2</div>
+  <div class="hti" id="oTi2" style="margin-bottom:10px;">CHOOSE YOUR COUNTRY</div>
+  <div class="ob-de" id="oDe2">Select the national team you support. Your profile will bear your flag!</div>
   <div class="team-grid">
     <div class="team-opt" onclick="selectTeam('🇹🇷', 'Türkiye')"><span>🇹🇷</span> Türkiye</div>
     <div class="team-opt" onclick="selectTeam('🇧🇷', 'Brazil')"><span>🇧🇷</span> Brazil</div>
@@ -243,10 +248,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 <div class="mov gone" id="wMod" onclick="cwm(event)">
   <div class="msh">
     <div class="mh"></div>
-    <div class="mti">💎 TON PROFILE</div>
+    <div class="mti" id="wmTi">💎 TON PROFILE</div>
     <div class="ab">
       <div class="av" id="wAd">Not connected</div>
-      <button class="cpb" onclick="cpA()">Copy</button>
+      <button class="cpb" onclick="cpA()" id="wCp">Copy</button>
     </div>
     <div class="vip-banner">
       <div>
@@ -256,11 +261,11 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
       <div class="vip-b" id="vMult">1x</div>
     </div>
     <div class="mg">
-      <div class="ms"><div class="msv" id="wBl">0</div><div class="msl">CUP Balance</div></div>
+      <div class="ms"><div class="msv" id="wBl">0</div><div class="msl" id="wBll">CUP Balance</div></div>
       <div class="ms"><div class="msv bl" id="wTn">0.00</div><div class="msl">TON</div></div>
     </div>
-    <button class="db" onclick="disW()">🔌 DISCONNECT</button>
-    <button class="mcl" onclick="cwm()">Close</button>
+    <button class="db" id="wDc" onclick="disW()">🔌 DISCONNECT</button>
+    <button class="mcl" id="wCl" onclick="cwm()">Close</button>
   </div>
 </div>
 
@@ -290,9 +295,9 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
     <!-- HOME -->
     <div class="sc on" id="s-home">
       <div class="hero">
-        <div class="hsu">🏆 WORLD CUP ARCADE STATION</div>
-        <div class="hti">KICK OFF!</div>
-        <div class="hde">Play mini-games to build up your arcade score. Multipliers apply based on your tier status.</div>
+        <div class="hsu" id="hSu">🏆 WORLD CUP ARCADE STATION</div>
+        <div class="hti" id="hTi">KICK OFF!</div>
+        <div class="hde" id="hDe">Play mini-games to build up your arcade score. Multipliers apply based on your tier status.</div>
         <button class="dcl" id="dcB" onclick="dc()">🎁 <span id="dcT">Daily Ticket Allowance (+100 CUP)</span></button>
       </div>
 
@@ -317,29 +322,29 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
       </div>
 
       <div class="sr">
-        <div class="stc"><div class="stv" id="sT">0</div><div class="stl">CUP Core</div></div>
-        <div class="stc"><div class="stv" id="sG">0</div><div class="stl">Goals</div></div>
-        <div class="stc"><div class="stv" id="sB">0</div><div class="stl">Correct Pred.</div></div>
+        <div class="stc"><div class="stv" id="sT">0</div><div class="stl" id="slT">CUP Core</div></div>
+        <div class="stc"><div class="stv" id="sG">0</div><div class="stl" id="slG">Goals</div></div>
+        <div class="stc"><div class="stv" id="sB">0</div><div class="stl" id="slB">Correct Pred.</div></div>
       </div>
 
-      <div class="sec">ARCADE MODES</div>
+      <div class="sec" id="secG">ARCADE MODES</div>
       <div class="gg">
-        <div class="gc" onclick="go('penalty')"><div class="ic">⚽</div><div class="gn">Penalty Shoot</div><div class="gr">+15–50 CUP</div><div class="ga">Cost: 1 ⚡</div></div>
-        <div class="gc" onclick="go('quiz')"><div class="ic">🧠</div><div class="gn">Trivia Quiz</div><div class="gr">+25–75 CUP</div><div class="ga">Cost: 1 ⚡</div></div>
-        <div class="gc" onclick="go('bet')"><div class="ic">📊</div><div class="gn">Match Predictor</div><div class="gr">1.5x–3.5x</div><div class="ga">Cost: 1 ⚡</div></div>
-        <div class="gc" onclick="go('tasks')"><div class="ic">📋</div><div class="gn">Tasks & Ref</div><div class="gr">+500 CUP</div><div class="ga">Earn More</div></div>
+        <div class="gc" onclick="go('penalty')"><div class="ic">⚽</div><div class="gn" id="gcP">Penalty Shoot</div><div class="gr">+15–50 CUP</div><div class="ga" id="paL">Cost: 1 ⚡</div></div>
+        <div class="gc" onclick="go('quiz')"><div class="ic">🧠</div><div class="gn" id="gcQ">Trivia Quiz</div><div class="gr">+25–75 CUP</div><div class="ga" id="qaL">Cost: 1 ⚡</div></div>
+        <div class="gc" onclick="go('bet')"><div class="ic">📊</div><div class="gn" id="gcB">Match Predictor</div><div class="gr">1.5x–3.5x</div><div class="ga" id="gcBs">Cost: 1 ⚡</div></div>
+        <div class="gc" onclick="go('tasks')"><div class="ic">📋</div><div class="gn" id="gcT">Tasks & Ref</div><div class="gr">+500 CUP</div><div class="ga" id="gcTe">Earn More</div></div>
       </div>
     </div>
 
     <!-- PENALTY -->
     <div class="sc" id="s-penalty">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-shrink:0">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh)">⚽ PENALTY STADIUM</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh)" id="penTi">⚽ PENALTY STADIUM</div>
         <div class="rb">🏅 +15–50</div>
       </div>
       <div class="scd">
-        <div class="sb"><div class="sbn" id="pGc">0</div><div class="sbl">Goals</div></div>
-        <div class="sb"><div class="sbn" id="pSc">0</div><div class="sbl">Saved</div></div>
+        <div class="sb"><div class="sbn" id="pGc">0</div><div class="sbl" id="pGl">Goals</div></div>
+        <div class="sb"><div class="sbn" id="pSc">0</div><div class="sbl" id="pSl">Saved</div></div>
       </div>
       <div class="pitch">
         <img class="gk" id="gk" alt="GK" style="width:48px;height:auto;position:absolute;top:22px;left:50%;transform:translateX(-50%);">
@@ -358,7 +363,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
     <!-- MATCH PREDICTOR -->
     <div class="sc" id="s-bet">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh)">📊 MATCH PREDICTOR</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh)" id="beTi">📊 MATCH PREDICTOR</div>
       </div>
       <div id="ml" style="display:flex;flex-direction:column;gap:12px;flex-shrink:0"></div>
     </div>
@@ -366,7 +371,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
     <!-- QUIZ -->
     <div class="sc" id="s-quiz">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh)">🧠 TRIVIA CHALLENGE</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh)" id="quTi">🧠 TRIVIA CHALLENGE</div>
         <div class="qti" id="qt">15</div>
       </div>
       <div class="qcd">
@@ -378,7 +383,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 
     <!-- TASKS / EARN -->
     <div class="sc" id="s-tasks">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh);flex-shrink:0">🎯 EARN MORE</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh);flex-shrink:0" id="tasksTi">🎯 EARN MORE</div>
       
       <!-- REFERRAL CARD -->
       <div class="ref-card">
@@ -388,7 +393,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
         <div class="ref-reward" id="refReward">+500 CUP per friend</div>
         <div class="ref-link-box">
           <div class="ref-link" id="refLink">https://t.me/CUP26_GAMEBOT?start=ref_0</div>
-          <button class="ref-copy" id="refCopyBtn" onclick="copyRef()">Copy</button>
+          <button class="ref-copy" id="refCopyBtn" onclick="copyRef()" id="wCp2">Copy</button>
         </div>
         <button class="ref-share" onclick="shareRef()">📤 <span id="refShareTxt">SHARE INVITE LINK</span></button>
         <div class="ref-stats">
@@ -403,40 +408,100 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
 
     <!-- LEADERBOARD -->
     <div class="sc" id="s-lb">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh)">🏆 ARCADE LEADERBOARD</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--wh)" id="lbTi">🏆 ARCADE LEADERBOARD</div>
       <div id="lbl" style="display:flex;flex-direction:column;gap:6px;flex-shrink:0"></div>
     </div>
   </div>
 
   <nav class="nav">
-    <button class="nb on" id="n-home" onclick="go('home')"><span class="ni">🏠</span><span class="nl">Hub</span></button>
-    <button class="nb" id="n-penalty" onclick="go('penalty')"><span class="ni">⚽</span><span class="nl">Shoot</span></button>
-    <button class="nb" id="n-quiz" onclick="go('quiz')"><span class="ni">🧠</span><span class="nl">Trivia</span></button>
-    <button class="nb" id="n-bet" onclick="go('bet')"><span class="ni">📊</span><span class="nl">Predict</span></button>
-    <button class="nb" id="n-tasks" onclick="go('tasks')"><span class="ni">📋</span><span class="nl">Tasks</span></button>
+    <button class="nb on" id="n-home" onclick="go('home')"><span class="ni">🏠</span><span class="nl" id="nvH">Hub</span></button>
+    <button class="nb" id="n-penalty" onclick="go('penalty')"><span class="ni">⚽</span><span class="nl" id="nvP">Shoot</span></button>
+    <button class="nb" id="n-quiz" onclick="go('quiz')"><span class="ni">🧠</span><span class="nl" id="nvQ">Trivia</span></button>
+    <button class="nb" id="n-bet" onclick="go('bet')"><span class="ni">📊</span><span class="nl" id="nvB">Predict</span></button>
+    <button class="nb" id="n-tasks" onclick="go('tasks')"><span class="ni">📋</span><span class="nl" id="nvT">Tasks</span></button>
   </nav>
 </div>
 <div id="tst"></div>
 
 <script>
 // ==========================================
-// AYARLAR VE GÜVENLİ SUPABASE BAĞLANTISI (SAFE FALLBACK)
+// 1. SUPABASE GÜVENLİ BAĞLANTISI (SAFE FALLBACK)
 // ==========================================
 var SUPABASE_URL = "https://BURAYA_KENDI_SUPABASE_PROJE_ADRESINI_YAZ.supabase.co";
 var SUPABASE_KEY = "BURAYA_KENDI_SUPABASE_ANON_KEY_DEGERINI_YAZ";
-// Eğer Supabase ayarlarını girmezsen sistem otomatik olarak LocalStorage kullanır ve asla çökmez!
 var isSupabaseSetup = SUPABASE_URL.indexOf("BURAYA") === -1; 
 
 var S = {b:0, g:0, bw:0, dc:false, wc:false, wa:null, energy:5, maxEnergy:5, mult:1, tier:'Taraftar', teamFlag:'⚽', teamName:''};
 var TP = { streak: 0, claimed: {}, refs_count: 0, refs_earned: 0, lastLogin: null };
 var L = 'en';
+var Q=String.fromCharCode(39);
 
+// ==========================================
+// 2. KUSURSUZ ÇEVİRİ SİSTEMİ (EN/TR)
+// ==========================================
+var TX = {
+  en: {
+    oSu:'🏆 World Cup 2026 · Arcade', oTi:'PLAY & TRACK', oDe:'Connect wallet to load your stats, unlock multipliers and predict live world cup matches!', oBt:'CONNECT TON WALLET', oSk:'Play as Guest',
+    oSu2:'🏆 STEP 2', oTi2:'CHOOSE YOUR COUNTRY', oDe2:'Select the national team you support. Your profile will bear your flag!',
+    wmTi:'💎 TON PROFILE', wCp:'Copy', wBll:'CUP Balance', wDc:'🔌 DISCONNECT', wCl:'Close',
+    hSu:'🏆 WORLD CUP ARCADE STATION', hTi:'KICK OFF!', hDe:'Play mini-games to build up your arcade score. Multipliers apply based on your tier status.', dcT:'Daily Ticket Allowance (+100 CUP)', dcD:'✅ Claimed — Come back tomorrow!',
+    streakLbl:'DAY STREAK', streakTxt:'Play daily to grow your streak!', wgTitle:'💸 Withdraw Goal', wgSub:'Reach 10,000 CUP to withdraw to your TON wallet',
+    slT:'CUP Core', slG:'Goals', slB:'Correct Pred.', secG:'ARCADE MODES',
+    gcP:'Penalty Shoot', gcQ:'Trivia Quiz', gcB:'Match Predictor', gcT:'Tasks & Ref', gcTe:'Earn More',
+    penTi:'⚽ PENALTY STADIUM', pGl:'Goals', pSl:'Saved', penTp:'💡 Corners are harder to save!',
+    quTi:'🧠 TRIVIA CHALLENGE', beTi:'📊 MATCH PREDICTOR', tasksTi:'🎯 EARN MORE', lbTi:'🏆 ARCADE LEADERBOARD',
+    refTitle:'INVITE FRIENDS', refDesc:'Share your link. Earn CUP for every friend who joins!', refReward:'+500 CUP per friend', refShareTxt:'SHARE INVITE LINK', refCountLbl:'Friends Invited', refEarnedLbl:'CUP Earned', tasksSecTitle:'DAILY TASKS',
+    nvH:'Hub', nvP:'Shoot', nvQ:'Trivia', nvB:'Predict', nvT:'Tasks',
+    wOff:'Wallet not connected', wActOff:'Connect →', wActOn:'View →', wOn:'Wallet',
+    pmC:'Choose a zone and shoot!', pmG:'⚽ GOAL!', pmS:'🧤 SAVED!', pmO:'⚡ No Energy!',
+    tWC:'💎 Wallet connected!', tWS:'👾 Playing as guest', tCp:'📋 Copied!', tWD:'🔌 Wallet disconnected', tC:' CUP',
+    tNA:'⚡ Not enough Energy!', tSv:'🧤 Saved by the keeper!', tGl:'⚽ GOAL! +', tCor:'✅ Correct! +', tWr:'❌ Wrong!',
+    bS:['Home','Draw','Away']
+  },
+  tr: {
+    oSu:'🏆 Dünya Kupası 2026 · Arcade', oTi:'BAĞLAN & KAZAN', oDe:'İlerlemeni kaydetmek, VIP kademeleri açmak ve Dünya Kupası maçlarını tahmin etmek için cüzdanını bağla!', oBt:'TON CÜZDANI BAĞLA', oSk:'Misafir Olarak Oyna',
+    oSu2:'🏆 2. ADIM', oTi2:'ÜLKENİ SEÇ', oDe2:'Desteklediğin milli takımı seç. Profilin bu bayrağı taşıyacak!',
+    wmTi:'💎 TON PROFİLİ', wCp:'Kopyala', wBll:'CUP Bakiye', wDc:'🔌 BAĞLANTIYI KES', wCl:'Kapat',
+    hSu:'🏆 DÜNYA KUPASI ARCADE MERKEZİ', hTi:'BAŞLAMA VURUŞU!', hDe:'Arcade skorunu yükseltmek için mini oyunlar oyna. Çarpanlar VIP kademene göre artar.', dcT:'Günlük Bilet Hakkı (+100 CUP)', dcD:'✅ Alındı — Yarın gel!',
+    streakLbl:'GÜNLÜK SERİ', streakTxt:'Serini büyütmek için her gün oyna!', wgTitle:'💸 Çekim Hedefi', wgSub:'TON cüzdanına çekim yapmak için 10.000 CUP hedefine ulaş',
+    slT:'CUP Bakiye', slG:'Goller', slB:'Doğru Tahmin', secG:'ARCADE MODLARI',
+    gcP:'Penaltı Atışı', gcQ:'Bilgi Yarışması', gcB:'Maç Tahmini', gcT:'Görev & Davet', gcTe:'Daha Fazla Kazan',
+    penTi:'⚽ PENALTI STADYUMU', pGl:'Gol', pSl:'Kurtarış', penTp:'💡 Köşeler daha az kurtarılır!',
+    quTi:'🧠 BİLGİ YARIŞMASI', beTi:'📊 MAÇ TAHMİNİ', tasksTi:'🎯 DAHA FAZLA KAZAN', lbTi:'🏆 ARCADE SIRALAMASI',
+    refTitle:'ARKADAŞLARINI DAVET ET', refDesc:'Linkini paylaş. Katılan her arkadaşın için CUP kazan!', refReward:'Arkadaş başı +500 CUP', refShareTxt:'LİNKİ PAYLAŞ', refCountLbl:'Davet Edilen', refEarnedLbl:'Kazanılan CUP', tasksSecTitle:'GÜNLÜK GÖREVLER',
+    nvH:'Merkez', nvP:'Şut', nvQ:'Bilgi', nvB:'Tahmin', nvT:'Görevler',
+    wOff:'Cüzdan bağlı değil', wActOff:'Bağla →', wActOn:'Görüntüle →', wOn:'Cüzdan',
+    pmC:'Bölge seç ve vur!', pmG:'⚽ GOL!', pmS:'🧤 KURTARILDI!', pmO:'⚡ Enerji Bitti!',
+    tWC:'💎 Cüzdan bağlandı!', tWS:'👾 Misafir olarak oynanıyor', tCp:'📋 Kopyalandı!', tWD:'🔌 Bağlantı kesildi', tC:' CUP',
+    tNA:'⚡ Yeterli Enerjin Yok!', tSv:'🧤 Kaleci kurtardı!', tGl:'⚽ GOL! +', tCor:'✅ Doğru! +', tWr:'❌ Yanlış!',
+    bS:['Ev','Ber.','Dep.']
+  }
+};
+
+function t(k){ return TX[L][k] || TX.en[k] || k; }
+
+function sL(l){
+  L = l;
+  document.getElementById('lEN').className = 'lb' + (l==='en'?' on':'');
+  document.getElementById('lTR').className = 'lb' + (l==='tr'?' on':'');
+  
+  for(var key in TX[L]) {
+    var el = document.getElementById(key);
+    if(el && key !== 'bS') el.innerHTML = TX[L][key];
+  }
+  
+  if(document.getElementById('s-bet').classList.contains('on')) rM();
+  if(document.getElementById('s-tasks').classList.contains('on')) renderTasks();
+  upd();
+}
+
+// ==========================================
+// 3. VERİTABANI İŞLEMLERİ (GÜVENLİ)
+// ==========================================
 async function safeDataFetch(tgId) {
   if(isSupabaseSetup) {
     try {
-      var res = await fetch(SUPABASE_URL + "/rest/v1/users?telegram_id=eq." + tgId, {
-        headers: { "apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY }
-      });
+      var res = await fetch(SUPABASE_URL + "/rest/v1/users?telegram_id=eq." + tgId, { headers: { "apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY } });
       var data = await res.json();
       return (data && data.length > 0) ? data[0] : null;
     } catch (e) { return null; }
@@ -449,25 +514,54 @@ async function safeDataFetch(tgId) {
 async function safeDataSave() {
   var tgId = (typeof TG_USER !== 'undefined' && TG_USER) ? TG_USER.id : 'guest';
   var updateData = { cup_balance: S.b, goals: S.g, bets_won: S.bw, energy_tickets: S.energy, wallet_address: S.wa, selected_team: S.teamName, selected_team_flag: S.teamFlag };
-  
   if(isSupabaseSetup && tgId !== 'guest') {
     try {
-      await fetch(SUPABASE_URL + "/rest/v1/users?telegram_id=eq." + tgId, {
-        method: "PATCH",
-        headers: { "apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": "application/json" },
-        body: JSON.stringify(updateData)
-      });
+      await fetch(SUPABASE_URL + "/rest/v1/users?telegram_id=eq." + tgId, { method: "PATCH", headers: { "apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": "application/json" }, body: JSON.stringify(updateData) });
     } catch(e) {}
   } else {
     localStorage.setItem("cup26_user_" + tgId, JSON.stringify(updateData));
   }
 }
 
+async function loadUserData(tgId) {
+  var user = await safeDataFetch(tgId);
+  if (user) {
+    S.b = user.cup_balance || 150; S.g = user.goals || 0; S.bw = user.bets_won || 0; 
+    S.energy = user.energy_tickets || 5; S.wa = user.wallet_address; S.wc = !!S.wa;
+    if (user.selected_team) {
+      S.teamFlag = user.selected_team_flag; S.teamName = user.selected_team;
+      var flagEl = document.getElementById('myTeamFlag'); if(flagEl) flagEl.textContent = S.teamFlag;
+      document.getElementById('teamOverlay').style.display = 'none'; document.getElementById('mainA').style.display = 'flex';
+    } else {
+      document.getElementById('teamOverlay').style.display = 'flex';
+    }
+  } else {
+    S.b = 150; S.energy = 5;
+    if(isSupabaseSetup && tgId !== 'guest') {
+       try{
+         await fetch(SUPABASE_URL + "/rest/v1/users", { method: "POST", headers: { "apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": "application/json" }, body: JSON.stringify({ telegram_id: tgId, cup_balance: 150, goals: 0, bets_won: 0, energy_tickets: 5 }) });
+       } catch(e){}
+    }
+    document.getElementById('teamOverlay').style.display = 'flex';
+  }
+  upd();
+}
+
+function selectTeam(flag, name) {
+  S.teamFlag = flag; S.teamName = name;
+  var flagEl = document.getElementById('myTeamFlag'); if(flagEl) flagEl.textContent = flag;
+  document.getElementById('teamOverlay').style.display = 'none'; document.getElementById('mainA').style.display = 'flex';
+  safeDataSave(); tst(L==='tr'?'⚽ Takım seçildi!':'⚽ Team Selected!', 'info'); upd();
+}
+
+// ==========================================
+// 4. DÜNYA KUPASI 2026 BÜLTENİ
+// ==========================================
 var fallbackBulletins = [
-  "🏆 WC 2026: 🇹🇷 Turkey 2 - 1 🇮🇹 Italy (FT) - Turkey leads Group C!",
-  "🔴 LIVE: 🇧🇷 Brazil 0 - 0 🇦🇷 Argentina (32') - High tension match!",
-  "⏳ UPCOMING: 🇩🇪 Germany vs 🇫🇷 France tonight at 21:00 UTC",
-  "⭐ GROUP B: 🇪🇸 Spain 3 - 0 🇺🇸 USA (FT) - Morata hat-trick!"
+  "🏆 WC 2026: USA, Mexico, and Canada prepare to host 48 teams!",
+  "⚽ GROUP STAGE: Turkey drawn into an exciting group with Argentina!",
+  "🔥 HOT MATCH: Brazil vs Japan tickets sold out in 10 minutes!",
+  "🔴 LIVE UPDATE: France announces squad for the opening match."
 ];
 
 async function loadBulletinData() {
@@ -484,59 +578,14 @@ async function loadBulletinData() {
   document.getElementById('tickerMsg').innerHTML = fallbackBulletins.join(" &nbsp;&nbsp;|&nbsp;&nbsp; ");
 }
 
-async function loadUserData(tgId) {
-  var user = await safeDataFetch(tgId);
-  if (user) {
-    S.b = user.cup_balance || 150; S.g = user.goals || 0; S.bw = user.bets_won || 0; 
-    S.energy = user.energy_tickets || 5; S.wa = user.wallet_address; S.wc = !!S.wa;
-    
-    if (user.selected_team) {
-      S.teamFlag = user.selected_team_flag;
-      S.teamName = user.selected_team;
-      var flagEl = document.getElementById('myTeamFlag');
-      if(flagEl) flagEl.textContent = S.teamFlag;
-      document.getElementById('teamOverlay').style.display = 'none';
-      document.getElementById('mainA').style.display = 'flex';
-    } else {
-      document.getElementById('teamOverlay').style.display = 'flex';
-    }
-  } else {
-    S.b = 150; S.energy = 5;
-    if(isSupabaseSetup && tgId !== 'guest') {
-       try{
-         await fetch(SUPABASE_URL + "/rest/v1/users", {
-           method: "POST", headers: { "apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY, "Content-Type": "application/json" },
-           body: JSON.stringify({ telegram_id: tgId, cup_balance: 150, goals: 0, bets_won: 0, energy_tickets: 5 })
-         });
-       } catch(e){}
-    }
-    document.getElementById('teamOverlay').style.display = 'flex';
-  }
-  upd();
-}
-
-function selectTeam(flag, name) {
-  S.teamFlag = flag; S.teamName = name;
-  var flagEl = document.getElementById('myTeamFlag');
-  if(flagEl) flagEl.textContent = flag;
-  
-  // EKRAN GEÇİŞİ BURADA KUSURSUZ ÇALIŞIR
-  document.getElementById('teamOverlay').style.display = 'none';
-  document.getElementById('mainA').style.display = 'flex';
-  
-  safeDataSave();
-  tst(L==='tr'?'⚽ Takım seçildi!':'⚽ Team Selected!', 'info');
-  upd();
-}
-
-// UI LOGIC & TASKS
+// ==========================================
+// 5. ARAYÜZ (UI) GÜNCELLEMELERİ
+// ==========================================
 function upd(){
-  document.getElementById('bd').textContent=fmt(S.b);
-  document.getElementById('sT').textContent=fmt(S.b);
-  document.getElementById('sG').textContent=S.g;
-  document.getElementById('sB').textContent=S.bw;
+  document.getElementById('bd').textContent=fmt(S.b); document.getElementById('sT').textContent=fmt(S.b);
+  document.getElementById('sG').textContent=S.g; document.getElementById('sB').textContent=S.bw;
   document.getElementById('enDisp').textContent = S.energy + '/' + S.maxEnergy;
-  document.getElementById('pm').textContent = S.energy>0 ? (L==='tr'?"Bölge seç ve vur!":"Choose a zone and shoot!") : (L==='tr'?"⚡ Enerji Bitti!":"⚡ No Energy!");
+  document.getElementById('pm').textContent = S.energy>0 ? t("pmC") : t("pmO");
   
   document.getElementById('vTier').textContent = S.tier.toUpperCase();
   document.getElementById('vDesc').textContent = S.maxEnergy + (L==='tr'?" Bilet / ":" Tickets / ") + S.mult + "x Booster";
@@ -561,51 +610,40 @@ function cW(){
   if(!promptAddr || promptAddr.length < 10) return;
   S.wa = promptAddr; S.wc = true;
   document.getElementById('ob').style.display='none';
-  
-  if(!S.teamName) {
-      document.getElementById('teamOverlay').style.display='flex';
-  } else {
-      document.getElementById('mainA').style.display='flex';
-  }
-  
+  if(!S.teamName) { document.getElementById('teamOverlay').style.display='flex'; } else { document.getElementById('mainA').style.display='flex'; }
   S.tier = 'Captain'; S.maxEnergy = 15; S.energy = 15; S.mult = 1.5;
-  upd(); safeDataSave();
+  upd(); safeDataSave(); tst(t("tWC"),'info');
 }
 
 function sW() { 
   document.getElementById('ob').style.display='none';
-  if(!S.teamName) {
-      document.getElementById('teamOverlay').style.display='flex';
-  } else {
-      document.getElementById('mainA').style.display='flex';
-  }
-  upd(); 
+  if(!S.teamName) { document.getElementById('teamOverlay').style.display='flex'; } else { document.getElementById('mainA').style.display='flex'; }
+  upd(); tst(t("tWS"),'');
 }
 
 function owm(){document.getElementById('wMod').style.display='flex';}
 function cwm(e){if(!e||e.target===document.getElementById('wMod'))document.getElementById('wMod').style.display='none';}
-function disW(){S.wc=false;S.wa=null; S.tier='Taraftar'; S.mult=1; S.maxEnergy=5; S.energy=5; document.getElementById('wMod').style.display='none'; upd(); safeDataSave(); }
-function cpA(){if(S.wa&&navigator.clipboard)navigator.clipboard.writeText(S.wa);tst(L==='tr'?'Kopyalandı!':'Copied!','info');}
+function disW(){S.wc=false;S.wa=null; S.tier='Taraftar'; S.mult=1; S.maxEnergy=5; S.energy=5; document.getElementById('wMod').style.display='none'; upd(); safeDataSave(); tst(t("tWD"),'lose');}
+function cpA(){if(S.wa&&navigator.clipboard)navigator.clipboard.writeText(S.wa);tst(t("tCp"),'info');}
 
 function go(s){
   document.querySelectorAll('.sc').forEach(function(x){x.classList.remove('on');});
   document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('on');});
   document.getElementById('s-'+s).classList.add('on');
-  var nbtn = document.getElementById('n-'+s);
-  if(nbtn) nbtn.classList.add('on');
+  var nbtn = document.getElementById('n-'+s); if(nbtn) nbtn.classList.add('on');
   if(s==='quiz')iQ(); if(s==='bet')rM(); if(s==='lb')rLB(); if(s==='tasks')renderTasks();
   upd();
 }
 
 function dc(){
-  if(S.dc)return;
-  S.b+=100; S.dc=true; upd(); safeDataSave();
-  var btn=document.getElementById('dcB');
-  if(btn){ btn.disabled=true; btn.textContent=L==='tr'?'✅ Alındı':'✅ Claimed'; }
+  if(S.dc)return; S.b+=100; S.dc=true; upd(); safeDataSave();
+  var btn=document.getElementById('dcB'); if(btn){ btn.disabled=true; btn.textContent=t("dcD"); }
   tst("+100 CUP", 'earn');
 }
 
-// STREAK & TASKS
+// ==========================================
+// 6. GÖREVLER & GÜNLÜK SERİ
+// ==========================================
 function initStreak() {
   var today = new Date().toDateString();
   if (TP.lastLogin !== today) { TP.streak = Math.min(TP.streak + 1, 7); TP.lastLogin = today; }
@@ -613,15 +651,13 @@ function initStreak() {
 }
 
 function claimStreak() {
-  var btn = document.getElementById('streakBtn');
-  if(btn.disabled) return;
+  var btn = document.getElementById('streakBtn'); if(btn.disabled) return;
   var bonus = [50,100,150,200,300,500,1000][Math.min(TP.streak-1, 6)];
   S.b += bonus; upd(); safeDataSave();
-  btn.disabled = true; btn.textContent = "✅";
-  tst("+" + bonus + " CUP", 'earn');
+  btn.disabled = true; btn.textContent = "✅"; tst("+" + bonus + " CUP", 'earn');
 }
 
-function getDailyTasks() { return [{id:'d1', icon:'⚽', titleEN:'Score 3 Goals', titleTR:'3 Gol At', target:3}, {id:'d2', icon:'🎲', titleEN:'Win 2 Bets', titleTR:'2 Bahis Kazan', target:2}]; }
+function getDailyTasks() { return [{id:'d1', icon:'⚽', titleEN:'Score 3 Goals', titleTR:'3 Gol At', target:3}, {id:'d2', icon:'📊', titleEN:'Win 2 Predicts', titleTR:'2 Tahmin Kazan', target:2}]; }
 
 function renderTasks() {
   var dl = document.getElementById('dailyTasksList');
@@ -647,73 +683,53 @@ function renderTasks() {
 
 function claimTask(taskId) {
   if (TP.claimed[taskId]) return;
-  var task = getDailyTasks().find(function(t){return t.id===taskId;});
-  if (!task) return;
+  var task = getDailyTasks().find(function(t){return t.id===taskId;}); if (!task) return;
   var progress = task.id==='d1' ? S.g : S.bw;
   if (progress < task.target) { tst(L==='tr' ? '❗ Görevi henüz tamamlamadın!' : '❗ Task not completed yet!', 'lose'); return; }
   TP.claimed[taskId] = true; S.b += 150; upd(); safeDataSave(); tst('🎯 +150 CUP', 'earn'); renderTasks();
 }
 
-function copyRef() {
-  if (navigator.clipboard) navigator.clipboard.writeText(document.getElementById('refLink').textContent);
-  tst(L==='tr'?'Kopyalandı!':'Copied!','info');
-}
-
+function copyRef() { if (navigator.clipboard) navigator.clipboard.writeText(document.getElementById('refLink').textContent); tst(t("tCp"),'info'); }
 function shareRef() {
   var txt = document.getElementById('refLink').textContent;
   if (typeof TG !== 'undefined' && TG && TG.openTelegramLink) TG.openTelegramLink('https://t.me/share/url?url=' + encodeURIComponent(txt) + '&text=' + encodeURIComponent("Play $CUP26 and earn!"));
   else copyRef();
 }
 
-// PENALTY
+// ==========================================
+// 7. PENALTI OYUNU
+// ==========================================
 var pB=false, pGn=0, pSn=0;
 function sht(z){
   if(pB)return;
-  if(S.energy <= 0){tst(L==='tr'?'⚡ Yeterli Enerjin Yok!':'⚡ Not enough Energy!','lose'); return;}
-  S.energy--; upd(); pB=true;
-  document.querySelectorAll('.zbn').forEach(function(b){b.disabled=true;});
-  
-  var gkZ=Math.floor(Math.random()*6);
-  var gk=document.getElementById('gk');
+  if(S.energy <= 0){tst(t("tNA"),'lose'); return;}
+  S.energy--; upd(); pB=true; document.querySelectorAll('.zbn').forEach(function(b){b.disabled=true;});
+  var gkZ=Math.floor(Math.random()*6); var gk=document.getElementById('gk');
   var gkP=['10%','30%','50%','30%','50%','70%']; gk.style.left=gkP[gkZ];
-  
-  var ba=document.getElementById('ba');
-  var bP=['12%','30%','50%','30%','50%','70%'];
+  var ba=document.getElementById('ba'); var bP=['12%','30%','50%','30%','50%','70%'];
   setTimeout(function(){ba.style.cssText='font-size:24px;position:absolute;left:'+bP[z]+';bottom:auto;top:'+(z<3?'22px':'60px')+';transform:scale(0.7);transition:all 0.4s ease';},100);
-  
   setTimeout(function(){
     var sv=(gkZ===z), pm=document.getElementById('pm'), baseRw=Math.floor(Math.random()*36)+15;
     if(sv){
-        pSn++; pm.textContent=L==='tr'?'🧤 KURTARILDI!':'🧤 SAVED!'; pm.className='pm s'; tst(L==='tr'?'🧤 Kaleci kurtardı!':'🧤 Saved!','lose');
+        pSn++; pm.textContent=t("pmS"); pm.className='pm s'; tst(t("tSv"),'lose');
     } else {
-        pGn++; S.g++; 
-        var actualEarned = Math.floor(baseRw * S.mult);
-        S.b += actualEarned; safeDataSave();
-        pm.textContent = (L==='tr'?'⚽ GOL! +':'⚽ GOAL! +') + actualEarned + ' CUP'; pm.className = 'pm g';
-        
+        pGn++; S.g++; var actualEarned = Math.floor(baseRw * S.mult); S.b += actualEarned; safeDataSave();
+        pm.textContent = t("pmG") + ' +' + actualEarned; pm.className = 'pm g'; tst(t("tGl") + actualEarned, 'earn');
         var cel = document.getElementById('goalCelebrate');
-        if(cel){
-          cel.style.opacity = '1';
-          cel.style.transform = 'translate(-50%, -50%) scale(1)';
-          setTimeout(function(){
-            cel.style.opacity = '0';
-            cel.style.transform = 'translate(-50%, -50%) scale(0.4)';
-          }, 1800);
-        }
+        if(cel){ cel.style.opacity = '1'; cel.style.transform = 'translate(-50%, -50%) scale(1)'; setTimeout(function(){ cel.style.opacity = '0'; cel.style.transform = 'translate(-50%, -50%) scale(0.4)'; }, 1800); }
     }
-    document.getElementById('pGc').textContent=pGn;
-    document.getElementById('pSc').textContent=pSn;
-    
+    document.getElementById('pGc').textContent=pGn; document.getElementById('pSc').textContent=pSn;
     setTimeout(function(){
       gk.style.left='50%'; ba.style.cssText='font-size:24px;position:absolute;bottom:20px;left:50%;transform:translateX(-50%);transition:none';
-      pm.textContent=S.energy>0?(L==='tr'?"Bölge seç ve vur!":"Choose a zone and shoot!"):(L==='tr'?"⚡ Enerji Bitti!":"⚡ No Energy!"); pm.className='pm';
-      if(S.energy>0)document.querySelectorAll('.zbn').forEach(function(b){b.disabled=false;});
-      pB=false;
+      pm.textContent=S.energy>0?t("pmC"):t("pmO"); pm.className='pm';
+      if(S.energy>0)document.querySelectorAll('.zbn').forEach(function(b){b.disabled=false;}); pB=false;
     },2000);
   },650);
 }
 
-// QUIZ
+// ==========================================
+// 8. BİLGİ YARIŞMASI (QUIZ)
+// ==========================================
 var QS=[
   {q:"Which year was the first World Cup held?",o:["1928","1930","1934","1938"],a:1,e:"🏆"},
   {q:"Which country has won the most World Cups?",o:["Germany","Argentina","Brazil","France"],a:2,e:"🇧🇷"},
@@ -727,47 +743,124 @@ function lQ(){
   document.getElementById('qo').innerHTML=q.o.map(function(op,i){return'<button class="qo" onclick="aq('+i+','+q.a+')">'+op+'</button>';}).join('');
 }
 function aq(ch,cor){
-  if(qAns)return; if(S.energy <= 0){tst(L==='tr'?'⚡ Yeterli Enerjin Yok!':'⚡ Not enough Energy!','lose');return;}
+  if(qAns)return; if(S.energy <= 0){tst(t("tNA"),'lose');return;}
   S.energy--; qAns=true; var opts=document.querySelectorAll('.qo'); opts[cor].classList.add('cor');
-  if(ch===cor){ var rw=Math.floor(40*S.mult); qSco+=rw; S.b+=rw; safeDataSave(); tst((L==='tr'?'✅ Doğru! +':'✅ Correct! +')+rw,'earn'); } 
-  else { if(ch>=0)opts[ch].classList.add('wr'); tst(L==='tr'?'❌ Yanlış!':'❌ Wrong!','lose'); }
+  if(ch===cor){ var rw=Math.floor(40*S.mult); qSco+=rw; S.b+=rw; safeDataSave(); tst(t("tCor")+rw,'earn'); } 
+  else { if(ch>=0)opts[ch].classList.add('wr'); tst(t("tWr"),'lose'); }
   upd(); setTimeout(lQ,1800);
 }
 
-// PREDICTOR
-var MD=[
-  {id:1,h:'Turkey 🇹🇷',a:'Germany 🇩🇪',o:[2.8,3.0,1.9]},
-  {id:2,h:'Brazil 🇧🇷',a:'France 🇫🇷',o:[2.1,3.1,2.5]}
-];
+// ==========================================
+// 9. MAÇ TAHMİNİ & CANLI SİMÜLASYON
+// ==========================================
+var MD={
+  en:[
+    {id:1,h:{n:'USA',f:'🇺🇸'},a:{n:'Colombia',f:'🇨🇴'},odds:[2.1,3.1,2.5]},
+    {id:2,h:{n:'Mexico',f:'🇲🇽'},a:{n:'Poland',f:'🇵🇱'},odds:[2.4,3.0,2.2]},
+    {id:3,h:{n:'Canada',f:'🇨🇦'},a:{n:'Switzerland',f:'🇨🇭'},odds:[2.8,3.2,1.9]},
+    {id:4,h:{n:'Turkey',f:'🇹🇷'},a:{n:'Argentina',f:'🇦🇷'},odds:[4.5,3.6,1.4]},
+    {id:5,h:{n:'France',f:'🇫🇷'},a:{n:'Senegal',f:'🇸🇳'},odds:[1.5,3.8,4.2]},
+    {id:6,h:{n:'Brazil',f:'🇧🇷'},a:{n:'Japan',f:'🇯🇵'},odds:[1.3,4.0,5.5]}
+  ],
+  tr:[
+    {id:1,h:{n:'ABD',f:'🇺🇸'},a:{n:'Kolombiya',f:'🇨🇴'},odds:[2.1,3.1,2.5]},
+    {id:2,h:{n:'Meksika',f:'🇲🇽'},a:{n:'Polonya',f:'🇵🇱'},odds:[2.4,3.0,2.2]},
+    {id:3,h:{n:'Kanada',f:'🇨🇦'},a:{n:'İsviçre',f:'🇨🇭'},odds:[2.8,3.2,1.9]},
+    {id:4,h:{n:'Türkiye',f:'🇹🇷'},a:{n:'Arjantin',f:'🇦🇷'},odds:[4.5,3.6,1.4]},
+    {id:5,h:{n:'Fransa',f:'🇫🇷'},a:{n:'Senegal',f:'🇸🇳'},odds:[1.5,3.8,4.2]},
+    {id:6,h:{n:'Brezilya',f:'🇧🇷'},a:{n:'Japonya',f:'🇯🇵'},odds:[1.3,4.0,5.5]}
+  ]
+};
+var MS={};
 function rM(){
   var ml=document.getElementById('ml'); ml.innerHTML='';
-  MD.forEach(function(m){
-    var html='<div class="mc"><div class="hsu" style="color:var(--stadium-green)">WORLD CUP GROUP STAGE</div>';
-    html+='<div style="display:flex;justify-content:space-between;font-weight:600;color:var(--wh)"><span>'+m.h+'</span><span>vs</span><span>'+m.a+'</span></div>';
-    html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px;">';
-    html+='<button class="pred-btn" id="p1_'+m.id+'" onclick="pickPred('+m.id+',0)">1 ('+m.o[0]+')</button>';
-    html+='<button class="pred-btn" id="px_'+m.id+'" onclick="pickPred('+m.id+',1)">X ('+m.o[1]+')</button>';
-    html+='<button class="pred-btn" id="p2_'+m.id+'" onclick="pickPred('+m.id+',2)">2 ('+m.o[2]+')</button>';
-    html+='</div><button class="pred-submit" onclick="submitPred('+m.id+')">CONFIRM SIMULATION</button></div>';
+  var matches = MD[L] || MD.en;
+  matches.forEach(function(m){
+    if(!MS[m.id])MS[m.id]={sH:0,sA:0,evs:[],sim:false,min:0,done:false,bet:null,bAmt:0,bCh:null,bRes:0};
+    var ms=MS[m.id]; var stTx=ms.done?(L==='tr'?"⏹ Bitti":"⏹ Finished"):ms.sim?(L==='tr'?"🔴 CANLI":"🔴 LIVE"):(L==='tr'?"⏳ Yakında":"⏳ Upcoming");
+    var stColor=ms.done?'#7986a0':ms.sim?'#ff4d6d':'#ffb703';
+    var html='<div class="mc"><div class="hsu" style="color:var(--stadium-green)">WORLD CUP 2026 - MATCHDAY 1</div>';
+    html+='<div style="display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.05);border-radius:20px;padding:3px 9px;font-size:10px;color:'+stColor+';font-weight:700;margin-top:6px;width:fit-content">'+stTx+'</div>';
+    html+='<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;margin-top:10px;">';
+    html+='<div style="text-align:center"><div style="font-size:30px;line-height:1">'+m.h.f+'</div><div style="font-weight:700;font-size:13px;color:#fff;margin-top:3px">'+m.h.n+'</div></div>';
+    html+='<div style="text-align:center"><div id="sc_'+m.id+'" style="font-family:Bebas Neue,sans-serif;font-size:28px;color:#fff;letter-spacing:2px;line-height:1">'+ms.sH+' - '+ms.sA+'</div><div id="mn_'+m.id+'" style="font-size:10px;color:var(--stadium-green);font-weight:600;margin-top:3px">'+(ms.sim?ms.min+"'":ms.done?'FT':"vs")+'</div></div>';
+    html+='<div style="text-align:center"><div style="font-size:30px;line-height:1">'+m.a.f+'</div><div style="font-weight:700;font-size:13px;color:#fff;margin-top:3px">'+m.a.n+'</div></div></div>';
+    
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:12px;">';
+    var lbls = t("bS");
+    for(var i=0;i<3;i++){
+      var sel=ms.bCh===i; var dis=ms.sim||ms.done;
+      html+='<div onclick="'+(dis?'':'pickPred('+m.id+','+i+')')+'" id="p'+i+'_'+m.id+'" class="pred-btn '+(sel?'selected':'')+'" style="'+(dis?'opacity:0.6;cursor:not-allowed':'')+'">';
+      html+=['1','X','2'][i]+' ('+m.odds[i]+')<br><span style="font-size:9px;color:var(--mut);font-weight:400">'+lbls[i]+'</span></div>';
+    }
+    html+='</div>';
+    
+    if(!ms.sim&&!ms.done){
+      html+='<button class="pred-submit" style="margin-top:10px" onclick="submitPred('+m.id+')">'+(L==='tr'?'SİMÜLASYONU BAŞLAT':'START SIMULATION')+'</button>';
+    }
+    
+    if(ms.bet!==null && !ms.done) html+='<div style="font-size:11px;color:var(--arcade-yellow);margin-top:8px">'+(L==='tr'?'🎯 Tahmin: ':'🎯 Bet: ')+m.odds[ms.bet]+'x</div>';
+    if(ms.done && ms.bet!==null){
+      var win=ms.bRes>0;
+      html+='<div style="font-size:13px;color:'+(win?'var(--soft-green)':'var(--red)')+';margin-top:8px;font-weight:700">'+(win?(L==='tr'?'🏆 Kazandın: +':'🏆 Won: +')+ms.bRes+' CUP':(L==='tr'?'❌ Kaybettin':'❌ Lost'))+'</div>';
+    }
+    
+    var sw=ms.sim?Math.min(100,ms.min/90*100):(ms.done?100:0);
+    html+='<div style="background:var(--bg3);border-radius:5px;height:6px;overflow:hidden;margin-top:10px"><div id="sbb_'+m.id+'" style="height:100%;background:linear-gradient(90deg,var(--stadium-green),var(--soft-green));width:'+sw+'%;transition:width .3s"></div></div>';
+    html+='<div id="ev_'+m.id+'" style="margin-top:8px;display:flex;flex-direction:column;gap:3px">';
+    html+=ms.evs.slice(-3).map(function(e){return '<div style="font-size:11px;color:'+(e.t==='ge'?'var(--soft-green)':'var(--red)')+'"><span style="color:var(--arcade-yellow);font-weight:600">'+e.m+"'</span> "+e.tx+'</div>';}).join('');
+    html+='</div></div>';
     ml.innerHTML+=html;
   });
 }
-var currentPick=null;
+
 function pickPred(id,ch){
-  currentPick=ch; document.querySelectorAll('.pred-btn').forEach(function(b){b.classList.remove('selected');});
-  var btn = ch===0?document.getElementById('p1_'+id):ch===1?document.getElementById('px_'+id):document.getElementById('p2_'+id);
-  if(btn) btn.classList.add('selected');
+  var ms=MS[id]; if(ms.sim||ms.done) return;
+  ms.bCh = (ms.bCh===ch) ? null : ch;
+  var matches = MD[L] || MD.en;
+  matches.find(function(m){return m.id===id;}).odds.forEach(function(_,i){
+    var el=document.getElementById('p'+i+'_'+id);
+    if(el) { if(ms.bCh===i) el.classList.add('selected'); else el.classList.remove('selected'); }
+  });
 }
+
 function submitPred(id){
-  if(S.energy<=0 || currentPick===null){ tst(L==='tr'?"Seçim yapın / Enerji yok!":"Select option / No Energy!",'lose'); return;}
-  S.energy--; var win=Math.random()>0.4;
-  if(win){ 
-    var wAmt=Math.floor(100*S.mult); S.b+=wAmt; S.bw++; safeDataSave(); upd(); 
-    tst((L==='tr'?"Tahmin Doğru! +":"Prediction Correct! +")+wAmt+" CUP",'earn');
-  } else { 
-    tst(L==='tr'?"Yanlış Tahmin!":"Wrong Prediction!",'lose'); upd();
+  var ms=MS[id], matches = MD[L] || MD.en, m=matches.find(function(x){return x.id===id;});
+  if(S.energy<=0 || ms.bCh===null){ tst(L==='tr'?"Seçim yapın / Enerji yok!":"Select option / No Energy!",'lose'); return;}
+  
+  S.energy--; ms.bet=ms.bCh; ms.bAmt=50; upd(); safeDataSave(); // Base cost
+  ms.sim=true; ms.min=0; ms.sH=0; ms.sA=0; ms.evs=[]; rM();
+  
+  var step=0, totalSteps=30;
+  function tick(){
+    step++; ms.min=Math.min(Math.round(step/totalSteps*90),90);
+    if(Math.random()<0.12) {
+        var isH = Math.random()<0.5;
+        if(isH) ms.sH++; else ms.sA++;
+        ms.evs.push({m:ms.min,tx:(isH?m.h.f:m.a.f)+' ⚽ '+(L==='tr'?'GOL!':'GOAL!'),t:'ge'});
+    } else if(Math.random()<0.05) {
+        var tm=Math.random()<0.5?m.h:m.a;
+        ms.evs.push({m:ms.min,tx:tm.f+' 🟨 '+(L==='tr'?'Sarı Kart':'Yellow Card'),t:'ce'});
+    }
+    
+    var scEl=document.getElementById('sc_'+id), mnEl=document.getElementById('mn_'+id), sbEl=document.getElementById('sbb_'+id), evEl=document.getElementById('ev_'+id);
+    if(scEl)scEl.textContent=ms.sH+' - '+ms.sA; if(mnEl)mnEl.textContent=ms.min+"'"; if(sbEl)sbEl.style.width=(ms.min/90*100)+'%';
+    if(evEl)evEl.innerHTML=ms.evs.slice(-3).map(function(e){return '<div style="font-size:11px;color:'+(e.t==='ge'?'var(--soft-green)':'var(--red)')+'"><span style="color:var(--arcade-yellow);font-weight:600">'+e.m+"'</span> "+e.tx+'</div>';}).join('');
+    
+    if(step>=totalSteps){
+      ms.min=90; ms.sim=false; ms.done=true;
+      var res=ms.sH>ms.sA?0:(ms.sH===ms.sA?1:2);
+      if(ms.bet===res){
+        var wAmt=Math.floor(ms.bAmt * m.odds[res] * S.mult); S.b+=wAmt; S.bw++; ms.bRes=wAmt;
+        tst((L==='tr'?"Tahmin Doğru! +":"Prediction Correct! +")+wAmt+" CUP",'earn');
+      } else { 
+        ms.bRes=0; tst(L==='tr'?"Yanlış Tahmin!":"Wrong Prediction!",'lose'); 
+      }
+      safeDataSave(); upd(); rM(); return;
+    }
+    setTimeout(tick,100);
   }
-  currentPick=null; rM();
+  setTimeout(tick,100);
 }
 
 function rLB(){
@@ -775,38 +868,15 @@ function rLB(){
   document.getElementById('lbl').innerHTML=all.map(function(p,i){return'<div class="lbr"><div class="lbrk">'+(i+1)+'</div><div class="lbav">'+p.av+'</div><div class="lbn">'+p.n+'</div><div class="lbp">'+fmt(p.s)+'</div></div>';}).join('');
 }
 function fmt(n){return n.toLocaleString('en-US');}
+var tT; function tst(m,tp){var el=document.getElementById('tst');clearTimeout(tT);el.textContent=m;el.className='show '+(tp||'');tT=setTimeout(function(){el.className='';},2700);}
 
-var tT;
-function tst(m,tp){var el=document.getElementById('tst');clearTimeout(tT);el.textContent=m;el.className='show '+(tp||'');tT=setTimeout(function(){el.className='';},2700);}
-
-function sL(l){
-  L=l;
-  document.getElementById('lEN').className='lb'+(l==='en'?' on':'');
-  document.getElementById('lTR').className='lb'+(l==='tr'?' on':'');
-  upd();
-  if(document.getElementById('s-tasks').classList.contains('on')) renderTasks();
-  document.getElementById('tasksTi').textContent = L==='tr'?"🎯 DAHA FAZLA KAZAN":"🎯 EARN MORE";
-  document.getElementById('refTitle').textContent = L==='tr'?"ARKADAŞLARINI DAVET ET":"INVITE FRIENDS";
-  document.getElementById('refDesc').textContent = L==='tr'?"Linkini paylaş. Katılan her arkadaşın için CUP kazan!":"Share your link. Earn CUP for every friend who joins!";
-  document.getElementById('refReward').textContent = L==='tr'? "Arkadaş başı +500 CUP" : "+500 CUP per friend";
-  document.getElementById('refShareTxt').textContent = L==='tr'? "LİNKİ PAYLAŞ" : "SHARE INVITE LINK";
-  document.getElementById('refCountLbl').textContent = L==='tr'? "Davet Edilen" : "Friends Invited";
-  document.getElementById('refEarnedLbl').textContent = L==='tr'? "Kazanılan CUP" : "CUP Earned";
-  document.getElementById('tasksSecTitle').textContent = L==='tr'? "GÜNLÜK GÖREVLER" : "DAILY TASKS";
-  document.getElementById('wgTitle').textContent = L==='tr'? "💸 Çekim Hedefi" : "💸 Withdraw Goal";
-  document.getElementById('wgSub').textContent = L==='tr'? "10.000 CUP'a ulaş, TON cüzdanına çek!" : "Reach 10,000 CUP to withdraw to your TON wallet";
-  document.getElementById('streakTxt').textContent = L==='tr'? "Günlük serini büyüt!" : "Play daily to grow your streak!";
-  document.getElementById('streakLbl').textContent = L==='tr'? "GÜNLÜK SERİ" : "DAY STREAK";
-}
-
-// INIT
+// ==========================================
+// 10. BAŞLATMA (INIT)
+// ==========================================
 var TG = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
 var TG_USER = TG && TG.initDataUnsafe && TG.initDataUnsafe.user ? TG.initDataUnsafe.user : null;
 
-if(TG){
-  TG.ready();
-  TG.expand();
-}
+if(TG){ TG.ready(); TG.expand(); }
 
 if(TG_USER){
   document.getElementById('ob').style.display='none';
