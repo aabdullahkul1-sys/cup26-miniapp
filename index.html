@@ -407,8 +407,8 @@ var IMG_SHAKIRA="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAcFBQYF
 var Q=String.fromCharCode(39);
 
 // Supabase (safe fallback to localStorage)
-var SUPABASE_URL="https://BURAYA_KENDI_SUPABASE_PROJE_ADRESINI_YAZ.supabase.co";
-var SUPABASE_KEY="BURAYA_KENDI_SUPABASE_ANON_KEY_DEGERINI_YAZ";
+var SUPABASE_URL="https://awfxvzgnccoryhsjmlsk.supabase.co";
+var SUPABASE_KEY="sb_publishable__eWuezjJF-QFVH7v3W7PLQ_venAElZ-";
 var isSupabaseSetup=SUPABASE_URL.indexOf("BURAYA")===-1;
 
 var S={b:0,g:0,bw:0,dc:false,wc:false,wa:null,energy:5,maxEnergy:5,mult:1,tier:'Taraftar',teamFlag:'⚽',teamName:'',lastRegen:Date.now()};
@@ -442,16 +442,31 @@ async function safeDataSave(){
 
 // ---- BULLETIN DATA ----
 var fallbackBulletins=[
-  {status:'up',group:'Group A',h:'Mexico',hf:'🇲🇽',a:'South Africa',af:'🇿🇦',hs:null,as:null,min:'Jun 11',date:'Opening Match'},
-  {status:'up',group:'Group C',h:'Brazil',hf:'🇧🇷',a:'Morocco',af:'🇲🇦',hs:null,as:null,min:'Jun 13',date:'MetLife Stadium'},
-  {status:'up',group:'Group D',h:'USA',hf:'🇺🇸',a:'Paraguay',af:'🇵🇾',hs:null,as:null,min:'Jun 12',date:'SoFi Stadium'},
-  {status:'up',group:'Group D',h:'Türkiye',hf:'🇹🇷',a:'USA',af:'🇺🇸',hs:null,as:null,min:'Jun 25',date:'LA Stadium'},
-  {status:'up',group:'Group I',h:'France',hf:'🇫🇷',a:'Senegal',af:'🇸🇳',hs:null,as:null,min:'Jun 16',date:'MetLife'},
-  {status:'up',group:'Group J',h:'Argentina',hf:'🇦🇷',a:'Algeria',af:'🇩🇿',hs:null,as:null,min:'Jun 13',date:'Group J'},
-  {status:'up',group:'Group L',h:'England',hf:'🏴',a:'Croatia',af:'🇭🇷',hs:null,as:null,min:'Jun 17',date:'Rematch 2018'},
-  {status:'up',group:'Group H',h:'Spain',hf:'🇪🇸',a:'Uruguay',af:'🇺🇾',hs:null,as:null,min:'Jun 15',date:'Group H'},
-  {status:'up',group:'Group K',h:'Portugal',hf:'🇵🇹',a:'Colombia',af:'🇨🇴',hs:null,as:null,min:'Jun 14',date:'Group K'},
-  {status:'up',group:'Group E',h:'Germany',hf:'🇩🇪',a:'Ecuador',af:'🇪🇨',hs:null,as:null,min:'Jun 14',date:'Group E'}
+  {status:'up',group:'Group A',h:'Mexico',hf:'🇲🇽',a:'South Africa',af:'🇿🇦',hs:null,as:null,min:'Jun 11'},
+  {status:'up',group:'Group A',h:'South Korea',hf:'🇰🇷',a:'Czechia',af:'🇨🇿',hs:null,as:null,min:'Jun 12'},
+  {status:'up',group:'Group B',h:'Canada',hf:'🇨🇦',a:'Bosnia',af:'🇧🇦',hs:null,as:null,min:'Jun 12'},
+  {status:'up',group:'Group B',h:'Switzerland',hf:'🇨🇭',a:'Qatar',af:'🇶🇦',hs:null,as:null,min:'Jun 13'},
+  {status:'up',group:'Group C',h:'Brazil',hf:'🇧🇷',a:'Morocco',af:'🇲🇦',hs:null,as:null,min:'Jun 13'},
+  {status:'up',group:'Group C',h:'Scotland',hf:'🏴',a:'Haiti',af:'🇭🇹',hs:null,as:null,min:'Jun 13'},
+  {status:'up',group:'Group D',h:'USA',hf:'🇺🇸',a:'Paraguay',af:'🇵🇾',hs:null,as:null,min:'Jun 12'},
+  {status:'up',group:'Group D',h:'Türkiye',hf:'🇹🇷',a:'Australia',af:'🇦🇺',hs:null,as:null,min:'Jun 13'},
+  {status:'up',group:'Group D',h:'USA',hf:'🇺🇸',a:'Türkiye',af:'🇹🇷',hs:null,as:null,min:'Jun 25'},
+  {status:'up',group:'Group E',h:'Germany',hf:'🇩🇪',a:'Ecuador',af:'🇪🇨',hs:null,as:null,min:'Jun 14'},
+  {status:'up',group:'Group E',h:'Ivory Coast',hf:'🇨🇮',a:'Curacao',af:'🇨🇼',hs:null,as:null,min:'Jun 14'},
+  {status:'up',group:'Group F',h:'Netherlands',hf:'🇳🇱',a:'Japan',af:'🇯🇵',hs:null,as:null,min:'Jun 15'},
+  {status:'up',group:'Group F',h:'Sweden',hf:'🇸🇪',a:'Tunisia',af:'🇹🇳',hs:null,as:null,min:'Jun 15'},
+  {status:'up',group:'Group G',h:'Belgium',hf:'🇧🇪',a:'Iran',af:'🇮🇷',hs:null,as:null,min:'Jun 15'},
+  {status:'up',group:'Group G',h:'Egypt',hf:'🇪🇬',a:'New Zealand',af:'🇳🇿',hs:null,as:null,min:'Jun 16'},
+  {status:'up',group:'Group H',h:'Spain',hf:'🇪🇸',a:'Uruguay',af:'🇺🇾',hs:null,as:null,min:'Jun 15'},
+  {status:'up',group:'Group H',h:'Saudi Arabia',hf:'🇸🇦',a:'Cape Verde',af:'🇨🇻',hs:null,as:null,min:'Jun 15'},
+  {status:'up',group:'Group I',h:'France',hf:'🇫🇷',a:'Senegal',af:'🇸🇳',hs:null,as:null,min:'Jun 16'},
+  {status:'up',group:'Group I',h:'Norway',hf:'🇳🇴',a:'Iraq',af:'🇮🇶',hs:null,as:null,min:'Jun 17'},
+  {status:'up',group:'Group J',h:'Argentina',hf:'🇦🇷',a:'Algeria',af:'🇩🇿',hs:null,as:null,min:'Jun 13'},
+  {status:'up',group:'Group J',h:'Austria',hf:'🇦🇹',a:'Jordan',af:'🇯🇴',hs:null,as:null,min:'Jun 14'},
+  {status:'up',group:'Group K',h:'Portugal',hf:'🇵🇹',a:'Colombia',af:'🇨🇴',hs:null,as:null,min:'Jun 14'},
+  {status:'up',group:'Group K',h:'DR Congo',hf:'🇨🇩',a:'Uzbekistan',af:'🇺🇿',hs:null,as:null,min:'Jun 14'},
+  {status:'up',group:'Group L',h:'England',hf:'🏴',a:'Croatia',af:'🇭🇷',hs:null,as:null,min:'Jun 17'},
+  {status:'up',group:'Group L',h:'Ghana',hf:'🇬🇭',a:'Panama',af:'🇵🇦',hs:null,as:null,min:'Jun 17'}
 ];
 var bulletinData=fallbackBulletins;
 
@@ -770,11 +785,15 @@ function aq(ch,cor){
 // ---- PREDICTOR (CUP betting on real WC fixtures) ----
 var MD=[
   {id:1,h:'Brazil',hf:'🇧🇷',a:'Morocco',af:'🇲🇦',o:[1.7,3.4,4.5],group:'Group C · Jun 13'},
-  {id:2,h:'Türkiye',hf:'🇹🇷',a:'USA',af:'🇺🇸',o:[2.6,3.1,2.5],group:'Group D · Jun 25'},
-  {id:3,h:'France',hf:'🇫🇷',a:'Senegal',af:'🇸🇳',o:[1.8,3.3,4.2],group:'Group I · Jun 16'},
-  {id:4,h:'Argentina',hf:'🇦🇷',a:'Algeria',af:'🇩🇿',o:[1.4,4.0,7.0],group:'Group J · Jun 13'},
-  {id:5,h:'England',hf:'🏴',a:'Croatia',af:'🇭🇷',o:[2.0,3.2,3.6],group:'Group L · Jun 17'},
-  {id:6,h:'Spain',hf:'🇪🇸',a:'Uruguay',af:'🇺🇾',o:[1.9,3.3,3.9],group:'Group H · Jun 15'}
+  {id:2,h:'Türkiye',hf:'🇹🇷',a:'Australia',af:'🇦🇺',o:[2.0,3.2,3.5],group:'Group D · Jun 13'},
+  {id:3,h:'USA',hf:'🇺🇸',a:'Türkiye',af:'🇹🇷',o:[2.4,3.1,2.8],group:'Group D · Jun 25'},
+  {id:4,h:'France',hf:'🇫🇷',a:'Senegal',af:'🇸🇳',o:[1.8,3.3,4.2],group:'Group I · Jun 16'},
+  {id:5,h:'Argentina',hf:'🇦🇷',a:'Algeria',af:'🇩🇿',o:[1.4,4.0,7.0],group:'Group J · Jun 13'},
+  {id:6,h:'England',hf:'🏴',a:'Croatia',af:'🇭🇷',o:[2.0,3.2,3.6],group:'Group L · Jun 17'},
+  {id:7,h:'Spain',hf:'🇪🇸',a:'Uruguay',af:'🇺🇾',o:[1.9,3.3,3.9],group:'Group H · Jun 15'},
+  {id:8,h:'Portugal',hf:'🇵🇹',a:'Colombia',af:'🇨🇴',o:[2.1,3.2,3.4],group:'Group K · Jun 14'},
+  {id:9,h:'Germany',hf:'🇩🇪',a:'Ecuador',af:'🇪🇨',o:[1.6,3.6,5.0],group:'Group E · Jun 14'},
+  {id:10,h:'Netherlands',hf:'🇳🇱',a:'Japan',af:'🇯🇵',o:[1.9,3.3,3.8],group:'Group F · Jun 15'}
 ];
 var picks={};
 function rM(){
