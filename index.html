@@ -226,6 +226,25 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
   </div>
 </div>
 
+<!-- ENERGY REFILL MODAL -->
+<div class="mov gone" id="enMod" onclick="cem(event)">
+  <div class="msh">
+    <div class="mh"></div>
+    <div class="mti">⚡ <span id="enModTi">OUT OF ENERGY</span></div>
+    <div style="text-align:center;font-size:13px;color:var(--mut);line-height:1.5" id="enModDesc">Energy refills over time, or get instant tickets by buying $CUP26 on GAS Pump!</div>
+    <div style="background:var(--bg-card2);border:1px solid var(--bor);border-radius:12px;padding:12px;text-align:center">
+      <div style="font-size:11px;color:var(--mut)" id="enRegenLbl">Next free ticket in</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--soft-green)" id="enTimer">59:00</div>
+      <div style="font-size:10px;color:var(--mut);margin-top:2px" id="enRegenSub">+1 ⚡ every hour (max <span id="enMaxLbl">5</span>)</div>
+    </div>
+    <a href="https://t.me/gasPump_bot/app?startapp=eyJyZWZfdXNlcl9pZCI6ODU2NzUwMTc0MiwidG9rZW5fYWRkcmVzcyI6IkVRQXNocnpxSFUyNlN2TTA0YzNWYjk3VmRHaXBLWVB6bXR1WUlMWVJDNVBOb24tNCJ9" target="_blank" onclick="cem()" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#e8820c,#ffb703);border:none;border-radius:12px;padding:14px;color:#000;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:1px;text-decoration:none;font-weight:900">
+      <span>⛽</span><span id="enBuyTxt">BUY $CUP26 ON GAS → +10 ⚡</span>
+    </a>
+    <div style="font-size:10px;color:var(--mut);text-align:center" id="enHoldHint">💡 Buying $CUP26 instantly refills your energy to max!</div>
+    <button class="mcl" onclick="cem()">Close</button>
+  </div>
+</div>
+
 <!-- WALLET MODAL -->
 <div class="mov gone" id="wMod" onclick="cwm(event)">
   <div class="msh">
@@ -251,7 +270,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle
     <div class="logo"><img class="logo-mascot" id="logoMascot" alt=""> $<b>CUP</b>26</div>
     <div class="hdr-r">
       <div class="ltgl"><button class="lb on" id="lEN" onclick="sL('en')">EN</button><button class="lb" id="lTR" onclick="sL('tr')">TR</button></div>
-      <div class="ep"><span style="font-size:11px">⚡</span><span class="ev" id="enDisp">5/5</span></div>
+      <div class="ep" onclick="openEnergyModal()" style="cursor:pointer"><span style="font-size:11px">⚡</span><span class="ev" id="enDisp">5/5</span></div>
       <div class="wb" id="hWb" onclick="owm()"><span id="hWi">💎</span></div>
       <div class="bp"><span style="font-size:11px">⚽</span><span class="bv" id="bd">0</span></div>
     </div>
@@ -392,7 +411,7 @@ var SUPABASE_URL="https://BURAYA_KENDI_SUPABASE_PROJE_ADRESINI_YAZ.supabase.co";
 var SUPABASE_KEY="BURAYA_KENDI_SUPABASE_ANON_KEY_DEGERINI_YAZ";
 var isSupabaseSetup=SUPABASE_URL.indexOf("BURAYA")===-1;
 
-var S={b:0,g:0,bw:0,dc:false,wc:false,wa:null,energy:5,maxEnergy:5,mult:1,tier:'Taraftar',teamFlag:'⚽',teamName:''};
+var S={b:0,g:0,bw:0,dc:false,wc:false,wa:null,energy:5,maxEnergy:5,mult:1,tier:'Taraftar',teamFlag:'⚽',teamName:'',lastRegen:Date.now()};
 var TP={streak:0,claimed:{},refs_count:0,refs_earned:0,lastLogin:null};
 var L='en';
 
@@ -423,12 +442,16 @@ async function safeDataSave(){
 
 // ---- BULLETIN DATA ----
 var fallbackBulletins=[
-  {status:'ft',group:'Group C',h:'Türkiye',hf:'🇹🇷',a:'Italy',af:'🇮🇹',hs:2,as:1,min:'FT'},
-  {status:'live',group:'Group A',h:'Brazil',hf:'🇧🇷',a:'Argentina',af:'🇦🇷',hs:1,as:1,min:"67'"},
-  {status:'up',group:'Group D',h:'Germany',hf:'🇩🇪',a:'France',af:'🇫🇷',hs:null,as:null,min:'21:00'},
-  {status:'ft',group:'Group B',h:'Spain',hf:'🇪🇸',a:'USA',af:'🇺🇸',hs:3,as:0,min:'FT'},
-  {status:'ft',group:'Group C',h:'Türkiye',hf:'🇹🇷',a:'Netherlands',af:'🇳🇱',hs:2,as:2,min:'FT'},
-  {status:'up',group:'Group E',h:'England',hf:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',a:'Portugal',af:'🇵🇹',hs:null,as:null,min:'Tomorrow'}
+  {status:'up',group:'Group A',h:'Mexico',hf:'🇲🇽',a:'South Africa',af:'🇿🇦',hs:null,as:null,min:'Jun 11',date:'Opening Match'},
+  {status:'up',group:'Group C',h:'Brazil',hf:'🇧🇷',a:'Morocco',af:'🇲🇦',hs:null,as:null,min:'Jun 13',date:'MetLife Stadium'},
+  {status:'up',group:'Group D',h:'USA',hf:'🇺🇸',a:'Paraguay',af:'🇵🇾',hs:null,as:null,min:'Jun 12',date:'SoFi Stadium'},
+  {status:'up',group:'Group D',h:'Türkiye',hf:'🇹🇷',a:'USA',af:'🇺🇸',hs:null,as:null,min:'Jun 25',date:'LA Stadium'},
+  {status:'up',group:'Group I',h:'France',hf:'🇫🇷',a:'Senegal',af:'🇸🇳',hs:null,as:null,min:'Jun 16',date:'MetLife'},
+  {status:'up',group:'Group J',h:'Argentina',hf:'🇦🇷',a:'Algeria',af:'🇩🇿',hs:null,as:null,min:'Jun 13',date:'Group J'},
+  {status:'up',group:'Group L',h:'England',hf:'🏴',a:'Croatia',af:'🇭🇷',hs:null,as:null,min:'Jun 17',date:'Rematch 2018'},
+  {status:'up',group:'Group H',h:'Spain',hf:'🇪🇸',a:'Uruguay',af:'🇺🇾',hs:null,as:null,min:'Jun 15',date:'Group H'},
+  {status:'up',group:'Group K',h:'Portugal',hf:'🇵🇹',a:'Colombia',af:'🇨🇴',hs:null,as:null,min:'Jun 14',date:'Group K'},
+  {status:'up',group:'Group E',h:'Germany',hf:'🇩🇪',a:'Ecuador',af:'🇪🇨',hs:null,as:null,min:'Jun 14',date:'Group E'}
 ];
 var bulletinData=fallbackBulletins;
 
@@ -553,6 +576,62 @@ function cwm(e){if(!e||e.target===document.getElementById('wMod'))document.getEl
 function disW(){S.wc=false;S.wa=null;S.tier='Taraftar';S.mult=1;S.maxEnergy=5;S.energy=Math.min(S.energy,5);document.getElementById('wMod').style.display='none';upd();safeDataSave();}
 function cpA(){if(S.wa&&navigator.clipboard)navigator.clipboard.writeText(S.wa);tst(L==='tr'?'Kopyalandı!':'Copied!','info');}
 
+// ---- ENERGY SYSTEM (time regen + GAS refill) ----
+var ENERGY_REGEN_MS=3600000; // 1 hour per ticket
+function openEnergyModal(){
+  set('enModTi',L==='tr'?'ENERJİ BİTTİ':'OUT OF ENERGY');
+  set('enModDesc',L==='tr'?"Enerji zamanla dolar, ya da GAS'tan $CUP26 alıp anında bilet kazan!":"Energy refills over time, or get instant tickets by buying $CUP26 on GAS Pump!");
+  set('enRegenLbl',L==='tr'?'Sonraki ücretsiz bilet':'Next free ticket in');
+  set('enMaxLbl',S.maxEnergy);
+  set('enBuyTxt',L==='tr'?"GAS'TAN $CUP26 AL → DOLDUR":'BUY $CUP26 ON GAS → REFILL');
+  set('enHoldHint',L==='tr'?'💡 $CUP26 alımı enerjini anında doldurur!':'💡 Buying $CUP26 instantly refills your energy!');
+  document.getElementById('enMod').style.display='flex';
+}
+function cem(e){if(!e||e.target===document.getElementById('enMod'))document.getElementById('enMod').style.display='none';}
+function checkEnergyRegen(){
+  var now=Date.now();
+  if(!S.lastRegen)S.lastRegen=now;
+  if(S.energy<S.maxEnergy){
+    var elapsed=now-S.lastRegen;
+    var gained=Math.floor(elapsed/ENERGY_REGEN_MS);
+    if(gained>0){
+      S.energy=Math.min(S.maxEnergy,S.energy+gained);
+      S.lastRegen=now-(elapsed%ENERGY_REGEN_MS);
+      upd();safeDataSave();
+    }
+  }else{
+    S.lastRegen=now;
+  }
+  // update timer display if modal open
+  var tEl=document.getElementById('enTimer');
+  if(tEl&&S.energy<S.maxEnergy){
+    var rem=ENERGY_REGEN_MS-((now-S.lastRegen)%ENERGY_REGEN_MS);
+    var mins=Math.floor(rem/60000),secs=Math.floor((rem%60000)/1000);
+    tEl.textContent=(mins<10?'0':'')+mins+':'+(secs<10?'0':'')+secs;
+  }else if(tEl){
+    tEl.textContent=L==='tr'?'DOLU':'FULL';
+  }
+}
+setInterval(checkEnergyRegen,1000);
+
+// Grant energy boost when returning from GAS purchase
+var gasPending=false;
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden){
+    // user may be leaving to GAS
+  }else if(gasPending){
+    gasPending=false;
+    S.energy=S.maxEnergy;
+    upd();safeDataSave();
+    tst(L==='tr'?'⚡ Enerji dolduruldu! İyi oyunlar!':'⚡ Energy refilled! Enjoy!','earn');
+  }
+});
+// Mark pending when GAS link clicked
+document.addEventListener('click',function(e){
+  var a=e.target.closest&&e.target.closest('a[href*="gasPump"]');
+  if(a)gasPending=true;
+});
+
 // ---- NAV ----
 function go(s){
   document.querySelectorAll('.sc').forEach(function(x){x.classList.remove('on');});
@@ -624,7 +703,7 @@ function shareRef(){var txt=document.getElementById('refLink').textContent;if(TG
 var pB=false,pGn=0,pSn=0;
 function sht(z){
   if(pB)return;
-  if(S.energy<=0){tst(L==='tr'?'⚡ Enerji yok!':'⚡ No Energy!','lose');return;}
+  if(S.energy<=0){openEnergyModal();return;}
   S.energy--;upd();pB=true;
   document.querySelectorAll('.zbn').forEach(function(b){b.disabled=true;});
   var gkZ=Math.floor(Math.random()*6);
@@ -678,7 +757,7 @@ function lQ(){
 }
 function aq(ch,cor){
   if(qAns)return;
-  if(S.energy<=0){tst(L==='tr'?'⚡ Enerji yok!':'⚡ No Energy!','lose');return;}
+  if(S.energy<=0){openEnergyModal();return;}
   S.energy--;qAns=true;
   var opts=document.querySelectorAll('.qo');
   if(!opts||!opts[cor]){upd();setTimeout(lQ,1700);return;}
@@ -688,11 +767,14 @@ function aq(ch,cor){
   upd();setTimeout(lQ,1700);
 }
 
-// ---- PREDICTOR ----
+// ---- PREDICTOR (CUP betting on real WC fixtures) ----
 var MD=[
-  {id:1,h:'Türkiye',hf:'🇹🇷',a:'Germany',af:'🇩🇪',o:[2.8,3.0,1.9]},
-  {id:2,h:'Brazil',hf:'🇧🇷',a:'France',af:'🇫🇷',o:[2.1,3.1,2.5]},
-  {id:3,h:'Spain',hf:'🇪🇸',a:'Argentina',af:'🇦🇷',o:[2.6,3.0,2.2]}
+  {id:1,h:'Brazil',hf:'🇧🇷',a:'Morocco',af:'🇲🇦',o:[1.7,3.4,4.5],group:'Group C · Jun 13'},
+  {id:2,h:'Türkiye',hf:'🇹🇷',a:'USA',af:'🇺🇸',o:[2.6,3.1,2.5],group:'Group D · Jun 25'},
+  {id:3,h:'France',hf:'🇫🇷',a:'Senegal',af:'🇸🇳',o:[1.8,3.3,4.2],group:'Group I · Jun 16'},
+  {id:4,h:'Argentina',hf:'🇦🇷',a:'Algeria',af:'🇩🇿',o:[1.4,4.0,7.0],group:'Group J · Jun 13'},
+  {id:5,h:'England',hf:'🏴',a:'Croatia',af:'🇭🇷',o:[2.0,3.2,3.6],group:'Group L · Jun 17'},
+  {id:6,h:'Spain',hf:'🇪🇸',a:'Uruguay',af:'🇺🇾',o:[1.9,3.3,3.9],group:'Group H · Jun 15'}
 ];
 var picks={};
 function rM(){
@@ -700,20 +782,27 @@ function rM(){
   MD.forEach(function(m){
     var done=picks[m.id]&&picks[m.id].done;
     var sel=picks[m.id]?picks[m.id].ch:null;
-    var html='<div class="mc"><div class="hsu" style="color:var(--stadium-green)">'+(L==='tr'?'GRUP AŞAMASI':'GROUP STAGE')+'</div>';
+    var stake=picks[m.id]&&picks[m.id].stake?picks[m.id].stake:50;
+    var html='<div class="mc"><div class="hsu" style="color:var(--stadium-green)">'+m.group+'</div>';
     html+='<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px"><div style="text-align:center"><div style="font-size:28px">'+m.hf+'</div><div style="font-weight:700;color:var(--wh);font-size:12px;font-family:Barlow Condensed">'+m.h+'</div></div>';
-    html+='<div id="simsc_'+m.id+'" style="text-align:center"><div class="sim-score">vs</div></div>';
+    html+='<div id="simsc_'+m.id+'" style="text-align:center"><div class="sim-score">VS</div></div>';
     html+='<div style="text-align:center"><div style="font-size:28px">'+m.af+'</div><div style="font-weight:700;color:var(--wh);font-size:12px;font-family:Barlow Condensed">'+m.a+'</div></div></div>';
     if(!done){
       html+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:6px">';
       html+='<button class="pred-btn'+(sel===0?' selected':'')+'" id="p1_'+m.id+'" onclick="pickPred('+m.id+',0)">1<br><small>'+m.o[0]+'x</small></button>';
       html+='<button class="pred-btn'+(sel===1?' selected':'')+'" id="px_'+m.id+'" onclick="pickPred('+m.id+',1)">X<br><small>'+m.o[1]+'x</small></button>';
       html+='<button class="pred-btn'+(sel===2?' selected':'')+'" id="p2_'+m.id+'" onclick="pickPred('+m.id+',2)">2<br><small>'+m.o[2]+'x</small></button>';
-      html+='</div><div class="sim-bar"><div class="sim-fill" id="simbar_'+m.id+'" style="width:0%"></div></div>';
-      html+='<button class="pred-submit" onclick="submitPred('+m.id+')">'+(L==='tr'?'SİMÜLASYONU BAŞLAT':'RUN SIMULATION')+'</button></div>';
+      html+='</div>';
+      html+='<div style="display:flex;gap:6px;align-items:center;margin-top:8px">';
+      html+='<span style="font-size:11px;color:var(--mut);font-family:Barlow Condensed">'+(L==='tr'?'Yatır:':'Stake:')+'</span>';
+      html+='<input id="stake_'+m.id+'" type="number" value="'+stake+'" min="10" style="flex:1;background:var(--bg-card2);border:1px solid var(--bor);border-radius:8px;padding:8px 10px;color:var(--wh);font-size:14px;font-weight:600;font-family:Barlow Condensed;outline:none">';
+      html+='<span style="font-size:11px;color:var(--arcade-yellow);font-weight:700">CUP</span></div>';
+      html+='<div class="sim-bar"><div class="sim-fill" id="simbar_'+m.id+'" style="width:0%"></div></div>';
+      html+='<button class="pred-submit" onclick="submitPred('+m.id+')">'+(L==='tr'?'⚽ MAÇI SİMÜLE ET':'⚽ SIMULATE MATCH')+'</button></div>';
     }else{
-      var r=picks[m.id].result;var won=picks[m.id].won;
-      html+='<div style="text-align:center;color:'+(won?'var(--soft-green)':'var(--red)')+';font-weight:700;font-family:Barlow Condensed;font-size:14px;margin-top:4px">'+(won?(L==='tr'?'✅ Doğru tahmin! +':'✅ Correct! +')+picks[m.id].reward+' CUP':(L==='tr'?'❌ Yanlış tahmin':'❌ Wrong prediction'))+'</div></div>';
+      var won=picks[m.id].won;
+      html+='<div style="text-align:center;color:'+(won?'var(--soft-green)':'var(--red)')+';font-weight:700;font-family:Barlow Condensed;font-size:14px;margin-top:4px">'+(won?(L==='tr'?'🏆 Kazandın! +':'🏆 Won! +')+picks[m.id].reward+' CUP':(L==='tr'?'❌ Kaybettin -':'❌ Lost -')+picks[m.id].stake+' CUP')+'</div>';
+      html+='<button class="pred-submit" style="background:var(--bg-card2);color:var(--mut);margin-top:6px" onclick="resetPred('+m.id+')">'+(L==='tr'?'🔄 Tekrar Oyna':'🔄 Play Again')+'</button></div>';
     }
     ml.innerHTML+=html;
   });
@@ -723,15 +812,19 @@ function pickPred(id,ch){
   picks[id].ch=ch;
   ['p1_','px_','p2_'].forEach(function(p,i){var b=document.getElementById(p+id);if(b)b.classList.toggle('selected',i===ch);});
 }
+function resetPred(id){picks[id]={};rM();}
 function submitPred(id){
-  if(S.energy<=0){tst(L==='tr'?'⚡ Enerji yok!':'⚡ No Energy!','lose');return;}
-  if(!picks[id]||picks[id].ch===null||picks[id].ch===undefined){tst(L==='tr'?'❗ Tahmin seç!':'❗ Pick a result!','lose');return;}
-  S.energy--;upd();
+  if(S.energy<=0){tst(L==='tr'?'⚡ Enerji yok! GAS\'tan al ya da bekle':'⚡ No Energy! Buy on GAS or wait','lose');setTimeout(openEnergyModal,600);return;}
+  if(!picks[id]||picks[id].ch===null||picks[id].ch===undefined){tst(L==='tr'?'❗ Sonuç seç (1/X/2)':'❗ Pick a result (1/X/2)','lose');return;}
+  var stakeEl=document.getElementById('stake_'+id);
+  var stake=stakeEl?parseInt(stakeEl.value):50;
+  if(!stake||stake<10){tst(L==='tr'?'❗ Min 10 CUP yatır':'❗ Min stake 10 CUP','lose');return;}
+  if(stake>S.b){tst(L==='tr'?'❌ Yetersiz CUP!':'❌ Not enough CUP!','lose');return;}
+  S.energy--;S.b-=stake;picks[id].stake=stake;upd();
   var m=MD.find(function(x){return x.id===id;});
   var ch=picks[id].ch;
-  // Animated simulation
   var finalH=Math.floor(Math.random()*4),finalA=Math.floor(Math.random()*4);
-  var step=0,total=20;
+  var step=0,total=22;
   var scEl=document.getElementById('simsc_'+id);
   var barEl=document.getElementById('simbar_'+id);
   document.querySelectorAll('#p1_'+id+',#px_'+id+',#p2_'+id).forEach(function(b){if(b)b.disabled=true;});
@@ -746,12 +839,12 @@ function submitPred(id){
       var res=finalH>finalA?0:(finalH===finalA?1:2);
       var won=ch===res;
       picks[id].done=true;picks[id].result=res;picks[id].won=won;
-      if(won){var rw=Math.floor(100*m.o[res]*S.mult/2);picks[id].reward=rw;S.b+=rw;S.bw++;tst((L==='tr'?'🏆 Kazandın! +':'🏆 Won! +')+rw+' CUP','earn');}
-      else{tst(L==='tr'?'❌ Kaybettin':'❌ Lost','lose');}
+      if(won){var rw=Math.floor(stake*m.o[res]);picks[id].reward=rw;S.b+=rw;S.bw++;tst((L==='tr'?'🏆 Kazandın! +':'🏆 Won! +')+rw+' CUP','earn');}
+      else{tst((L==='tr'?'❌ Kaybettin -':'❌ Lost -')+stake+' CUP','lose');}
       safeDataSave();upd();rM();
       return;
     }
-    setTimeout(tick,90);
+    setTimeout(tick,85);
   }
   tick();
 }
