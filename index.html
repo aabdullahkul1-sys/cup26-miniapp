@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>$CUP26 — World Cup Farming</title>
+<!-- Telegram WebApp SDK — Mini App'i aktive eder -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#FFD700;--gold2:#FFA500;--green:#00C853;--gd:#009624;
+  --red:#FF1744;--bg:#0a0f1e;--bg3:#1a2235;--card:#141d2e;--card2:#1c2840;
+  --bor:rgba(255,215,0,.15);--text:#e8eaf6;--mut:#7986a0;--wh:#fff;--ton:#0098EA;
+  --gas:#F5A623;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;height:100dvh;overflow:hidden;background:var(--bg)}
+body{color:var(--text);font-family:'Barlow',sans-serif}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,200,83,.12) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(255,215,0,.08) 0%,transparent 50%);pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;display:flex;flex-direction:column;width:100%;max-width:430px;margin:0 auto;height:100vh;height:100dvh;overflow:hidden}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#0d1520,#1a2540);border-bottom:1px solid var(--bor);padding:9px 11px;display:flex;align-items:center;justify-content:space-between;gap:5px;position:sticky;top:0;z-index:100;width:100%}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:21px;letter-spacing:2px;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;flex-shrink:0}
+.logo b{-webkit-text-fill-color:var(--green)}
+.hdr-r{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.ltgl{display:flex;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:2px;gap:1px}
+.lb{border:none;background:transparent;border-radius:9px;padding:2px 6px;font-size:10px;font-weight:700;cursor:pointer;transition:all .2s;color:rgba(255,255,255,.3);font-family:'Barlow Condensed',sans-serif}
+.lb.on{background:rgba(255,215,0,.2);color:var(--gold)}
+/* GAS Buy button — header */
+.gas-btn{display:flex;align-items:center;gap:3px;background:linear-gradient(135deg,rgba(245,166,35,.18),rgba(255,215,0,.12));border:1px solid rgba(245,166,35,.5);border-radius:12px;padding:4px 8px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--gas);white-space:nowrap;text-decoration:none;transition:all .2s;flex-shrink:0}
+.gas-btn:hover{background:linear-gradient(135deg,rgba(245,166,35,.28),rgba(255,215,0,.2));transform:scale(1.04)}
+.wb{display:flex;align-items:center;gap:3px;background:rgba(0,152,234,.15);border:1px solid rgba(0,152,234,.4);border-radius:12px;padding:4px 8px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;color:var(--ton);white-space:nowrap;transition:all .2s}
+.wb.on{background:rgba(0,200,83,.12);border-color:rgba(0,200,83,.35);color:var(--green)}
+.bp{display:flex;align-items:center;gap:3px;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);border-radius:12px;padding:4px 9px;flex-shrink:0}
+.bv{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;color:var(--gold)}
+
+/* SCREENS */
+.scrs{position:relative;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.sc{display:none;min-height:100%;padding:12px;gap:12px;flex-direction:column}
+.sc.on{display:flex}
+
+/* WITHDRAW GOAL BAR */
+.wgoal{background:linear-gradient(135deg,#0d2030,#1a3045);border:1px solid rgba(0,152,234,.3);border-radius:13px;padding:13px;flex-shrink:0}
+.wgoal-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.wgoal-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:var(--ton);display:flex;align-items:center;gap:5px}
+.wgoal-amt{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--wh);letter-spacing:.5px}
+.wgoal-bar{background:rgba(0,0,0,.3);border-radius:6px;height:9px;overflow:hidden}
+.wgoal-fill{height:100%;background:linear-gradient(90deg,#0098EA,#00C853);border-radius:6px;transition:width .5s;box-shadow:0 0 10px rgba(0,200,83,.4)}
+.wgoal-sub{font-size:10px;color:var(--mut);margin-top:6px;text-align:center}
+.wgoal-btn{margin-top:9px;width:100%;background:linear-gradient(135deg,#0098EA,#006bb3);border:none;border-radius:9px;padding:9px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer}
+.wgoal-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* STREAK */
+.streak{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#2a1500,#3a2000);border:1px solid rgba(245,166,35,.3);border-radius:13px;padding:11px 13px;flex-shrink:0}
+.streak-fire{font-size:26px}
+.streak-info{flex:1}
+.streak-days{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--gas);letter-spacing:1px;line-height:1}
+.streak-txt{font-size:10px;color:var(--mut);margin-top:1px}
+.streak-claim{background:linear-gradient(135deg,#e8820c,#F5A623);border:none;border-radius:8px;padding:7px 13px;color:#000;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;cursor:pointer}
+.streak-claim:disabled{opacity:.4;cursor:not-allowed}
+
+/* TASKS */
+.task{display:flex;align-items:center;gap:11px;background:var(--card);border:1px solid var(--bor);border-radius:12px;padding:12px;flex-shrink:0}
+.task.done{opacity:.55;border-color:rgba(0,200,83,.3)}
+.task-ic{width:38px;height:38px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.task-info{flex:1}
+.task-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;color:var(--wh)}
+.task-rew{font-size:11px;color:var(--gold);margin-top:1px}
+.task-btn{background:rgba(255,215,0,.12);border:1px solid rgba(255,215,0,.3);border-radius:8px;padding:6px 12px;color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;cursor:pointer;white-space:nowrap;transition:all .2s}
+.task-btn:hover{background:rgba(255,215,0,.2)}
+.task-btn.done{background:rgba(0,200,83,.12);border-color:rgba(0,200,83,.3);color:var(--green);pointer-events:none}
+
+/* REFERRAL */
+.ref-card{background:linear-gradient(135deg,#1a0a2a,#2a1040);border:1px solid rgba(150,80,255,.3);border-radius:14px;padding:16px;text-align:center;flex-shrink:0}
+.ref-ic{font-size:38px}
+.ref-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:#b388ff;margin-top:6px}
+.ref-desc{font-size:12px;color:var(--mut);line-height:1.5;margin-top:6px}
+.ref-reward{display:inline-block;background:rgba(179,136,255,.15);border:1px solid rgba(179,136,255,.3);border-radius:20px;padding:5px 14px;color:#b388ff;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;margin-top:10px}
+.ref-link-box{display:flex;gap:6px;margin-top:12px}
+.ref-link{flex:1;background:var(--bg3);border:1px solid var(--bor);border-radius:9px;padding:10px 12px;color:var(--mut);font-family:monospace;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left}
+.ref-copy{background:linear-gradient(135deg,#9650ff,#6a30b3);border:none;border-radius:9px;padding:10px 16px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1px;cursor:pointer;white-space:nowrap}
+.ref-share{margin-top:9px;width:100%;background:linear-gradient(135deg,#9650ff,#6a30b3);border:none;border-radius:10px;padding:12px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px}
+.ref-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.ref-stat{background:var(--bg3);border:1px solid var(--bor);border-radius:10px;padding:10px;text-align:center}
+.ref-stat-v{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#b388ff}
+.ref-stat-l{font-size:10px;color:var(--mut);margin-top:1px}
+
+/* ONBOARD */
+.ob{position:fixed;inset:0;background:var(--bg);z-index:600;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:14px;text-align:center;overflow-y:auto}
+.ob.gone{display:none}
+.ob-glow{width:86px;height:86px;background:radial-gradient(circle,rgba(0,152,234,.3),transparent 70%);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:38px;animation:gp 2s ease infinite}
+@keyframes gp{0%,100%{box-shadow:0 0 24px rgba(0,152,234,.3)}50%{box-shadow:0 0 48px rgba(0,152,234,.5)}}
+.ob-ti{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:3px;background:linear-gradient(135deg,#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1}
+.ob-su{font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--green);letter-spacing:3px;text-transform:uppercase;margin-top:2px}
+.ob-de{font-size:12px;color:var(--mut);line-height:1.6;max-width:280px}
+.ob-fs{display:flex;flex-direction:column;gap:7px;width:100%;max-width:290px}
+.ob-f{display:flex;align-items:flex-start;gap:9px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:11px;padding:9px 11px;text-align:left}
+.ob-fi{font-size:17px;flex-shrink:0}
+.ob-ft strong{display:block;color:var(--wh);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700}
+.ob-ft span{font-size:11px;color:var(--mut);line-height:1.4}
+.ton-btn{width:100%;max-width:290px;background:linear-gradient(135deg,#0098EA,#006bb3);border:none;border-radius:12px;padding:13px 16px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 4px 18px rgba(0,152,234,.3);transition:all .2s}
+.ton-btn:hover{transform:translateY(-2px)}
+.skip{font-size:11px;color:var(--mut);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* WALLET MODAL */
+.mov{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:500;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px)}
+.mov.gone{display:none}
+.msh{background:var(--card);border-radius:20px 20px 0 0;border:1px solid var(--bor);border-bottom:none;padding:18px;width:100%;max-width:430px;display:flex;flex-direction:column;gap:11px;animation:su .3s ease}
+@keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mh{width:32px;height:3px;background:rgba(255,255,255,.13);border-radius:3px;margin:0 auto -2px}
+.mti{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:2px;text-align:center}
+.ab{background:var(--bg3);border:1px solid var(--bor);border-radius:9px;padding:9px 11px;display:flex;align-items:center;justify-content:space-between;gap:7px}
+.av{font-family:monospace;font-size:11px;color:var(--mut);word-break:break-all;flex:1}
+.cpb{background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.25);border-radius:6px;padding:4px 8px;color:var(--gold);font-size:10px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:700;white-space:nowrap}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ms{background:var(--bg3);border:1px solid var(--bor);border-radius:8px;padding:8px;text-align:center}
+.msv{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--gold)}
+.msv.bl{color:var(--ton)}
+.msl{font-size:9px;color:var(--mut);margin-top:1px}
+.db{background:rgba(255,23,68,.1);border:1px solid rgba(255,23,68,.25);border-radius:9px;padding:9px;color:var(--red);font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;cursor:pointer;text-align:center}
+.mcl{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:9px;padding:9px;color:var(--mut);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:600;cursor:pointer;text-align:center}
+
+/* ZERO BALANCE SHEET */
+.zov{position:fixed;inset:0;background:rgba(0,0,0,.87);z-index:400;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(8px)}
+.zov.gone{display:none}
+.zsh{background:linear-gradient(160deg,#1a0808,#201500,#081a08);border-radius:20px 20px 0 0;border:1px solid rgba(255,23,68,.18);border-bottom:none;padding:22px 18px;width:100%;max-width:430px;animation:su .3s ease;display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center}
+.ze{font-size:48px;animation:shk .5s ease}
+@keyframes shk{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+.zt{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--red)}
+.zd{font-size:12px;color:var(--mut);line-height:1.6;max-width:260px}
+.za{display:flex;flex-direction:column;gap:8px;width:100%}
+/* GAS main buy button — big, orange */
+.gas-buy{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#e8820c,#F5A623,#ffd700);border:none;border-radius:12px;padding:14px 18px;color:#000;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;cursor:pointer;text-decoration:none;width:100%;box-shadow:0 4px 18px rgba(245,166,35,.4);transition:all .2s;font-weight:900}
+.gas-buy:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(245,166,35,.5)}
+.gas-buy:active{transform:scale(0.98)}
+.ton-buy{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#0098EA,#006bb3);border:none;border-radius:12px;padding:12px 18px;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;cursor:pointer;text-decoration:none;width:100%;box-shadow:0 4px 14px rgba(0,152,234,.25);transition:all .2s}
+.ton-buy:hover{transform:translateY(-2px)}
+.exg{display:grid;grid-template-columns:1fr 1fr;gap:7px;width:100%}
+.exb{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:10px;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;display:block}
+.exb:hover{border-color:rgba(245,166,35,.4);background:rgba(245,166,35,.06);transform:translateY(-2px)}
+.exi{font-size:18px;margin-bottom:3px}
+.exn{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--wh)}
+.exd{font-size:9px;color:var(--mut);margin-top:1px}
+.zbk{background:transparent;border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:9px;color:var(--mut);font-size:12px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-weight:600;width:100%}
+
+/* HOME */
+.hero{background:linear-gradient(135deg,#0d2a0d,#1a3a20);border:1px solid rgba(0,200,83,.22);border-radius:14px;padding:14px;text-align:center;position:relative;overflow:hidden;flex-shrink:0}
+.hero::before{content:'⚽';position:absolute;font-size:72px;opacity:.06;right:-8px;bottom:-10px;line-height:1}
+.hti{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;line-height:1;background:linear-gradient(135deg,#fff,var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hsu{font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--green);letter-spacing:3px;text-transform:uppercase;margin-top:2px}
+.hde{font-size:11px;color:var(--mut);margin-top:6px;line-height:1.5}
+.wsb{display:flex;align-items:center;gap:6px;margin-top:9px;background:rgba(0,152,234,.08);border:1px solid rgba(0,152,234,.18);border-radius:8px;padding:6px 10px}
+.wsb.on{background:rgba(0,200,83,.08);border-color:rgba(0,200,83,.22)}
+.wd{width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0}
+.wd.on{background:var(--green);animation:wbp 2s ease infinite}
+@keyframes wbp{0%,100%{opacity:1}50%{opacity:.4}}
+.wt{flex:1;font-size:10px;color:var(--mut);font-family:'Barlow Condensed',sans-serif;font-weight:600;text-align:left}
+.wa{font-size:10px;color:var(--ton);font-family:'Barlow Condensed',sans-serif;font-weight:700;cursor:pointer;white-space:nowrap}
+.wa.on{color:var(--green)}
+.dcl{margin-top:10px;background:linear-gradient(135deg,var(--gd),var(--green));border:none;border-radius:8px;padding:9px 14px;color:#000;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:1px;cursor:pointer;width:100%;transition:all .2s}
+.dcl:disabled{opacity:.5;cursor:not-allowed}
+/* GAS buy banner — home screen */
+.gas-banner{display:flex;align-items:center;justify-content:space-between;gap:9px;background:linear-gradient(135deg,#1c1200,#2a1e00,#0e1800);border:1px solid rgba(245,166,35,.38);border-radius:13px;padding:12px 14px;text-decoration:none;flex-shrink:0;transition:all .22s;position:relative;overflow:hidden}
+.gas-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(245,166,35,.07),transparent);transform:translateX(-100%);transition:transform .5s}
+.gas-banner:hover{border-color:rgba(245,166,35,.6);box-shadow:0 4px 18px rgba(245,166,35,.15);transform:translateY(-2px)}
+.gas-banner:hover::before{transform:translateX(100%)}
+.gas-banner:active{transform:scale(0.98)}
+.gb-left{display:flex;align-items:center;gap:9px}
+.gb-ic{font-size:24px}
+.gb-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;color:var(--gas);line-height:1}
+.gb-sub{font-size:10px;color:rgba(245,166,35,.65);margin-top:2px;font-family:'Barlow Condensed',sans-serif;font-weight:600}
+.gb-pill{background:linear-gradient(135deg,#e8820c,#F5A623);color:#000;font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:1px;padding:5px 10px;border-radius:18px;white-space:nowrap;flex-shrink:0;font-weight:900}
+/* Stats */
+.sr{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;flex-shrink:0}
+.stc{background:var(--card);border:1px solid var(--bor);border-radius:10px;padding:10px 6px;text-align:center}
+.stv{font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--gold);letter-spacing:1px}
+.stl{font-size:9px;color:var(--mut);margin-top:1px}
+.sec{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:var(--mut);flex-shrink:0}
+.gg{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex-shrink:0}
+.gc{background:var(--card);border:1px solid var(--bor);border-radius:12px;padding:13px 10px;text-align:center;cursor:pointer;transition:all .22s;position:relative;overflow:hidden}
+.gc:hover{transform:translateY(-3px);border-color:rgba(255,215,0,.4);box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.gc:active{transform:scale(0.97)}
+.gc .ic{font-size:26px;margin-bottom:6px}
+.gc .gn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:var(--wh)}
+.gc .gr{font-size:10px;color:var(--gold);margin-top:3px}
+.gc .ga{font-size:9px;color:var(--mut);margin-top:2px}
+.hot{position:absolute;top:5px;right:5px;background:var(--red);color:#fff;font-size:7px;font-weight:700;padding:2px 4px;border-radius:4px}
+
+/* PENALTY */
+.pitch{background:linear-gradient(180deg,#1a3a1a 0%,#145214 40%,#0d3d0d 100%);border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:14px;position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;min-height:230px;justify-content:center}
+.gnet{width:168px;height:90px;border:2.5px solid #fff;border-bottom:none;border-radius:3px 3px 0 0;position:relative;background:rgba(0,0,0,.25);background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.07) 0,rgba(255,255,255,.07) 1px,transparent 1px,transparent 11px),repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0,rgba(255,255,255,.07) 1px,transparent 1px,transparent 11px)}
+.gz{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:2px;width:168px;height:90px;position:absolute;top:0;left:0}
+.zbn{border:2px solid transparent;background:rgba(255,255,255,.02);border-radius:3px;cursor:pointer;transition:all .15s;font-size:12px;display:flex;align-items:center;justify-content:center}
+.zbn:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.4)}
+.zbn:active{transform:scale(0.9)}
+.pm{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;text-align:center}
+.pm.g{color:var(--green)}.pm.s{color:var(--gold)}.pm.m{color:var(--red)}
+.ba{font-size:20px;position:absolute;transition:all .4s cubic-bezier(.25,.46,.45,.94);bottom:22px;left:50%;transform:translateX(-50%);z-index:10}
+.gk{font-size:23px;position:absolute;top:19px;left:50%;transform:translateX(-50%);transition:all .3s ease}
+.scd{display:flex;gap:10px;justify-content:center;flex-shrink:0}
+.sb{text-align:center;background:var(--card);border:1px solid var(--bor);border-radius:7px;padding:5px 12px}
+.sbn{font-family:'Bebas Neue',sans-serif;font-size:19px;color:var(--gold)}
+.sbl{font-size:9px;color:var(--mut)}
+
+/* QUIZ */
+.qti{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);letter-spacing:2px}
+.qti.urg{color:var(--red);animation:pls .5s ease infinite alternate}
+@keyframes pls{from{opacity:1}to{opacity:.5}}
+.qpb{height:3px;background:var(--bg3);border-radius:3px;overflow:hidden;flex-shrink:0}
+.qpbf{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));border-radius:3px;transition:width .4s}
+.qcd{background:var(--card);border:1px solid var(--bor);border-radius:12px;padding:14px;text-align:center;flex-shrink:0}
+.qe{font-size:30px;margin-bottom:8px}
+.qq{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;line-height:1.4;color:var(--wh)}
+.qos{display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.qo{background:var(--card2);border:2px solid var(--bor);border-radius:10px;padding:10px 11px;text-align:left;cursor:pointer;font-size:12px;color:var(--text);transition:all .2s;display:flex;align-items:center;gap:8px}
+.qo:hover:not(:disabled){border-color:rgba(255,215,0,.4);background:rgba(255,215,0,.05)}
+.qo:disabled{cursor:not-allowed}
+.qo.cor{border-color:var(--green);background:rgba(0,200,83,.1);color:var(--green)}
+.qo.wr{border-color:var(--red);background:rgba(255,23,68,.1);color:var(--red)}
+.ql_{width:21px;height:21px;background:var(--bg3);border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:10px;flex-shrink:0;font-family:'Barlow Condensed',sans-serif}
+
+/* BET */
+.mc{background:var(--card);border:1px solid var(--bor);border-radius:13px;padding:12px;position:relative;overflow:hidden;flex-shrink:0;width:100%;box-sizing:border-box}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--gold))}
+.mss{display:inline-flex;align-items:center;gap:3px;background:rgba(255,23,68,.12);border:1px solid rgba(255,23,68,.22);border-radius:20px;padding:2px 6px;font-size:9px;color:var(--red);font-weight:600;margin-bottom:8px}
+.mss .dot{width:4px;height:4px;background:var(--red);border-radius:50%;animation:blk 1s ease infinite}
+@keyframes blk{0%,100%{opacity:1}50%{opacity:0}}
+.mss.up{color:var(--gold);border-color:rgba(255,215,0,.22);background:rgba(255,215,0,.07)}
+.mss.up .dot{background:var(--gold);animation:none}
+.mtr{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:4px;width:100%}
+.mtm{text-align:center}
+.mtf{font-size:24px;line-height:1;margin-bottom:2px}
+.mtn{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;color:var(--wh)}
+.mvs{text-align:center}
+.mscl{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--wh);letter-spacing:3px;line-height:1}
+.mmt{font-size:10px;color:var(--green);font-weight:600;margin-top:1px}
+.ods{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:8px;width:100%}
+.ob{background:var(--card2);border:2px solid var(--bor);border-radius:8px;padding:6px 3px;text-align:center;cursor:pointer;transition:all .2s}
+.ob:hover{border-color:rgba(255,215,0,.5);background:rgba(255,215,0,.07)}
+.ob.sel{border-color:var(--gold);background:rgba(255,215,0,.13)}
+.ob.won{border-color:var(--green);background:rgba(0,200,83,.13)}
+.ob.lst{border-color:var(--red);background:rgba(255,23,68,.08)}
+.ol{font-size:9px;color:var(--mut)}
+.ov{font-family:'Bebas Neue',sans-serif;font-size:17px;color:var(--gold);letter-spacing:1px;line-height:1.2}
+.bir{display:flex;gap:5px;align-items:center;margin-top:8px}
+.bi{flex:1;background:var(--bg3);border:1px solid var(--bor);border-radius:7px;padding:7px 10px;color:var(--wh);font-size:13px;font-family:'Barlow Condensed',sans-serif;font-weight:600;outline:none}
+.bi:focus{border-color:rgba(255,215,0,.4)}
+.bpb{background:linear-gradient(135deg,var(--gold2),var(--gold));border:none;border-radius:7px;padding:7px 11px;color:#000;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1px;cursor:pointer;white-space:nowrap;transition:all .2s}
+.bpb:hover{transform:scale(1.04)}
+.sbw{background:var(--bg3);border-radius:4px;height:5px;overflow:hidden;margin-top:6px}
+.sbb{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));border-radius:4px;transition:width .3s}
+.evs{margin-top:6px;max-height:60px;overflow-y:auto;display:flex;flex-direction:column;gap:3px}
+.ev{font-size:10px;color:var(--mut);display:flex;gap:5px;align-items:center}
+.ev .em{font-family:'Barlow Condensed',sans-serif;font-weight:600;color:var(--gold);font-size:9px;min-width:20px}
+.ev.ge{color:var(--green)}.ev.ce{color:var(--red)}
+
+/* LEADERBOARD */
+.lbr{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--bor);border-radius:10px;padding:9px 10px;transition:all .2s}
+.lbr.you{border-color:rgba(255,215,0,.35);background:rgba(255,215,0,.05)}
+.lbrk{font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--mut);min-width:19px;text-align:center}
+.lbrk.g{color:#FFD700}.lbrk.s{color:#C0C0C0}.lbrk.b{color:#CD7F32}
+.lbav{font-size:17px}
+.lbn{flex:1;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:12px;color:var(--wh)}
+.lbp{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--gold)}
+
+/* NAV */
+.nav{background:rgba(10,15,30,.97);border-top:1px solid var(--bor);display:grid;grid-template-columns:repeat(4,1fr);padding:5px 0 max(8px,env(safe-area-inset-bottom));z-index:100;position:sticky;bottom:0;width:100%}
+.nb{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px;cursor:pointer;border:none;background:transparent;color:var(--mut);transition:all .2s}
+.nb .ni{font-size:17px;transition:transform .2s}
+.nb .nl{font-size:8px;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.5px}
+.nb.on{color:var(--gold)}
+.nb.on .ni{transform:scale(1.15)}
+
+#tst{position:fixed;top:58px;left:50%;transform:translateX(-50%) translateY(-18px);background:rgba(14,20,38,.96);border:1px solid var(--bor);border-radius:9px;padding:6px 13px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:600;color:var(--wh);z-index:9999;opacity:0;transition:all .3s;pointer-events:none;white-space:nowrap;backdrop-filter:blur(20px)}
+#tst.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#tst.earn{border-color:var(--green);color:var(--green)}
+#tst.lose{border-color:var(--red);color:var(--red)}
+#tst.info{border-color:var(--ton);color:var(--ton)}
+#tst.gas{border-color:var(--gas);color:var(--gas)}
+.rb{display:inline-flex;align-items:center;gap:3px;background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.18);border-radius:20px;padding:3px 8px;font-size:10px;color:var(--gold);font-family:'Barlow Condensed',sans-serif;font-weight:600}
+::-webkit-scrollbar{width:2px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--bor);border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- ===== ONBOARDING ===== -->
+<div class="ob" id="ob">
+  <div class="ob-glow">💎</div>
+  <div>
+    <div class="ob-su" id="oSu">🏆 World Cup 2026 · Farming</div>
+    <div class="ob-ti" id="oTi">CONNECT &amp; EARN</div>
+  </div>
+  <div class="ob-de" id="oDe">Connect your TON wallet to save progress, earn $CUP26 tokens and compete globally.</div>
+  <div class="ob-fs">
+    <div class="ob-f"><div class="ob-fi">⚽</div><div class="ob-ft"><strong id="f1t">Play &amp; Earn</strong><span id="f1d">Penalty, Quiz, Betting — earn $CUP26 every game</span></div></div>
+    <div class="ob-f"><div class="ob-fi">💎</div><div class="ob-ft"><strong id="f2t">Real Token Rewards</strong><span id="f2d">Withdraw earnings directly to your TON wallet</span></div></div>
+    <div class="ob-f"><div class="ob-fi">⛽</div><div class="ob-ft"><strong id="f3t">Buy $CUP26 on GAS</strong><span id="f3d">Get tokens anytime from the GAS Pump marketplace</span></div></div>
+  </div>
+  <button class="ton-btn" onclick="cW()"><span style="font-size:18px">💎</span><span id="oBt">CONNECT TON WALLET</span></button>
+  <span class="skip" id="oSk" onclick="sW()">Play without wallet (progress won't be saved)</span>
+</div>
+
+<!-- ===== WALLET MODAL ===== -->
+<div class="mov gone" id="wMod" onclick="cwm(event)">
+  <div class="msh">
+    <div class="mh"></div>
+    <div class="mti" id="wmTi">💎 TON WALLET</div>
+    <div class="ab">
+      <div class="av" id="wAd">Not connected</div>
+      <button class="cpb" onclick="cpA()" id="wCp">Copy</button>
+    </div>
+    <div class="mg">
+      <div class="ms"><div class="msv" id="wBl">0</div><div class="msl" id="wBll">CUP Balance</div></div>
+      <div class="ms"><div class="msv bl" id="wTn">0.00</div><div class="msl">TON</div></div>
+    </div>
+    <button class="db" id="wDc" onclick="disW()">🔌 DISCONNECT</button>
+    <button class="mcl" id="wCl" onclick="cwm()">Close</button>
+  </div>
+</div>
+
+<!-- ===== ZERO BALANCE ===== -->
+<div class="zov gone" id="zOv">
+  <div class="zsh">
+    <div class="ze">😱</div>
+    <div class="zt" id="zTi">OUT OF CUP!</div>
+    <div class="zd" id="zDe">You ran out of $CUP26. Buy more tokens to keep playing!</div>
+    <div class="za">
+      <!-- GAS Pump — coinin asıl linki -->
+      <a href="https://t.me/gasPump_bot/app?startapp=eyJyZWZfdXNlcl9pZCI6ODU2NzUwMTc0MiwidG9rZW5fYWRkcmVzcyI6IkVRQXNocnpxSFUyNlN2TTA0YzNWYjk3VmRHaXBLWVB6bXR1WUlMWVJDNVBOb24tNCJ9"
+        target="_blank" class="gas-buy" onclick="czO()">
+        <span>⛽</span><span id="zG">BUY $CUP26 ON GAS PUMP</span>
+      </a>
+      <a href="https://dedust.io/swap/TON/CUP26" target="_blank" class="ton-buy" onclick="czO()">
+        <span>💎</span><span id="zDd">BUY ON DEDUST</span>
+      </a>
+      <div class="exg">
+        <a href="https://app.ston.fi/swap?inputCurrency=TON&outputCurrency=CUP26" target="_blank" class="exb" onclick="czO()">
+          <div class="exi">🌊</div><div class="exn">STON.fi</div><div class="exd">TON DEX</div>
+        </a>
+        <a href="https://t.me/gasPump_bot/app?startapp=eyJyZWZfdXNlcl9pZCI6ODU2NzUwMTc0MiwidG9rZW5fYWRkcmVzcyI6IkVRQXNocnpxSFUyNlN2TTA0YzNWYjk3VmRHaXBLWVB6bXR1WUlMWVJDNVBOb24tNCJ9"
+          target="_blank" class="exb" onclick="czO()">
+          <div class="exi">⛽</div><div class="exn" id="zGn">GAS Pump</div><div class="exd" id="zGd">Buy $CUP26</div>
+        </a>
+      </div>
+      <button class="zbk" id="zBk" onclick="czO()">← Back to game</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div class="app" id="mainA" style="display:none">
+  <header class="hdr">
+    <div class="logo">$<b>CUP</b>26</div>
+    <div class="hdr-r">
+      <!-- Dil toggle -->
+      <div class="ltgl">
+        <button class="lb on" id="lEN" onclick="sL('en')">EN</button>
+        <button class="lb" id="lTR" onclick="sL('tr')">TR</button>
+      </div>
+      <!-- ⛽ GAS Pump — coin satın alma (coinin linki) -->
+      <a href="https://t.me/gasPump_bot/app?startapp=eyJyZWZfdXNlcl9pZCI6ODU2NzUwMTc0MiwidG9rZW5fYWRkcmVzcyI6IkVRQXNocnpxSFUyNlN2TTA0YzNWYjk3VmRHaXBLWVB6bXR1WUlMWVJDNVBOb24tNCJ9"
+        target="_blank" class="gas-btn" id="gasBtnHdr">
+        <span>⛽</span><span id="gasBtnTxt">Buy</span>
+      </a>
+      <!-- 💎 TON Cüzdan -->
+      <div class="wb" id="hWb" onclick="owm()">
+        <span id="hWi">💎</span><span id="hWt">Connect</span>
+      </div>
+      <!-- Bakiye -->
+      <div class="bp">
+        <span style="font-size:11px">⚽</span>
+        <span class="bv" id="bd">0</span>
+        <span style="font-size:8px;color:var(--mut)">CUP</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="scrs">
+    <!-- HOME -->
+    <div class="sc on" id="s-home">
+      <div class="hero">
+        <div class="hsu" id="hSu">🏆 World Cup 2026 · Farming Game</div>
+        <div class="hti" id="hTi">PLAY &amp; EARN</div>
+        <div class="hde" id="hDe">Score penalties, answer quizzes, bet on matches. Earn $CUP26!</div>
+        <div class="wsb" id="wsB">
+          <div class="wd" id="wDt"></div>
+          <div class="wt" id="wTx">Wallet not connected</div>
+          <div class="wa" id="wAc" onclick="cW()">Connect →</div>
+        </div>
+        <button class="dcl" id="dcB" onclick="dc()">🎁 <span id="dcT">Daily Bonus — +100 CUP</span></button>
+      </div>
+
+      <!-- STREAK -->
+      <div class="streak">
+        <div class="streak-fire">🔥</div>
+        <div class="streak-info">
+          <div class="streak-days"><span id="streakDays">0</span> <span id="streakLbl">DAY STREAK</span></div>
+          <div class="streak-txt" id="streakTxt">Play daily to grow your streak!</div>
+        </div>
+        <button class="streak-claim" id="streakBtn" onclick="claimStreak()">+50</button>
+      </div>
+
+      <!-- WITHDRAW GOAL -->
+      <div class="wgoal">
+        <div class="wgoal-top">
+          <div class="wgoal-title">💸 <span id="wgTitle">Withdraw Goal</span></div>
+          <div class="wgoal-amt"><span id="wgCur">0</span> / 10,000 CUP</div>
+        </div>
+        <div class="wgoal-bar"><div class="wgoal-fill" id="wgFill" style="width:0%"></div></div>
+        <div class="wgoal-sub" id="wgSub">Reach 10,000 CUP to withdraw to your TON wallet</div>
+        <button class="wgoal-btn" id="wgBtn" onclick="tryWithdraw()" disabled>🔒 <span id="wgBtnTxt">Locked</span></button>
+      </div>
+
+      <div class="sr">
+        <div class="stc"><div class="stv" id="sT">0</div><div class="stl" id="slT">Total CUP</div></div>
+        <div class="stc"><div class="stv" id="sG">0</div><div class="stl" id="slG">Goals</div></div>
+        <div class="stc"><div class="stv" id="sB">0</div><div class="stl" id="slB">Bets Won</div></div>
+      </div>
+
+      <div class="sec" id="secG">GAMES</div>
+      <div class="gg">
+        <div class="gc" onclick="go('penalty')"><div class="ic">⚽</div><div class="gn" id="gcP">Penalty</div><div class="gr">+15–50 CUP</div><div class="ga" id="paL">5 attempts</div></div>
+        <div class="gc" onclick="go('quiz')"><div class="ic">🧠</div><div class="gn" id="gcQ">Quiz</div><div class="gr">+25–75 CUP</div><div class="ga" id="qaL">10 questions</div><div class="hot">HOT</div></div>
+        <div class="gc" onclick="go('bet')"><div class="ic">🎲</div><div class="gn" id="gcB">Betting</div><div class="gr">2x–4x</div><div class="ga" id="gcBs">Live matches!</div></div>
+        <div class="gc" onclick="go('lb')"><div class="ic">🏆</div><div class="gn" id="gcL">Leaderboard</div><div class="gr" id="gcLs">Top 10 bonus</div><div class="ga" id="gcLu">Updated</div></div>
+      </div>
+
+      <!-- ⛽ GAS Pump Banner — coin satın alma -->
+      <a href="https://t.me/gasPump_bot/app?startapp=eyJyZWZfdXNlcl9pZCI6ODU2NzUwMTc0MiwidG9rZW5fYWRkcmVzcyI6IkVRQXNocnpxSFUyNlN2TTA0YzNWYjk3VmRHaXBLWVB6bXR1WUlMWVJDNVBOb24tNCJ9"
+        target="_blank" class="gas-banner" id="gasBanner">
+        <div class="gb-left">
+          <div class="gb-ic">⛽</div>
+          <div>
+            <div class="gb-title" id="gbTi">Buy $CUP26</div>
+            <div class="gb-sub" id="gbSu">Get tokens on GAS Pump →</div>
+          </div>
+        </div>
+        <div class="gb-pill" id="gbPl">PUMP IT 🚀</div>
+      </a>
+    </div>
+
+    <!-- PENALTY -->
+    <div class="sc" id="s-penalty">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-shrink:0">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:2px">⚽ <span style="color:var(--gold)" id="penTi">PENALTY</span></div>
+        <div class="rb">🏅 15–50 CUP</div>
+      </div>
+      <div class="scd">
+        <div class="sb"><div class="sbn" id="pGc">0</div><div class="sbl" id="pGl">Goals</div></div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--mut);align-self:center">VS</div>
+        <div class="sb"><div class="sbn" id="pSc">0</div><div class="sbl" id="pSl">Saved</div></div>
+        <div class="sb"><div class="sbn" id="pLc" style="color:var(--green)">5</div><div class="sbl" id="pLl">Left</div></div>
+      </div>
+      <div class="pitch">
+        <div class="gk" id="gk">🧤</div>
+        <div class="gnet" style="position:relative">
+          <div class="gz">
+            <button class="zbn" onclick="sht(0)">↖</button><button class="zbn" onclick="sht(1)">⬆</button><button class="zbn" onclick="sht(2)">↗</button>
+            <button class="zbn" onclick="sht(3)">←</button><button class="zbn" onclick="sht(4)">✚</button><button class="zbn" onclick="sht(5)">→</button>
+          </div>
+        </div>
+        <div class="ba" id="ba">⚽</div>
+        <div class="pm" id="pm"></div>
+      </div>
+      <div style="font-size:11px;color:var(--mut);text-align:center;flex-shrink:0" id="penTp">💡 Corners are harder to save!</div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="sc" id="s-quiz">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:2px">🧠 <span style="color:var(--gold)" id="quTi">QUIZ</span></div>
+        <div class="qti" id="qt">15</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-shrink:0">
+        <span style="font-size:11px;color:var(--mut)" id="qnm">Question 1/10</span>
+        <span class="rb" id="qsc">🏅 0 CUP</span>
+      </div>
+      <div class="qpb"><div class="qpbf" id="qpf" style="width:10%"></div></div>
+      <div class="qcd"><div class="qe" id="qem">⚽</div><div class="qq" id="qq">Loading...</div></div>
+      <div class="qos" id="qo"></div>
+    </div>
+
+    <!-- BET -->
+    <div class="sc" id="s-bet" style="padding-bottom:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:2px">🎲 <span style="color:var(--gold)" id="beTi">BETTING</span></div>
+        <span class="rb">💰 <span id="bb">0</span> CUP</span>
+      </div>
+      <div id="ml" style="display:flex;flex-direction:column;gap:12px;width:100%"></div>
+    </div>
+
+    <!-- TASKS / EARN -->
+    <div class="sc" id="s-tasks" style="padding-bottom:20px">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:2px;flex-shrink:0">🎯 <span style="color:var(--gold)" id="tasksTi">EARN MORE</span></div>
+
+      <!-- REFERRAL CARD -->
+      <div class="ref-card">
+        <div class="ref-ic">🤝</div>
+        <div class="ref-title" id="refTitle">INVITE FRIENDS</div>
+        <div class="ref-desc" id="refDesc">Share your link. Earn CUP for every friend who joins and plays!</div>
+        <div class="ref-reward" id="refReward">+500 CUP per friend</div>
+        <div class="ref-link-box">
+          <div class="ref-link" id="refLink">https://t.me/CUP26_GAMEBOT?start=ref_0</div>
+          <button class="ref-copy" id="refCopyBtn" onclick="copyRef()">Copy</button>
+        </div>
+        <button class="ref-share" onclick="shareRef()">📤 <span id="refShareTxt">SHARE INVITE LINK</span></button>
+        <div class="ref-stats">
+          <div class="ref-stat"><div class="ref-stat-v" id="refCount">0</div><div class="ref-stat-l" id="refCountLbl">Friends Invited</div></div>
+          <div class="ref-stat"><div class="ref-stat-v" id="refEarned">0</div><div class="ref-stat-l" id="refEarnedLbl">CUP Earned</div></div>
+        </div>
+      </div>
+
+      <div class="sec" id="tasksSecTitle">DAILY TASKS</div>
+      <div id="taskList" style="display:flex;flex-direction:column;gap:9px"></div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div class="sc" id="s-lb">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:2px;flex-shrink:0">🏆 <span style="color:var(--gold)" id="lbTi">LEADERBOARD</span></div>
+      <div id="lbl" style="display:flex;flex-direction:column;gap:6px"></div>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <button class="nb on" id="n-home" onclick="go('home')"><span class="ni">🏠</span><span class="nl" id="nvH">Home</span></button>
+    <button class="nb" id="n-penalty" onclick="go('penalty')"><span class="ni">⚽</span><span class="nl" id="nvP">Penalty</span></button>
+    <button class="nb" id="n-quiz" onclick="go('quiz')"><span class="ni">🧠</span><span class="nl" id="nvQ">Quiz</span></button>
+    <button class="nb" id="n-bet" onclick="go('bet')"><span class="ni">🎲</span><span class="nl" id="nvB">Bet</span></button>
+  </nav>
+</div>
+<div id="tst"></div>
+
+<script>
+// ============================================================
+// 1. TELEGRAM WEBAP INIT
+// ============================================================
+var TG = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+if(TG){
+  TG.ready();
+  TG.expand();
+  document.documentElement.style.height = TG.viewportStableHeight + "px";
+  document.body.style.height = TG.viewportStableHeight + "px";
+  TG.onEvent("viewportChanged", function(){document.documentElement.style.height=TG.viewportStableHeight+"px";document.body.style.height=TG.viewportStableHeight+"px";});
+  TG.setHeaderColor('#0a0f1e');
+  TG.setBackgroundColor('#0a0f1e');
+}
+var TG_USER = TG && TG.initDataUnsafe && TG.initDataUnsafe.user ? TG.initDataUnsafe.user : null;
+
+// ============================================================
+// 2. TRANSLATIONS
+// ============================================================
+var TX={
+en:{
+  oSu:'🏆 World Cup 2026 · Farming',oTi:'CONNECT & EARN',
+  oDe:'Connect your TON wallet to save progress, earn $CUP26 and compete globally.',
+  f1t:'Play & Earn',f1d:'Penalty, Quiz, Betting — earn $CUP26 every game',
+  f2t:'Real Token Rewards',f2d:'Withdraw earnings directly to your TON wallet',
+  f3t:'Buy $CUP26 on GAS',f3d:'Get tokens anytime from the GAS Pump marketplace',
+  oBt:'CONNECT TON WALLET',oSk:"Play without wallet (progress won't be saved)",
+  wmTi:'💎 TON WALLET',wCp:'Copy',wBll:'CUP Balance',wDc:'🔌 DISCONNECT',wCl:'Close',
+  zTi:'OUT OF CUP!',zDe:'You ran out of $CUP26. Buy more tokens to keep playing!',
+  zG:'BUY $CUP26 ON GAS PUMP',zDd:'BUY ON DEDUST',zGn:'GAS Pump',zGd:'Buy $CUP26',zBk:'← Back to game',
+  gasBtnTxt:'Buy',
+  hSu:'🏆 World Cup 2026 · Farming',hTi:'PLAY & EARN',
+  hDe:'Score penalties, answer quizzes, bet on matches. Earn $CUP26!',
+  wOff:'Wallet not connected',wActOff:'Connect →',wActOn:'View →',wOn:'Wallet',wOff_:'Connect',
+  dcT:'Daily Bonus — +100 CUP',dcD:'✅ Claimed — Come back tomorrow!',
+  slT:'Total CUP',slG:'Goals',slB:'Bets Won',secG:'GAMES',
+  gcP:'Penalty',gcQ:'Quiz',gcB:'Betting',gcBs:'Live matches!',gcL:'Leaderboard',gcLs:'Top 10 bonus',gcLu:'Updated',
+  paS:' attempts left',qaS:' questions left',
+  gbTi:'Buy $CUP26',gbSu:'Get tokens on GAS Pump →',gbPl:'PUMP IT 🚀',
+  penTi:'PENALTY',pGl:'Goals',pSl:'Saved',pLl:'Left',
+  pmC:'Choose a zone and shoot!',pmG:'⚽ GOAL!',pmS:'🧤 SAVED!',pmO:'❌ No attempts — Tomorrow!',
+  penTp:'💡 Corners are harder to save!',
+  quTi:'QUIZ',qPfx:'Question ',
+  beTi:'BETTING',msL:'🔴 LIVE',msU:'⏳ Upcoming',msD:'⏹ Finished',
+  bS:['Home','Draw','Away'],bY:'🎯 Bet: ',bPl:'placed',bW:'🏆 Won: +',bLo:'❌ Lost: -',
+  lbTi:'LEADERBOARD',lbY:' (You)',
+  nvH:'Home',nvP:'Penalty',nvQ:'Quiz',nvB:'Bet',
+  tD:'🎁 +100 CUP daily!',tDu:'⏰ Come back tomorrow!',
+  tNA:'❌ No attempts left!',tSv:'🧤 Saved by the keeper!',tGl:'⚽ GOAL! +',
+  tSB:'❗ Select a prediction first!',tMB:'❗ Min 10 CUP!',tBr:'❌ Not enough CUP!',
+  tBP:'🎯 Bet placed! Match starting...',tBW:'🏆 Won! +',tBL:'❌ Bet lost.',
+  tWC:'💎 Wallet connected! +250 CUP bonus',tWS:'👾 Playing as guest',
+  tCp:'📋 Address copied!',tWD:'🔌 Wallet disconnected',tC:' CUP',
+  tCor:'✅ Correct! +',tWr:'❌ Wrong!'
+},
+tr:{
+  oSu:'🏆 Dünya Kupası 2026 · Farming',oTi:'BAĞLAN & KAZAN',
+  oDe:'İlerlemenizi kaydetmek, $CUP26 kazanmak ve global sıralamada yer almak için TON cüzdanınızı bağlayın.',
+  f1t:'Oyna & Kazan',f1d:'Penaltı, Quiz, Bahis — her oyunda $CUP26 kazan',
+  f2t:'Gerçek Token Ödülleri',f2d:'Kazancını doğrudan TON cüzdanına çek',
+  f3t:"GAS'ta $CUP26 Satın Al",f3d:'GAS Pump marketplace üzerinden istediğin zaman token al',
+  oBt:'TON CÜZDANI BAĞLA',oSk:'Cüzdansız oyna (ilerleme kaydedilmez)',
+  wmTi:'💎 TON CÜZDAN',wCp:'Kopyala',wBll:'CUP Bakiye',wDc:'🔌 BAĞLANTIYI KES',wCl:'Kapat',
+  zTi:'CUP BİTTİ!',zDe:'$CUP26 bakiyen tükendi. Oynamaya devam etmek için token satın al!',
+  zG:"GAS PUMP'TA $CUP26 AL",zDd:"DEDUST'TA SATIN AL",zGn:'GAS Pump',zGd:'$CUP26 Al',zBk:'← Oyuna Dön',
+  gasBtnTxt:'Al',
+  hSu:'🏆 Dünya Kupası 2026 · Farming',hTi:'OYNA & KAZAN',
+  hDe:'Penaltı at, quiz çöz, maç tahmin et. $CUP26 token kazan!',
+  wOff:'Cüzdan bağlı değil',wActOff:'Bağla →',wActOn:'Görüntüle →',wOn:'Cüzdan',wOff_:'Bağla',
+  dcT:'Günlük Bonus — +100 CUP',dcD:'✅ Alındı — Yarın gel!',
+  slT:'Toplam CUP',slG:'Goller',slB:'Kazanılan',secG:'OYUNLAR',
+  gcP:'Penaltı',gcQ:'Quiz',gcB:'Bahis',gcBs:'Canlı maçlar!',gcL:'Sıralama',gcLs:'Top 10 bonus',gcLu:'Güncellendi',
+  paS:' hak kaldı',qaS:' soru kaldı',
+  gbTi:'$CUP26 Satın Al',gbSu:"GAS Pump'tan token al →",gbPl:'PUMP IT 🚀',
+  penTi:'PENALTİ',pGl:'Gol',pSl:'Kurtarma',pLl:'Hak',
+  pmC:'Bölge seç ve vur!',pmG:'⚽ GOL!',pmS:'🧤 KURTARILDI!',pmO:'❌ Hak bitti — Yarın gel!',
+  penTp:'💡 Köşeler daha az kurtarılır!',
+  quTi:'QUİZ',qPfx:'Soru ',
+  beTi:'BAHİS',msL:'🔴 CANLI',msU:'⏳ Yakında',msD:'⏹ Bitti',
+  bS:['Ev','Ber.','Dep.'],bY:'🎯 Bahsin: ',bPl:'yapıldı',bW:'🏆 Kazandın: +',bLo:'❌ Kaybettin: -',
+  lbTi:'SIRALAMA',lbY:' (Sen)',
+  nvH:'Ana',nvP:'Penaltı',nvQ:'Quiz',nvB:'Bahis',
+  tD:'🎁 +100 CUP günlük!',tDu:'⏰ Yarın gel!',
+  tNA:'❌ Hak kalmadı!',tSv:'🧤 Kaleci kurtardı!',tGl:'⚽ GOL! +',
+  tSB:'❗ Önce tahmin seç!',tMB:'❗ Min 10 CUP!',tBr:'❌ Yetersiz CUP!',
+  tBP:'🎯 Bahis yapıldı! Başlıyor...',tBW:'🏆 Kazandın! +',tBL:'❌ Bahis kaybedildi.',
+  tWC:'💎 Cüzdan bağlandı! +250 CUP bonus',tWS:'👾 Misafir olarak oynuyor',
+  tCp:'📋 Adres kopyalandı!',tWD:'🔌 Bağlantı kesildi',tC:' CUP',
+  tCor:'✅ Doğru! +',tWr:'❌ Yanlış!'
+}};
+
+var L='en';
+var S={b:0,g:0,bw:0,pl:5,ql:10,dc:false,wc:false,wa:null};
+function t(k){return TX[L][k]||TX.en[k]||k;}
+
+// ============================================================
+// 3. LANGUAGE
+// ============================================================
+function sL(l){
+  L=l;
+  document.getElementById('lEN').className='lb'+(l==='en'?' on':'');
+  document.getElementById('lTR').className='lb'+(l==='tr'?' on':'');
+  apL();
+  if(document.getElementById('s-bet').classList.contains('on'))rM();
+  if(document.getElementById('s-lb').classList.contains('on'))rLB();
+}
+function apL(){
+  ['oSu','oTi','oDe','f1t','f1d','f2t','f2d','f3t','f3d','oBt','oSk',
+   'wmTi','wCp','wBll','wDc','wCl',
+   'zTi','zDe','zG','zDd','zGn','zGd','zBk','gasBtnTxt',
+   'hSu','hTi','hDe','dcT','slT','slG','slB','secG',
+   'gcP','gcQ','gcB','gcBs','gcL','gcLs','gcLu',
+   'gbTi','gbSu','gbPl',
+   'penTi','pGl','pSl','pLl','penTp','quTi','beTi','lbTi',
+   'nvH','nvP','nvQ','nvB'
+  ].forEach(function(id){var el=document.getElementById(id);if(el&&TX[L][id]!==undefined)el.textContent=TX[L][id];});
+  document.getElementById('paL').textContent=S.pl+t('paS');
+  document.getElementById('qaL').textContent=S.ql+t('qaS');
+  document.getElementById('pm').textContent=S.pl>0?t('pmC'):t('pmO');
+  if(!S.dc)document.getElementById('dcT').textContent=t('dcT');
+  wUI();
+}
+
+// ============================================================
+// 4. WALLET
+// ============================================================
+function cW(){
+  // Gerçek TON Connect entegrasyonu buraya gelecek
+  // Şimdilik Telegram user ID'den wallet simüle ediyoruz
+  var uid = TG_USER ? TG_USER.id : Math.floor(Math.random()*999999999);
+  S.wa='EQD'+uid.toString(16).toUpperCase()+'...TN'+Math.random().toString(36).substr(2,3).toUpperCase();
+  S.wc=true; earn(250);
+  document.getElementById('ob').classList.add('gone');
+  document.getElementById('mainA').style.display='flex';
+  wUI(); tst(t('tWC'),'info');
+}
+function sW(){
+  document.getElementById('ob').classList.add('gone');
+  document.getElementById('mainA').style.display='flex';
+  tst(t('tWS'),'');
+}
+function wUI(){
+  var c=S.wc;
+  document.getElementById('hWb').className='wb'+(c?' on':'');
+  document.getElementById('hWi').textContent=c?'✅':'💎';
+  document.getElementById('hWt').textContent=c?t('wOn'):t('wOff_');
+  document.getElementById('wsB').className='wsb'+(c?' on':'');
+  document.getElementById('wDt').className='wd'+(c?' on':'');
+  document.getElementById('wTx').textContent=c?('💎 '+(S.wa||'').substring(0,13)+'...'):t('wOff');
+  var wa=document.getElementById('wAc');
+  wa.textContent=c?t('wActOn'):t('wActOff');
+  wa.className='wa'+(c?' on':'');
+  wa.onclick=c?owm:cW;
+  document.getElementById('wAd').textContent=c?(S.wa||''):'-';
+  document.getElementById('wBl').textContent=fmt(S.b);
+  document.getElementById('wTn').textContent=c?(Math.random()*5).toFixed(2):'0.00';
+}
+function owm(){document.getElementById('wBl').textContent=fmt(S.b);document.getElementById('wMod').classList.remove('gone');}
+function cwm(e){if(!e||e.target===document.getElementById('wMod'))document.getElementById('wMod').classList.add('gone');}
+function disW(){S.wc=false;S.wa=null;document.getElementById('wMod').classList.add('gone');wUI();tst(t('tWD'),'lose');}
+function cpA(){if(S.wa&&navigator.clipboard)navigator.clipboard.writeText(S.wa);tst(t('tCp'),'info');}
+
+// ============================================================
+// 5. ZERO BALANCE
+// ============================================================
+function chkZ(){if(S.b<=0){document.getElementById('zOv').classList.remove('gone');return true;}return false;}
+function czO(){document.getElementById('zOv').classList.add('gone');}
+
+// ============================================================
+// 6. NAV
+// ============================================================
+function go(s){
+  document.querySelectorAll('.sc').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('s-'+s).classList.add('on');
+  var nb=document.getElementById('n-'+s);if(nb)nb.classList.add('on');
+  if(s==='quiz')iQ();
+  if(s==='bet')rM();
+  if(s==='lb')rLB();
+  upd();
+}
+
+// ============================================================
+// 7. STATE
+// ============================================================
+function upd(){
+  document.getElementById('bd').textContent=fmt(S.b);
+  document.getElementById('sT').textContent=fmt(S.b);
+  document.getElementById('sG').textContent=S.g;
+  document.getElementById('sB').textContent=S.bw;
+  document.getElementById('paL').textContent=S.pl+t('paS');
+  document.getElementById('qaL').textContent=S.ql+t('qaS');
+  var bb=document.getElementById('bb');if(bb)bb.textContent=fmt(S.b);
+  wUI();
+}
+function fmt(n){return n.toLocaleString('en-US');}
+var tT;
+function tst(m,tp){var el=document.getElementById('tst');clearTimeout(tT);el.textContent=m;el.className='show '+(tp||'');tT=setTimeout(function(){el.className='';},2700);}
+function earn(n){S.b+=n;upd();}
+
+// ============================================================
+// 8. DAILY
+// ============================================================
+function dc(){
+  if(S.dc){tst(t('tDu'),'lose');return;}
+  earn(100);S.dc=true;
+  document.getElementById('dcB').textContent=t('dcD');
+  document.getElementById('dcB').disabled=true;
+  tst(t('tD'),'earn');
+}
+
+// ============================================================
+// 9. PENALTY
+// ============================================================
+var pB=false,pGn=0,pSn=0;
+function sht(z){
+  if(pB)return;
+  if(S.pl<=0){tst(t('tNA'),'lose');return;}
+  pB=true;S.pl--;
+  document.querySelectorAll('.zbn').forEach(function(b){b.disabled=true;});
+  var gkZ=Math.floor(Math.random()*6);
+  var gk=document.getElementById('gk');
+  var gkP=['10%','30%','50%','30%','50%','70%'];
+  gk.style.cssText='font-size:23px;position:absolute;top:19px;left:'+gkP[gkZ]+';transform:none;transition:left 0.3s ease';
+  var ba=document.getElementById('ba');
+  var bP=['12%','30%','50%','30%','50%','70%'];
+  setTimeout(function(){ba.style.cssText='font-size:20px;position:absolute;left:'+bP[z]+';bottom:auto;top:'+(z<3?'13px':'54px')+';transform:scale(0.7);transition:all 0.4s cubic-bezier(.25,.46,.45,.94)';},100);
+  setTimeout(function(){
+    var sv=(gkZ===z),pm=document.getElementById('pm'),rw=Math.floor(Math.random()*36)+15;
+    if(sv){pSn++;pm.textContent=t('pmS');pm.className='pm s';gk.textContent='🏆';tst(t('tSv'),'lose');}
+    else{pGn++;S.g++;earn(rw);pm.textContent=t('pmG')+' +'+rw+t('tC');pm.className='pm g';tst(t('tGl')+rw+t('tC'),'earn');}
+    document.getElementById('pGc').textContent=pGn;
+    document.getElementById('pSc').textContent=pSn;
+    document.getElementById('pLc').textContent=S.pl;
+    upd();
+    setTimeout(function(){
+      gk.textContent='🧤';gk.style.cssText='font-size:23px;position:absolute;top:19px;left:50%;transform:translateX(-50%);transition:none';
+      ba.style.cssText='font-size:20px;position:absolute;bottom:22px;left:50%;transform:translateX(-50%);transition:none';
+      pm.textContent=S.pl>0?t('pmC'):t('pmO');pm.className='pm';
+      if(S.pl>0)document.querySelectorAll('.zbn').forEach(function(b){b.disabled=false;});
+      pB=false;
+    },1500);
+  },650);
+}
+
+// ============================================================
+// 10. QUIZ
+// ============================================================
+var QS={
+en:[
+  {q:"In which year was the first World Cup held?",o:["1928","1930","1934","1938"],a:1,e:"🏆"},
+  {q:"Which country has won the most World Cups?",o:["Germany","Argentina","Brazil","France"],a:2,e:"🇧🇷"},
+  {q:"Ronaldo goals in the 2002 WC final?",o:["1","2","3","0"],a:1,e:"⚽"},
+  {q:"Turkey's best World Cup result?",o:["Champions","Finalists","3rd place","QF"],a:2,e:"🇹🇷"},
+  {q:"Most World Cup goals ever?",o:["Pelé","Ronaldo","Miroslav Klose","Müller"],a:2,e:"🥅"},
+  {q:"2026 World Cup host countries?",o:["Germany","USA+Canada+Mexico","Brazil","England"],a:1,e:"🇺🇸"},
+  {q:"What does the 'Golden Ball' award mean?",o:["Top scorer","Best player","Champions","Fair play"],a:1,e:"🥇"},
+  {q:"How many times has Italy won the WC?",o:["3","4","5","2"],a:1,e:"🇮🇹"},
+  {q:"Year of the 'Hand of God' goal?",o:["1994","1990","1986","1982"],a:2,e:"✋"},
+  {q:"Youngest ever World Cup champion?",o:["Messi","Pelé","Ronaldo","Mbappé"],a:1,e:"🌟"},
+  {q:"First World Cup host country?",o:["Brazil","France","Uruguay","Italy"],a:2,e:"🌍"},
+  {q:"Teams in the 2026 World Cup?",o:["32","40","48","64"],a:2,e:"📋"},
+],
+tr:[
+  {q:"İlk Dünya Kupası hangi yılda?",o:["1928","1930","1934","1938"],a:1,e:"🏆"},
+  {q:"En fazla Dünya Kupası kazanan ülke?",o:["Almanya","Arjantin","Brezilya","Fransa"],a:2,e:"🇧🇷"},
+  {q:"Ronaldo 2002 finalinde kaç gol attı?",o:["1","2","3","0"],a:1,e:"⚽"},
+  {q:"Türkiye'nin en iyi Dünya Kupası derecesi?",o:["Şampiyon","Finalist","3.lük","ÇF"],a:2,e:"🇹🇷"},
+  {q:"En çok Dünya Kupası golü atan kişi?",o:["Pelé","Ronaldo","Miroslav Klose","Müller"],a:2,e:"🥅"},
+  {q:"2026 Dünya Kupası'nın ev sahipleri?",o:["Almanya","ABD+Kanada+Meksika","Brezilya","İngiltere"],a:1,e:"🇺🇸"},
+  {q:"'Altın Top' ödülü ne anlama gelir?",o:["En çok gol","En iyi oyuncu","Şampiyon","Fair play"],a:1,e:"🥇"},
+  {q:"İtalya kaç kez Dünya Kupası kazandı?",o:["3","4","5","2"],a:1,e:"🇮🇹"},
+  {q:"'Tanrı'nın Eli' golü hangi yıl?",o:["1994","1990","1986","1982"],a:2,e:"✋"},
+  {q:"En genç Dünya Kupası şampiyonu?",o:["Messi","Pelé","Ronaldo","Mbappé"],a:1,e:"🌟"},
+  {q:"İlk Dünya Kupası'na kim ev sahipliği yaptı?",o:["Brezilya","Fransa","Uruguay","İtalya"],a:2,e:"🌍"},
+  {q:"2026 Dünya Kupası'na kaç takım katılıyor?",o:["32","40","48","64"],a:2,e:"📋"},
+]};
+var qI,qTl=15,qAns=false,qCi=0,qSco=0,qUsed=[];
+function iQ(){clearInterval(qI);if(S.ql<=0){document.getElementById('qq').textContent=L==='tr'?'❌ Hak bitti!':'❌ Out of questions!';document.getElementById('qo').innerHTML='';return;}qSco=0;qUsed=[];lQ();}
+function lQ(){
+  clearInterval(qI);qAns=false;qTl=15;
+  if(S.ql<=0){document.getElementById('qq').textContent=L==='tr'?'🎉 Tebrikler!':'🎉 Well done!';document.getElementById('qo').innerHTML='';document.getElementById('qt').textContent='✅';return;}
+  var pool=QS[L]||QS.en;
+  var av=pool.map(function(_,i){return i;}).filter(function(i){return qUsed.indexOf(i)<0;});
+  if(!av.length){qUsed=[];av=pool.map(function(_,i){return i;});}
+  var qi=av[Math.floor(Math.random()*av.length)];qUsed.push(qi);qCi=qi;
+  var q=pool[qi],qN=10-S.ql+1;
+  document.getElementById('qnm').textContent=t('qPfx')+qN+'/10';
+  document.getElementById('qpf').style.width=(qN/10*100)+'%';
+  document.getElementById('qem').textContent=q.e;
+  document.getElementById('qq').textContent=q.q;
+  document.getElementById('qsc').textContent='🏅 '+fmt(qSco)+t('tC');
+  var LL=['A','B','C','D'];
+  document.getElementById('qo').innerHTML=q.o.map(function(op,i){return'<button class="qo" onclick="aq('+i+','+q.a+')"><span class="ql_">'+LL[i]+'</span>'+op+'</button>';}).join('');
+  document.getElementById('qt').textContent=qTl;document.getElementById('qt').className='qti';
+  qI=setInterval(function(){qTl--;document.getElementById('qt').textContent=qTl;if(qTl<=5)document.getElementById('qt').className='qti urg';if(qTl<=0){clearInterval(qI);if(!qAns)aq(-1,(QS[L]||QS.en)[qCi].a);}},1000);
+}
+function aq(ch,cor){
+  if(qAns)return;qAns=true;clearInterval(qI);S.ql--;
+  var opts=document.querySelectorAll('.qo');opts.forEach(function(o){o.disabled=true;});
+  opts[cor].classList.add('cor');
+  var rw=Math.floor(Math.random()*51)+25;
+  if(ch===cor){qSco+=rw;earn(rw);tst(t('tCor')+rw+t('tC'),'earn');if(ch>=0)opts[ch].classList.add('cor');}
+  else{if(ch>=0)opts[ch].classList.add('wr');tst(t('tWr'),'lose');}
+  document.getElementById('qsc').textContent='🏅 '+fmt(qSco)+t('tC');
+  upd();setTimeout(lQ,2000);
+}
+
+// ============================================================
+// 11. BETTING
+// ============================================================
+var MD={
+en:[
+  {id:1,h:{n:'Brazil',f:'🇧🇷'},a:{n:'Argentina',f:'🇦🇷'},odds:[1.9,3.2,2.1]},
+  {id:2,h:{n:'France',f:'🇫🇷'},a:{n:'England',f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},odds:[2.1,3.0,1.95]},
+  {id:3,h:{n:'Turkey',f:'🇹🇷'},a:{n:'Germany',f:'🇩🇪'},odds:[3.5,3.1,1.8]},
+  {id:4,h:{n:'Spain',f:'🇪🇸'},a:{n:'Portugal',f:'🇵🇹'},odds:[2.2,3.3,2.0]},
+],
+tr:[
+  {id:1,h:{n:'Brezilya',f:'🇧🇷'},a:{n:'Arjantin',f:'🇦🇷'},odds:[1.9,3.2,2.1]},
+  {id:2,h:{n:'Fransa',f:'🇫🇷'},a:{n:'İngiltere',f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},odds:[2.1,3.0,1.95]},
+  {id:3,h:{n:'Türkiye',f:'🇹🇷'},a:{n:'Almanya',f:'🇩🇪'},odds:[3.5,3.1,1.8]},
+  {id:4,h:{n:'İspanya',f:'🇪🇸'},a:{n:'Portekiz',f:'🇵🇹'},odds:[2.2,3.3,2.0]},
+]};
+var MS={};
+function gM(){return MD[L]||MD.en;}
+function rM(){
+  var ml=document.getElementById('ml');
+  var bb=document.getElementById('bb');if(bb)bb.textContent=fmt(S.b);
+  ml.innerHTML='';
+  gM().forEach(function(m){
+    if(!MS[m.id])MS[m.id]={sH:0,sA:0,evs:[],sim:false,min:0,done:false,bet:null,bAmt:0,bCh:null,bRes:0};
+    var ms=MS[m.id];
+    var stTx=ms.done?t('msD'):ms.sim?t('msL'):t('msU');
+    var stColor=ms.done?'#7986a0':ms.sim?'#FF1744':'#FFD700';
+    var hB=ms.bet!==null;
+    var card=document.createElement('div');
+    card.id='mc_'+m.id;
+    card.style.cssText='background:#141d2e;border:1px solid rgba(255,215,0,.15);border-radius:14px;padding:14px;position:relative;overflow:hidden';
+    // status
+    var html='<div style="border-top:2px solid;border-image:linear-gradient(90deg,#00C853,#FFD700) 1;margin:-14px -14px 10px;padding-top:2px"></div>';
+    html+='<div style="display:inline-flex;align-items:center;gap:4px;background:rgba(255,23,68,.1);border-radius:20px;padding:3px 9px;font-size:10px;color:'+stColor+';font-weight:700;margin-bottom:10px">'+stTx+'</div>';
+    // teams
+    html+='<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px">';
+    html+='<div style="text-align:center"><div style="font-size:30px;line-height:1">'+m.h.f+'</div><div style="font-weight:700;font-size:13px;color:#fff;margin-top:3px">'+m.h.n+'</div></div>';
+    html+='<div style="text-align:center"><div id="sc_'+m.id+'" style="font-family:Bebas Neue,sans-serif;font-size:28px;color:#fff;letter-spacing:2px;line-height:1">'+ms.sH+' - '+ms.sA+'</div><div id="mn_'+m.id+'" style="font-size:10px;color:#00C853;font-weight:600;margin-top:3px">'+(ms.sim?ms.min+"\'":ms.done?'FT':"vs")+'</div></div>';
+    html+='<div style="text-align:center"><div style="font-size:30px;line-height:1">'+m.a.f+'</div><div style="font-weight:700;font-size:13px;color:#fff;margin-top:3px">'+m.a.n+'</div></div>';
+    html+='</div>';
+    // odds
+    html+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px">';
+    var lbls=t('bS');
+    for(var i=0;i<3;i++){
+      var sel=ms.bCh===i;
+      var dis=ms.sim||ms.done;
+      html+='<div onclick="'+(dis?'':'sBet('+m.id+','+i+')')+'" id="od_'+m.id+'_'+i+'" style="background:'+(sel?'rgba(255,215,0,.15)':'#1c2840')+';border:2px solid '+(sel?'#FFD700':'rgba(255,215,0,.15)')+';border-radius:10px;padding:8px 4px;text-align:center;cursor:'+(dis?'default':'pointer')+';opacity:'+(dis?'.6':'1')+'">';
+      html+='<div style="font-size:10px;color:#7986a0">'+['1','X','2'][i]+'</div>';
+      html+='<div style="font-family:Bebas Neue,sans-serif;font-size:20px;color:#FFD700;line-height:1.2">'+m.odds[i]+'</div>';
+      html+='<div style="font-size:9px;color:#7986a0">'+lbls[i]+'</div>';
+      html+='</div>';
+    }
+    html+='</div>';
+    // bet input
+    if(!ms.sim&&!ms.done){
+      html+='<div style="display:flex;gap:6px;align-items:center;margin-top:10px">';
+      html+='<input id="ba_'+m.id+'" type="number" value="50" min="10" style="flex:1;background:#1a2235;border:1px solid rgba(255,215,0,.15);border-radius:8px;padding:9px 12px;color:#fff;font-size:15px;font-weight:600;outline:none">';
+      html+='<button onclick="pBet('+m.id+')" style="background:linear-gradient(135deg,#FFA500,#FFD700);border:none;border-radius:8px;padding:9px 16px;color:#000;font-family:Bebas Neue,sans-serif;font-size:15px;letter-spacing:1px;cursor:pointer">'+(L==='tr'?'OYNA':'BET')+'</button>';
+      html+='</div>';
+    }
+    // bet placed info
+    if(hB&&!ms.done){
+      html+='<div style="font-size:11px;color:#FFD700;margin-top:8px">'+t('bY')+m.odds[ms.bCh]+'x '+t('bPl')+'</div>';
+    }
+    // result
+    if(ms.done&&hB){
+      var win=ms.bRes>0;
+      html+='<div style="font-size:13px;color:'+(win?'#00C853':'#FF1744')+';margin-top:8px;font-weight:700">'+(win?t('bW')+fmt(ms.bRes)+t('tC'):t('bLo')+fmt(ms.bAmt)+t('tC'))+'</div>';
+    }
+    // progress bar
+    var sw=ms.sim?Math.min(100,ms.min/90*100):(ms.done?100:0);
+    html+='<div style="background:#1a2235;border-radius:5px;height:6px;overflow:hidden;margin-top:10px"><div id="sbb_'+m.id+'" style="height:100%;background:linear-gradient(90deg,#00C853,#FFD700);width:'+sw+'%;transition:width .3s"></div></div>';
+    // events
+    html+='<div id="ev_'+m.id+'" style="margin-top:8px;display:flex;flex-direction:column;gap:3px">';
+    html+=ms.evs.slice(-3).map(function(e){return '<div style="font-size:11px;color:'+(e.t==='ge'?'#00C853':'#FF1744')+'"><span style="color:#FFD700;font-weight:600">'+e.m+"\'</span> "+e.tx+'</div>';}).join('');
+    html+='</div>';
+    card.innerHTML=html;
+    ml.appendChild(card);
+  });
+}
+function sBet(id,ch){var ms=MS[id];if(ms.sim||ms.done)return;ms.bCh=(ms.bCh===ch?null:ch);gM().find(function(m){return m.id===id;}).odds.forEach(function(_,i){var el=document.getElementById('od_'+id+'_'+i);if(el)el.className='ob'+(ms.bCh===i?' sel':'');});}
+function pBet(id){
+  var ms=MS[id];var m=gM().find(function(x){return x.id===id;});
+  if(ms.bCh===null){tst(t('tSB'),'');return;}
+  var amt=parseInt(document.getElementById('ba_'+id).value);
+  if(!amt||amt<10){tst(t('tMB'),'');return;}
+  if(amt>S.b){tst(t('tBr'),'lose');if(S.b<=0)setTimeout(chkZ,400);return;}
+  S.b-=amt;ms.bAmt=amt;ms.bet=ms.bCh;upd();
+  tst(t('tBP'),'earn');
+  setTimeout(function(){simM(id);},400);
+}
+function simM(id){
+  var ms=MS[id];var m=gM().find(function(x){return x.id===id;});
+  ms.sim=true;ms.min=0;ms.sH=0;ms.sA=0;ms.evs=[];rM();
+  var nG=Math.floor(Math.random()*5),gMs=[];
+  for(var i=0;i<nG;i++)gMs.push(Math.floor(Math.random()*90)+1);
+  gMs.sort(function(a,b){return a-b;});
+  var yMs=[Math.floor(Math.random()*90)+1,Math.floor(Math.random()*90)+1];
+  var evS=gMs.map(function(mn){return{mn:mn,t:'g'};}).concat(yMs.map(function(mn){return{mn:mn,t:'y'};})).sort(function(a,b){return a.mn-b.mn;});
+  var ti=setInterval(function(){
+    ms.min=Math.min(ms.min+3,90);
+    while(evS.length&&evS[0].mn<=ms.min){
+      var ev=evS.shift();
+      if(ev.t==='g'){var hS=Math.random()<0.55;if(hS)ms.sH++;else ms.sA++;ms.evs.push({m:ev.mn,tx:(hS?m.h.f:m.a.f)+' ⚽ '+(L==='tr'?'GOL!':'GOAL!'),t:'ge'});}
+      else{var tm=Math.random()<0.5?m.h:m.a;ms.evs.push({m:ev.mn,tx:tm.f+' 🟨 '+(L==='tr'?'Sarı Kart':'Yellow Card'),t:'ce'});}
+    }
+    var scEl=document.getElementById('sc_'+id),mnEl=document.getElementById('mn_'+id);
+    var sbEl=document.getElementById('sbb_'+id),evEl=document.getElementById('ev_'+id);
+    if(scEl)scEl.textContent=ms.sH+' — '+ms.sA;
+    if(mnEl)mnEl.textContent=ms.min+"'";
+    if(sbEl)sbEl.style.width=(ms.min/90*100)+'%';
+    if(evEl)evEl.innerHTML=ms.evs.slice(-3).map(function(e){return'<div style="font-size:11px;color:'+(e.t==="ge"?"#00C853":"#FF1744")+'"><span style="color:#FFD700;font-weight:600">'+e.m+"'</span> "+e.tx+'</div>';}).join('');
+    if(ms.min>=90){
+      clearInterval(ti);ms.sim=false;ms.done=true;
+      var res=ms.sH>ms.sA?0:(ms.sH===ms.sA?1:2);
+      if(ms.bet===res){var w=Math.round(ms.bAmt*m.odds[res]);ms.bRes=w;S.b+=w;S.bw++;tst(t('tBW')+fmt(w)+t('tC'),'earn');}
+      else{ms.bRes=0;tst(t('tBL'),'lose');if(S.b<=0)setTimeout(chkZ,800);}
+      upd();rM();
+    }
+  },380);
+}
+
+// ============================================================
+// 12. LEADERBOARD
+// ============================================================
+var LBP=[
+  {n:'CryptoKral',s:48250,av:'🦁'},{n:'GoalMachine',s:35800,av:'⚽'},
+  {n:'CUP_Hunter',s:29100,av:'🏆'},{n:'TokenWizard',s:22400,av:'🧙'},
+  {n:'Messi_Fan',s:18600,av:'🐐'},{n:'PenaltyKing',s:14200,av:'🥅'},
+  {n:'WCQuizzer',s:11050,av:'🧠'},{n:'BetMaster',s:8900,av:'🎲'},
+];
+function rLB(){
+  var all=LBP.map(function(p){return Object.assign({},p);});
+  if(S.b>0){
+    var nm=TG_USER?(TG_USER.first_name||'Player'):(S.wc?(S.wa||'').substring(0,10)+'...':(L==='tr'?'Sen 🫵':'You 🫵'));
+    all.push({n:nm,s:S.b,av:'🎮',me:true});
+  }
+  all.sort(function(a,b){return b.s-a.s;});
+  var rk=['g','s','b'],md=['🥇','🥈','🥉'];
+  document.getElementById('lbl').innerHTML=all.map(function(p,i){
+    return'<div class="lbr'+(p.me?' you':'')+'"><div class="lbrk '+(rk[i]||'')+'">'+(i<3?md[i]:(i+1))+'</div><div class="lbav">'+p.av+'</div><div class="lbn">'+p.n+(p.me?t('lbY'):'')+'</div><div class="lbp">'+fmt(p.s)+'</div></div>';
+  }).join('');
+}
+
+// ============================================================
+// 13. INIT
+// ============================================================
+document.getElementById('pm').textContent='Choose a zone and shoot!';
+// Eğer Telegram'dan açıldıysa onboard'u atla
+if(TG_USER){
+  S.wa='EQD'+TG_USER.id.toString(16).toUpperCase()+'...'+Math.random().toString(36).substr(2,3).toUpperCase();
+  S.wc=true; earn(250);
+  document.getElementById('ob').classList.add('gone');
+  document.getElementById('mainA').style.display='flex';
+  wUI();
+  tst('👋 Welcome ' + (TG_USER.first_name||'') + '! +250 CUP','info');
+}
+</script>
+</body>
+</html>
